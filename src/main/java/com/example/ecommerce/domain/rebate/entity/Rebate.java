@@ -1,8 +1,6 @@
-package com.example.ecommerce.domain.cart.entity;
+package com.example.ecommerce.domain.rebate.entity;
 
 
-import com.example.ecommerce.global.BaseEntity;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,12 +12,5 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cart extends BaseEntity {
-
-    @Column
-    private Long userId;
-
-    @Column
-    private Long productId;
-
+public class Rebate {
 }

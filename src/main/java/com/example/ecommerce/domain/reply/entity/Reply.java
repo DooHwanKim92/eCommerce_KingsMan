@@ -1,4 +1,4 @@
-package com.example.ecommerce.domain.cart.entity;
+package com.example.ecommerce.domain.reply.entity;
 
 
 import com.example.ecommerce.global.BaseEntity;
@@ -14,12 +14,12 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cart extends BaseEntity {
+public class Reply extends BaseEntity {
 
     @Column
     private Long userId;
 
     @Column
-    private Long productId;
+    private String content;
 
 }

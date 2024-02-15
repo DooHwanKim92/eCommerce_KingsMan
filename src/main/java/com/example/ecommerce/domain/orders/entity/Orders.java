@@ -1,4 +1,4 @@
-package com.example.ecommerce.domain.cart.entity;
+package com.example.ecommerce.domain.orders.entity;
 
 
 import com.example.ecommerce.global.BaseEntity;
@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cart extends BaseEntity {
+public class Orders extends BaseEntity {
 
     @Column
     private Long userId;
@@ -22,4 +22,6 @@ public class Cart extends BaseEntity {
     @Column
     private Long productId;
 
+    @Column
+    private boolean isPurchase;
 }
