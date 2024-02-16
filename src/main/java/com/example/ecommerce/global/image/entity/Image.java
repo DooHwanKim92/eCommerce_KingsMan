@@ -24,4 +24,5 @@ public class Image extends BaseEntity {
 
     @Column
     private String content;
+
 }
