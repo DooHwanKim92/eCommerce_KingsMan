@@ -32,7 +32,8 @@ public class CartController {
     @GetMapping("/add/{id}")
     public String addProduct(@PathVariable(value = "id") Long id, Principal principal) {
         SiteUser user = this.userService.findByUsername(principal.getName());
-        this.userService.addCart(user, this.cartService.addProduct(user, id));
+        Product product = this.productService.findById(id);
+        this.userService.addCart(user, this.cartService.addProduct(user, product));
         return String.format("redirect:/product/detail/%d",id);
     }
 

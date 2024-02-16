@@ -18,12 +18,10 @@ public class CartService {
 
     private final CartRepository cartRepository;
 
-    private final ProductService productService;
-
-    public Cart addProduct(SiteUser user, Long productId) {
+    public Cart addProduct(SiteUser user, Product product) {
         Cart cart = Cart.builder()
                 .user(user)
-                .productId(productId)
+                .product(product)
                 .build();
 
         this.cartRepository.save(cart);
@@ -34,8 +32,7 @@ public class CartService {
     public List<Product> findProductByCart(List<Cart> cartList) {
         List<Product> productList = new ArrayList<>();
         for(int i = 0; i < cartList.size(); i++) {
-            Product product = this.productService.findById(cartList.get(i).getProductId());
-            productList.add(product);
+            productList.add(cartList.get(i).getProduct());
         }
         return productList;
     }

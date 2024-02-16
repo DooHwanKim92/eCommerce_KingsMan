@@ -1,8 +1,10 @@
 package com.example.ecommerce.domain.product.entity;
 
+import com.example.ecommerce.domain.cart.entity.Cart;
 import com.example.ecommerce.global.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,5 +48,6 @@ public class Product extends BaseEntity {
 
     @Column
     private Long reviewId;
+
 
 }

@@ -1,11 +1,13 @@
 package com.example.ecommerce.domain.cart.entity;
 
 
+import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.global.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,8 +20,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class Cart extends BaseEntity {
 
-    @Column
-    private Long productId;
+    @OneToOne
+    private Product product;
 
     @ManyToOne
     private SiteUser user;
