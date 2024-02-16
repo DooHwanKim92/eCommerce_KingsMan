@@ -18,7 +18,7 @@ import lombok.experimental.SuperBuilder;
 public class Product extends BaseEntity {
 
     @Column
-    private Long userId;
+    private String sellerName;
 
     @Column
     private String category;
@@ -46,4 +46,5 @@ public class Product extends BaseEntity {
 
     @Column
     private Long reviewId;
+
 }

@@ -19,8 +19,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/signup")
-    public String signup() {
-        return "/user/signup";
+    public String signup(UserCreateForm userCreateForm) {
+        return "user/signup";
     }
 
     @PostMapping("/signup")
@@ -29,4 +29,17 @@ public class UserController {
         this.userService.signup(userCreateForm);
         return "redirect:/";
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "user/login";
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        return "redirect:/";
+    }
+
+
+
 }

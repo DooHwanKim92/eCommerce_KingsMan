@@ -1,0 +1,29 @@
+<h1>상품상세</h1>
+
+<h4 th:text="|상품 카테고리 : ${product.category}|"></h4>
+<h4 th:text="|상품 이름 : ${product.name}|"></h4>
+<h4 th:text="|상품 판매자 : ${product.sellerName}|"></h4>
+<h4 th:text="|상품 수량 : ${product.amount}|"></h4>
+<h4 th:text="|상품 가격 : ${product.price}|"></h4>
+<h4 th:text="|상품 판매량 : ${product.purchasing}|"></h4>
+
+
+<div>
+
+    <a th:href="@{|/cart/add/${product.id}|}" th:text="장바구니담기"></a>
+</div>
+
+<div>
+
+    <a th:href="@{/product/list}" th:text="상품목록"></a>
+</div>
+<div>
+    <a th:if="${@request.getSiteUser().nickname == product.sellerName}" th:href="@{|/product/remove/${product.id}|}" th:text="상품삭제"></a>
+</div>
+<div>
+    <a th:href="@{/cart/list}" th:text="장바구니"></a>
+</div>
+
+<a th:href="@{/}" th:text="메인"></a>
+
+<!--${@rq.isLogin() == false}-->

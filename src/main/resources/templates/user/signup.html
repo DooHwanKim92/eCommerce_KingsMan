@@ -1,7 +1,9 @@
-<form th:action="@{/user/signup}" method="post">
+<h1>회원가입</h1>
+
+<form th:action="@{/user/signup}" method="post" th:object="${userCreateForm}">
     <div>
-        <label for="nickname">아이디</label>
-        <input type="text" name="nickname" id="nickname">
+        <label for="username">아이디</label>
+        <input type="text" name="username" id="username">
     </div>
     <div>
         <label for="password1">비밀번호</label>
@@ -12,8 +14,8 @@
         <input type="password" name="password2" id="password2">
     </div>
     <div>
-        <label for="username">이름</label>
-        <input type="text" name="username" id="username">
+        <label for="nickname">닉네임</label>
+        <input type="text" name="nickname" id="nickname">
     </div>
     <div>
         <label for="sex">성별</label>
@@ -39,3 +41,5 @@
         <button type="submit">회원가입</button>
     </div>
 </form>
+
+<a th:href="@{/}" th:text="메인"></a>
