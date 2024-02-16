@@ -21,7 +21,7 @@ public class SiteUser extends BaseEntity {
     private String username;
 
     @Column
-    private Integer age;
+    private String age;
 
     @Column
     private char sex;
