@@ -29,9 +29,6 @@
 <div>
     <a sec:authorize="isAuthenticated()" th:href="@{/product/put}">상품판매(등록)</a>
 </div>
-<div sec:authorize="isAuthenticated()">
-    <a th:href="@{/cart/list}" th:text="장바구니"></a>
-</div>
 
 </div>
 </html>

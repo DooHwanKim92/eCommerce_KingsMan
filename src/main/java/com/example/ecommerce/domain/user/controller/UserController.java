@@ -25,7 +25,29 @@ public class UserController {
 
     @PostMapping("/signup")
     public String signupPost(@Valid UserCreateForm userCreateForm, BindingResult bindingResult) {
-        this.userService.signupCheckError(userCreateForm, bindingResult);
+        if(bindingResult.hasErrors()) {
+            return "/user/signup";
+        }
+        if(this.userService.findByUsername(userCreateForm.getUsername())!=null) {
+            bindingResult.rejectValue("username","usernameDoubling",
+                    "이미 사용중인 ID에요! 다른 아이디를 생각해주세요.");
+            return "/user/signup";
+        }
+        if(!userCreateForm.getPassword1().equals(userCreateForm.getPassword2())) {
+            bindingResult.rejectValue("password2", "passwordInCorrect",
+                    "2개의 패스워드가 일치하지 않아요! 다시 입력해주세요😅");
+            return "/user/signup";
+        }
+        if(this.userService.findByNickname(userCreateForm.getNickname())!=null) {
+            bindingResult.rejectValue("nickname","nicknameDoubling",
+                    "이미 사용중인 닉네임입니다! 다른 닉네임을 사용해주세요.");
+            return "/user/signup";
+        }
+        if(this.userService.findByEmail(userCreateForm.getEmail())!=null) {
+            bindingResult.rejectValue("nickname","nicknameDoubling",
+                    "이미 사용중인 이메일이네요! 다른 이메일을 입력해주세요.");
+            return "/user/signup";
+        }
         this.userService.signup(userCreateForm);
         return "redirect:/";
     }

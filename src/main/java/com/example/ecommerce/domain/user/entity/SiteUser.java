@@ -31,14 +31,14 @@ public class SiteUser extends BaseEntity {
     @Column
     private char sex;
 
-    @Column
+    @Column(unique = true)
     // 웹에서 사용하는 사용자 닉네임
     private String nickname;
 
     @Column
     private String password;
 
-    @Column
+    @Column(unique = true)
     private String email;
 
     @Column

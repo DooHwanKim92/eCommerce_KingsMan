@@ -21,7 +21,7 @@
     <a th:href="@{/product/list}" th:text="상품목록"></a>
 </div>
 <div>
-    <a th:if="${@request.getSiteUser().nickname == product.sellerName}" th:href="@{|/product/remove/${product.id}|}" th:text="상품삭제"></a>
+    <a sec:authorize="isAuthenticated()" th:if="${@request.getSiteUser().nickname == product.sellerName}" th:href="@{|/product/remove/${product.id}|}" th:text="상품삭제"></a>
 </div>
 <div>
     <a th:href="@{/cart/list}" th:text="장바구니"></a>

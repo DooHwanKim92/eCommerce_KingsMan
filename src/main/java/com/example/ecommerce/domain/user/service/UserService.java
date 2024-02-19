@@ -30,12 +30,6 @@ public class UserService {
         return user.get();
     }
 
-    public void signupCheckError(UserCreateForm userCreateForm, BindingResult bindingResult) {
-        if(!userCreateForm.getPassword1().equals(userCreateForm.getPassword2())) {
-            bindingResult.rejectValue("password2","passwordIncorrect","2개의 패스워드가 일치하지 않습니다.");
-        }
-    }
-
     public void signup(UserCreateForm userCreateForm) {
         List<Cart> cartList = new ArrayList<>();
         SiteUser user = SiteUser.builder()
@@ -64,4 +58,19 @@ public class UserService {
         this.userRepository.save(user);
     }
 
+    public SiteUser findByNickname(String nickname) {
+        Optional<SiteUser> user = this.userRepository.findByNickname(nickname);
+        if (user.isEmpty()) {
+            return null;
+        }
+        return user.get();
+    }
+
+    public SiteUser findByEmail(String email) {
+        Optional<SiteUser> user = this.userRepository.findByEmail(email);
+        if (user.isEmpty()) {
+            return null;
+        }
+        return user.get();
+    }
 }
