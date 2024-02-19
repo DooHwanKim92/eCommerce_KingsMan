@@ -45,4 +45,9 @@ public class CartController {
         return "/cart/list";
     }
 
+    @GetMapping("/remove/{id}")
+    public String removeProduct() {
+        return "redirect:/cart/list";
+    }
+
 }

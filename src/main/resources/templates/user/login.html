@@ -1,4 +1,7 @@
-<h1>로그인</h1>
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:800px;">
+
+<h4>로그인</h1>
 
 <form method="post">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
@@ -16,3 +19,7 @@
 </form>
 
 <a th:href="@{/}" th:text="메인"></a>
+
+
+</div>
+</html>

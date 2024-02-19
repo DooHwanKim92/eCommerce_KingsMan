@@ -1,9 +1,15 @@
-<h1>상품 판매(등록)</h1>
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
 
-<form th:action="@{/product/sell}" method="post">
+<h4>상품 판매(등록)</h1>
+
+<form th:action="@{/product/put}" method="post">
     <div>
         <label for="category">카테고리</label>
-        <input type="text" name="category" id="category">
+        <select name="category" id="category">
+            <option selected>카테고리 선택</option>
+            <option th:each="categoryList : ${categoryList}" th:value="${categoryList.name}" th:text="${categoryList.name}"></option>
+        </select>
     </div>
     <div>
         <label for="name">상품명</label>
@@ -32,3 +38,6 @@
 
 <a th:href="@{/product/list}" th:text="상품목록"></a>
 <a th:href="@{/}" th:text="메인"></a>
+
+</div>
+</html>

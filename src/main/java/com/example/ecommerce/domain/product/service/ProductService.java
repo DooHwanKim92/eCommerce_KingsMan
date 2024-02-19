@@ -1,5 +1,7 @@
 package com.example.ecommerce.domain.product.service;
 
+import com.example.ecommerce.domain.category.entity.Category;
+import com.example.ecommerce.domain.category.service.CategoryService;
 import com.example.ecommerce.domain.product.ProductCreateForm;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.product.repository.ProductRepository;
@@ -16,6 +18,8 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
+    private final CategoryService categoryService;
+
 
     public Product findById(Long id) {
         Optional<Product> product = this.productRepository.findById(id);
@@ -29,9 +33,10 @@ public class ProductService {
         return this.productRepository.findAll();
     }
 
-    public void createProduct(ProductCreateForm productCreateForm, SiteUser user) {
+    public void createProduct(ProductCreateForm productCreateForm, SiteUser user, Category category) {
+
         Product product = Product.builder()
-                .category(productCreateForm.getCategory())
+                .category(category)
                 .name(productCreateForm.getName())
                 .amount(Integer.valueOf(productCreateForm.getAmount()))
                 .content(productCreateForm.getContent())
@@ -43,6 +48,8 @@ public class ProductService {
                 .build();
 
         this.productRepository.save(product);
+
+        this.categoryService.addProduct(category, product);
     }
 
     public void removeProduct(Long id) {

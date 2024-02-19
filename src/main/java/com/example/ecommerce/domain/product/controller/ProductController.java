@@ -1,6 +1,8 @@
 package com.example.ecommerce.domain.product.controller;
 
 
+import com.example.ecommerce.domain.category.entity.Category;
+import com.example.ecommerce.domain.category.service.CategoryService;
 import com.example.ecommerce.domain.product.ProductCreateForm;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.product.service.ProductService;
@@ -24,9 +26,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
 
-    private final ProductService productService;
 
     private final UserService userService;
+
+    private final ProductService productService;
+
+    private final CategoryService categoryService;
 
     @GetMapping("/list")
     public String productList(Model model) {
@@ -35,15 +40,18 @@ public class ProductController {
         return "/product/list";
     }
 
-    @GetMapping("/sell")
-    public String productSell() {
-        return "/product/sell";
+    @GetMapping("/put")
+    public String productPut(Model model) {
+        List<Category> categoryList = this.categoryService.findAll();
+        model.addAttribute("categoryList",categoryList);
+        return "/product/put";
     }
 
-    @PostMapping("/sell")
-    public String productSellPost(@Valid ProductCreateForm productCreateForm, BindingResult bindingResult, Principal principal) {
+    @PostMapping("/put")
+    public String productPutPost(@Valid ProductCreateForm productCreateForm, BindingResult bindingResult, Principal principal) {
         SiteUser user = this.userService.findByUsername(principal.getName());
-        this.productService.createProduct(productCreateForm,user);
+        Category category = this.categoryService.findByname(productCreateForm.getCategory());
+        this.productService.createProduct(productCreateForm,user,category);
         return "redirect:/product/list";
     }
 

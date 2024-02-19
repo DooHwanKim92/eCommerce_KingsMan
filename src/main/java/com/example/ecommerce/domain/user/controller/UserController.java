@@ -40,6 +40,16 @@ public class UserController {
         return "redirect:/";
     }
 
+    @GetMapping("/profile")
+    public String profile() {
+        return "/user/profile";
+    }
+
+    @GetMapping("/modify")
+    public String modify() {
+        return "/user/modify";
+    }
+
 
 
 }

@@ -29,7 +29,7 @@ public class Review extends BaseEntity {
     private String content;
 
     @Column
-    private Integer like;
+    private Integer liker;
 
     @Column
     private Integer score;

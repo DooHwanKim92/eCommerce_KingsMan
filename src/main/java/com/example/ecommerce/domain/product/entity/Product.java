@@ -1,9 +1,11 @@
 package com.example.ecommerce.domain.product.entity;
 
 import com.example.ecommerce.domain.cart.entity.Cart;
+import com.example.ecommerce.domain.category.entity.Category;
 import com.example.ecommerce.global.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,9 +23,6 @@ public class Product extends BaseEntity {
 
     @Column
     private String sellerName;
-
-    @Column
-    private String category;
 
     @Column
     private String name;
@@ -48,6 +47,9 @@ public class Product extends BaseEntity {
 
     @Column
     private Long reviewId;
+
+    @ManyToOne
+    private Category category;
 
 
 }

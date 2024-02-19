@@ -1,6 +1,9 @@
-<h1>상품상세</h1>
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
 
-<h4 th:text="|상품 카테고리 : ${product.category}|"></h4>
+<h4>상품상세</h1>
+
+<h4 th:text="|상품 카테고리 : ${product.category.name}|"></h4>
 <h4 th:text="|상품 이름 : ${product.name}|"></h4>
 <h4 th:text="|상품 판매자 : ${product.sellerName}|"></h4>
 <h4 th:text="|상품 수량 : ${product.amount}|"></h4>
@@ -27,3 +30,6 @@
 <a th:href="@{/}" th:text="메인"></a>
 
 <!--${@rq.isLogin() == false}-->
+
+</div>
+</html>
