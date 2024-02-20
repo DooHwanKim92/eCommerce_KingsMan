@@ -1,9 +1,13 @@
 package com.example.ecommerce.domain.question.entity;
 
 
+import com.example.ecommerce.domain.answer.entity.Answer;
+import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.global.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,11 +20,11 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class Question extends BaseEntity {
 
-    @Column
-    private Long userId;
+    @ManyToOne
+    private SiteUser user;
 
     @Column
-    private Long productId;
+    private String productName;
 
     @Column
     private String category;
@@ -31,6 +35,10 @@ public class Question extends BaseEntity {
     @Column
     private String content;
 
+    @OneToOne(mappedBy = "question")
+    private Answer answer;
+
     @Column
-    private Long answerId;
+    private String isAnswered;
+
 }

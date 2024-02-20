@@ -1,184 +1,71 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content" class="container my-3" style="width:800px;">
+<div layout:fragment="content" class="container my-3" style="width:500px;">
 
-    <form class="row g-3 needs-validation" novalidate>
-        <div class="col-md-4">
-            <label for="validationCustomUsername" class="form-label">Username</label>
-            <div class="input-group has-validation">
-                <span class="input-group-text" id="inputGroupPrepend">@</span>
-                <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
-                <div class="invalid-feedback">
-                    Please choose a username.
-                </div>
-            </div>
+    <div class="my-3 border-bottom">
+        <h4>
+            <a th:href="@{/user/profile}" style="text-decoration:none; color:inherit;">나의 정보</a>
+            > 정보수정
+        </h4>
+    </div>
+
+
+    <form th:action="@{/user/modify}" method="post" th:object="${userModifyForm}">
+
+        <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon2">
+            <i class="fa-solid fa-unlock-keyhole" style="color: #000000;"></i>
+        </span>
+            <input type="password" class="form-control" placeholder="비밀번호 변경" aria-describedby="basic-addon2"
+                   name="password1">
         </div>
-        <div class="col-12">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                <label class="form-check-label" for="invalidCheck">
-                    Agree to terms and conditions
-                </label>
-                <div class="invalid-feedback">
-                    You must agree before submitting.
-                </div>
-            </div>
+        <p th:each="err : ${#fields.errors('password1')}" th:text="${err}" style="color:red; font-size:14px;"></p>
+
+        <div class="input-group mb-3">
+            <input type="password" class="form-control" placeholder="비밀번호 변경 확인" aria-describedby="basic-addon3"
+                   name="password2">
         </div>
-        <div class="col-12">
-            <button class="btn btn-primary btn-sm" type="submit">Submit form</button>
+        <p th:each="err : ${#fields.errors('password2')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+
+        <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon3">
+            <i class="fa-regular fa-face-smile" style="color: #000000;"></i>
+        </span>
+            <input type="text" class="form-control" placeholder="닉네임" aria-describedby="basic-addon3"
+                   name="nickname" th:field="*{nickname}">
+        </div>
+        <p th:each="err : ${#fields.errors('nickname')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+
+
+        <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon5">
+            <i class="fa-solid fa-envelope-open-text" style="color: #000000;"></i>
+        </span>
+            <input type="text" class="form-control" placeholder="이메일" aria-describedby="basic-addon5" name="email" th:field="*{email}">
+        </div>
+        <p th:each="err : ${#fields.errors('email')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+
+        <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon6">
+            <i class="fa-solid fa-phone" style="color: #000000;"></i>
+        </span>
+            <input type="text" class="form-control" placeholder="010 으로 시작하는 전화번호" aria-describedby="basic-addon6"
+                   name="phoneNumber" th:field="*{phoneNumber}">
+        </div>
+        <p th:each="err : ${#fields.errors('phoneNumber')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+
+        <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon7">
+            <i class="fa-solid fa-map-location-dot" style="color: #000000;"></i>
+        </span>
+            <input type="text" class="form-control" placeholder="주소" aria-describedby="basic-addon7" name="address" th:field="*{address}">
+        </div>
+        <p th:each="err : ${#fields.errors('address')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+
+        <div style="display:flex; justify-content:flex-end;">
+            <button type="submit" class="btn btn-primary btn-sm">수정</button>
         </div>
     </form>
 
-    <!--  유효성 검증  -->
-    <script>
-        @mixin form-validation-state-selector($state) {
-  @if ($state == "valid" or $state == "invalid") {
-    .was-validated #{if(&, "&", "")}:#{$state},
-    #{if(&, "&", "")}.is-#{$state} {
-      @content;
-    }
-  } @else {
-    #{if(&, "&", "")}.is-#{$state} {
-      @content;
-    }
-  }
-}
-
-@mixin form-validation-state(
-  $state,
-  $color,
-  $icon,
-  $tooltip-color: color-contrast($color),
-  $tooltip-bg-color: rgba($color, $form-feedback-tooltip-opacity),
-  $focus-box-shadow: 0 0 $input-btn-focus-blur $input-focus-width rgba($color, $input-btn-focus-color-opacity),
-  $border-color: $color
-) {
-  .#{$state}-feedback {
-    display: none;
-    width: 100%;
-    margin-top: $form-feedback-margin-top;
-    @include font-size($form-feedback-font-size);
-    font-style: $form-feedback-font-style;
-    color: $color;
-  }
-
-  .#{$state}-tooltip {
-    position: absolute;
-    top: 100%;
-    z-index: 5;
-    display: none;
-    max-width: 100%; // Contain to parent when possible
-    padding: $form-feedback-tooltip-padding-y $form-feedback-tooltip-padding-x;
-    margin-top: .1rem;
-    @include font-size($form-feedback-tooltip-font-size);
-    line-height: $form-feedback-tooltip-line-height;
-    color: $tooltip-color;
-    background-color: $tooltip-bg-color;
-    @include border-radius($form-feedback-tooltip-border-radius);
-  }
-
-  @include form-validation-state-selector($state) {
-    ~ .#{$state}-feedback,
-    ~ .#{$state}-tooltip {
-      display: block;
-    }
-  }
-
-  .form-control {
-    @include form-validation-state-selector($state) {
-      border-color: $border-color;
-
-      @if $enable-validation-icons {
-        padding-right: $input-height-inner;
-        background-image: escape-svg($icon);
-        background-repeat: no-repeat;
-        background-position: right $input-height-inner-quarter center;
-        background-size: $input-height-inner-half $input-height-inner-half;
-      }
-
-      &:focus {
-        border-color: $border-color;
-        box-shadow: $focus-box-shadow;
-      }
-    }
-  }
-
-  // stylelint-disable-next-line selector-no-qualifying-type
-  textarea.form-control {
-    @include form-validation-state-selector($state) {
-      @if $enable-validation-icons {
-        padding-right: $input-height-inner;
-        background-position: top $input-height-inner-quarter right $input-height-inner-quarter;
-      }
-    }
-  }
-
-  .form-select {
-    @include form-validation-state-selector($state) {
-      border-color: $border-color;
-
-      @if $enable-validation-icons {
-        &:not([multiple]):not([size]),
-        &:not([multiple])[size="1"] {
-          --#{$prefix}form-select-bg-icon: #{escape-svg($icon)};
-          padding-right: $form-select-feedback-icon-padding-end;
-          background-position: $form-select-bg-position, $form-select-feedback-icon-position;
-          background-size: $form-select-bg-size, $form-select-feedback-icon-size;
-        }
-      }
-
-      &:focus {
-        border-color: $border-color;
-        box-shadow: $focus-box-shadow;
-      }
-    }
-  }
-
-  .form-control-color {
-    @include form-validation-state-selector($state) {
-      @if $enable-validation-icons {
-        width: add($form-color-width, $input-height-inner);
-      }
-    }
-  }
-
-  .form-check-input {
-    @include form-validation-state-selector($state) {
-      border-color: $border-color;
-
-      &:checked {
-        background-color: $color;
-      }
-
-      &:focus {
-        box-shadow: $focus-box-shadow;
-      }
-
-      ~ .form-check-label {
-        color: $color;
-      }
-    }
-  }
-  .form-check-inline .form-check-input {
-    ~ .#{$state}-feedback {
-      margin-left: .5em;
-    }
-  }
-
-  .input-group {
-    > .form-control:not(:focus),
-    > .form-select:not(:focus),
-    > .form-floating:not(:focus-within) {
-      @include form-validation-state-selector($state) {
-        @if $state == "valid" {
-          z-index: 3;
-        } @else if $state == "invalid" {
-          z-index: 4;
-        }
-      }
-    }
-  }
-}
-    </script>
 
 </div>
 </html>

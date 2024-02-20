@@ -1,0 +1,115 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:600px;">
+
+    <div class="my-3 border-bottom">
+        <h4>
+            <a th:href="@{/user/profile}" style="text-decoration:none; color:inherit;">나의 정보</a>
+            > 포인트내역
+        </h4>
+    </div>
+
+    <ul class="nav nav-underline mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">적립내역</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">사용내역</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">구입상품</th>
+                    <th scope="col">적립포인트</th>
+                    <th scope="col">적립날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품1</th>
+                    <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품2</th>
+                    <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품3</th>
+                    <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품4</th>
+                    <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품5</th>
+                    <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품6</th>
+                    <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
+                        style="line-height:100px;"></td>
+                    <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
+                        style="line-height:100px;"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">구입상품</th>
+                    <th scope="col">사용포인트</th>
+                    <th scope="col">사용날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품1</th>
+                    <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품2</th>
+                    <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품3</th>
+                    <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품4</th>
+                    <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품5</th>
+                    <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품6</th>
+                    <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
+                        style="line-height:100px;"></td>
+                    <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
+                        style="line-height:100px;"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+</div>
+</html>

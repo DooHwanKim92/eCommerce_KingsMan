@@ -24,6 +24,7 @@ public class UserCreateForm {
     @NotNull(message = "성별을 선택해주세요.")
     private char sex;
 
+    @Size(min = 1, max = 2, message = "나이는 0 ~ 99살까지 입력할 수 있어요 😅")
     @NotEmpty(message = "나이를 입력해주세요.")
     private String age;
 

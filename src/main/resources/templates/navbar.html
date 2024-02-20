@@ -10,10 +10,13 @@
                 <button class="btn btn-outline-success" type="submit" style="width:80px;">검색</button>
             </form>
         </div>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
                 aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
+        <!-- 오프캔버스 -->
         <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
              aria-labelledby="offcanvasDarkNavbarLabel">
             <div class="offcanvas-header">
@@ -49,18 +52,14 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        <a class="nav-link dropdown-toggle" th:href="@{/question/list}" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
                             <i class="fa-solid fa-headset" style="color: #ffffff;"></i>
                             고객센터
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark">
-                            <li><a class="dropdown-item" href="#">상품 문의</a></li>
-                            <li><a class="dropdown-item" href="#">서비스 문의</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">문의내역</a></li>
+                            <li><a class="dropdown-item" th:href="@{/question/create}">문의하기 <i class="fa-regular fa-pen-to-square" style="color: #ffffff;"></i></a></li>
+                            <li><a class="dropdown-item" th:href="@{/question/mylist}">문의내역 <i class="fa-regular fa-comments" style="color: #ffffff;"></i></a></li>
                         </ul>
                     </li>
                 </ul>
@@ -92,5 +91,6 @@
                 </ul>
             </div>
         </div>
+        <!-- 오프캔버스 끝 -->
     </div>
 </nav>

@@ -1,0 +1,65 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:600px;">
+
+    <div class="my-3 border-bottom">
+        <h4>
+            <a th:href="@{/user/profile}" style="text-decoration:none; color:inherit;">나의 정보</a>
+            > 구매내역
+        </h4>
+    </div>
+
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col">구입상품</th>
+            <th scope="col">가격</th>
+            <th scope="col">수량</th>
+            <th scope="col">구입날짜</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr style="height:100px;">
+            <th scope="row" style="width:200px; line-height:100px;">상품1</th>
+            <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
+            <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
+            <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
+        </tr>
+        <tr style="height:100px;">
+            <th scope="row" style="width:200px; line-height:100px;">상품2</th>
+            <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
+            <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
+            <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
+        </tr>
+        <tr style="height:100px;">
+            <th scope="row" style="width:200px; line-height:100px;">상품3</th>
+            <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
+            <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
+            <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
+        </tr>
+        <tr style="height:100px;">
+            <th scope="row" style="width:200px; line-height:100px;">상품4</th>
+            <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
+            <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
+            <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
+        </tr>
+        <tr style="height:100px;">
+            <th scope="row" style="width:200px; line-height:100px;">상품5</th>
+            <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
+            <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
+            <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
+        </tr>
+        <tr style="height:100px;">
+            <th scope="row" style="width:200px; line-height:100px;">상품6</th>
+            <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
+                style="line-height:100px;"></td>
+            <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
+                style="line-height:100px;"></td>
+            <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
+                style="line-height:100px;"></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>
+</html>

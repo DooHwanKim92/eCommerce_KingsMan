@@ -2,6 +2,7 @@ package com.example.ecommerce.domain.user.entity;
 
 
 import com.example.ecommerce.domain.cart.entity.Cart;
+import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.global.BaseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -49,6 +50,7 @@ public class SiteUser extends BaseEntity {
 
     @Column
     private String role;
+    // user, seller, admin
 
     @Column
     private Integer point;
@@ -61,5 +63,8 @@ public class SiteUser extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Cart> cartList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Question> questionList;
 
 }

@@ -3,6 +3,7 @@ package com.example.ecommerce.domain.user.service;
 
 import com.example.ecommerce.domain.cart.entity.Cart;
 import com.example.ecommerce.domain.user.UserCreateForm;
+import com.example.ecommerce.domain.user.UserModifyForm;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,9 @@ public class UserService {
                 .phoneNumber(userCreateForm.getPhoneNumber())
                 .address(userCreateForm.getAddress())
                 .role("user")
+                .point(0)
+                .grade("브론즈")
+                .isSeller('n')
                 .cartList(cartList)
                 .build();
 
@@ -72,5 +76,17 @@ public class UserService {
             return null;
         }
         return user.get();
+    }
+
+    public void modify(UserModifyForm userModifyForm, SiteUser modifyUser) {
+        SiteUser user = modifyUser.toBuilder()
+                .password(passwordEncoder.encode(userModifyForm.getPassword2()))
+                .nickname(userModifyForm.getNickname())
+                .email(userModifyForm.getEmail())
+                .phoneNumber(userModifyForm.getPhoneNumber())
+                .address(userModifyForm.getAddress())
+                .build();
+
+        this.userRepository.save(user);
     }
 }
