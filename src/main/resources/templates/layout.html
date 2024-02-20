@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -19,7 +19,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-    <title>이커머스</title>
+    <title>🏠WareHouse</title>
 </head>
 <body style="font-family: 'Noto Sans KR', sans-serif;">
 
@@ -29,33 +29,8 @@
 <!-- 2nd 네비게이션바 -->
 <nav th:replace="~{secondnavbar :: secondnavbarFragment}"></nav>
 
-<!-- left-fixed 바로가기 메뉴 -->
-<div class="bg-dark" style="width:70px; position:fixed; top:50%; left:0; text-align:center; border-radius:5px; margin-left:10px;">
-    <div>
-        <a th:href="@{/cart/list}" style="font-size:30px;">
-            <i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i>
-        </a>
-    </div>
-    <span style="color:white; font-size:14px;">
-        장바구니
-    </span>
-    <div>
-        <a href="#" style="font-size:30px;">
-            <i class="fa-solid fa-heart" style="color: #ffffff;"></i>
-        </a>
-    </div>
-    <span style="color:white; font-size:14px;">
-        찜목록
-    </span>
-    <div>
-        <a th:href="@{/question/list}" style="font-size:30px;">
-            <i class="fa-solid fa-headset" style="color: #ffffff;"></i>
-        </a>
-    </div>
-    <span style="color:white; font-size:14px;">
-        고객센터
-    </span>
-</div>
+<!-- left-fixed menu 바로가기 메뉴 -->
+<div th:replace="~{sidemenu :: sidemenuFragment}"></div>
 
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
 <th:block layout:fragment="content"></th:block>
