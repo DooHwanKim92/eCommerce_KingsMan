@@ -1,0 +1,34 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" style="width:800px; height:500px;">
+                <img src="https://m.peak-on.kr/web/product/big/202109/64e851d0b458e66543f35632c5e8e218.jpg" alt="..." style="object-fit:cover;">
+            </div>
+            <div class="carousel-item" style="width:800px; height:500px;">
+                <img src="https://maninstore.co.kr/web/product/big/202310/5bea5af1a73a49dc40c58fa423789654.jpg" alt="..." style="object-fit:cover;">
+            </div>
+            <div class="carousel-item" style="width:800px; height:500px;">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNA16lY9t7nzaIhwX0m4c5XwA9_wdnyc8fdg&usqp=CAU" alt="..." style="object-fit:cover;">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev" style="background-color:black;">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next" style="background-color:black;">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+<div>
+    <a th:href="@{/product/list}">상품보기</a>
+</div>
+<div>
+    <a sec:authorize="isAuthenticated()" th:href="@{/product/put}">상품판매(등록)</a>
+</div>
+
+</div>
+</html>

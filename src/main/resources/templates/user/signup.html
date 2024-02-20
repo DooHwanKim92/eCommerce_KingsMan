@@ -1,0 +1,98 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:500px;">
+
+    <div class="my-3 border-bottom">
+        <h4>회원가입</h4>
+    </div>
+
+    <form th:action="@{/user/signup}" method="post" th:object="${userCreateForm}">
+
+        <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">
+            <i class="fa-regular fa-user" style="color: #000000;"></i>
+        </span>
+            <input type="text" class="form-control" placeholder="아이디 입력" aria-describedby="basic-addon1"
+                   name="username" id="username" th:field="*{username}">
+        </div>
+        <p th:each="err : ${#fields.errors('username')}" th:text="${err}" style="color:red; font-size:14px;"></p>
+
+        <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon2">
+            <i class="fa-solid fa-unlock-keyhole" style="color: #000000;"></i>
+        </span>
+            <input type="password" class="form-control" placeholder="비밀번호" aria-describedby="basic-addon2"
+                   name="password1">
+        </div>
+        <p th:each="err : ${#fields.errors('password1')}" th:text="${err}" style="color:red; font-size:14px;"></p>
+
+        <div class="input-group mb-3">
+            <input type="password" class="form-control" placeholder="비밀번호 확인" aria-describedby="basic-addon3"
+                   name="password2">
+        </div>
+        <p th:each="err : ${#fields.errors('password2')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+
+        <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon3">
+            <i class="fa-regular fa-face-smile" style="color: #000000;"></i>
+        </span>
+            <input type="text" class="form-control" placeholder="닉네임" aria-describedby="basic-addon3"
+                   name="nickname" th:field="*{nickname}">
+        </div>
+        <p th:each="err : ${#fields.errors('nickname')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+
+        <div class="input-group mb-3">
+            <div>
+                <div class="form-check form-check-inline">
+                    <i class="fa-solid fa-mars" style="color: #000000;"></i>
+                    <input class="form-check-input" type="radio" name="sex" id="inlineRadio1" value="남">
+                    <label class="form-check-label" for="inlineRadio1">남</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <i class="fa-solid fa-venus" style="color: #000000;"></i>
+                    <input class="form-check-input" type="radio" name="sex" id="inlineRadio2" value="여">
+                    <label class="form-check-label" for="inlineRadio2">여</label>
+                </div>
+            </div>
+        </div>
+        <p th:each="err : ${#fields.errors('sex')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+
+        <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon4">
+            <i class="fa-solid fa-person" style="color: #000000;"></i>
+        </span>
+            <input type="text" class="form-control" placeholder="나이" aria-describedby="basic-addon4" name="age" th:field="*{age}">
+        </div>
+        <p th:each="err : ${#fields.errors('age')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+
+        <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon5">
+            <i class="fa-solid fa-envelope-open-text" style="color: #000000;"></i>
+        </span>
+            <input type="text" class="form-control" placeholder="이메일" aria-describedby="basic-addon5" name="email" th:field="*{email}">
+        </div>
+        <p th:each="err : ${#fields.errors('email')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+
+        <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon6">
+            <i class="fa-solid fa-phone" style="color: #000000;"></i>
+        </span>
+            <input type="text" class="form-control" placeholder="010 으로 시작하는 전화번호" aria-describedby="basic-addon6"
+                   name="phoneNumber" th:field="*{phoneNumber}">
+        </div>
+        <p th:each="err : ${#fields.errors('phoneNumber')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+
+        <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon7">
+            <i class="fa-solid fa-map-location-dot" style="color: #000000;"></i>
+        </span>
+            <input type="text" class="form-control" placeholder="주소" aria-describedby="basic-addon7" name="address" th:field="*{address}">
+        </div>
+        <p th:each="err : ${#fields.errors('address')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+
+        <div style="display:flex; justify-content:flex-end;">
+            <button type="submit" class="btn btn-primary btn-sm">회원가입</button>
+        </div>
+    </form>
+
+</div>
+</html>

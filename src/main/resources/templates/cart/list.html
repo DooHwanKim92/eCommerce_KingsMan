@@ -1,0 +1,33 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+
+<h4>장바구니</h4>
+
+<table class="table table-dark table-striped">
+    <thead>
+    <tr>
+        <th>카테고리</th>
+        <th>상품명</th>
+        <th>가격</th>
+        <th>판매자</th>
+        <th>등록일자</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="productList : ${productList}">
+        <td th:text="${productList.category.name}"></td>
+        <td>
+            <a th:href="@{|/product/detail/${productList.id}|}" th:text="${productList.name}"></a>
+        </td>
+        <td th:text="${productList.price}"></td>
+        <td th:text="${productList.sellerName}"></td>
+        <td th:text="${#temporals.format(productList.createDate, 'yyyy-MM-dd')}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<a th:href="@{/}" th:text="메인"></a>
+<a th:href="@{/}" th:text="삭제"></a>
+
+</div>
+</html>
