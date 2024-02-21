@@ -2,10 +2,10 @@
 <div layout:fragment="content" class="container my-3" style="width:1000px;">
 
     <div class="my-3 border-bottom">
-        <h4>공지/이벤트 등록</h4>
+        <h4>공지/이벤트 수정</h4>
     </div>
 
-    <form th:action="@{/notice/create}" method="post" th:object="${noticeCreateForm}">
+    <form th:action="@{|/notice/modify/${notice.id}|}" method="post" th:object="${noticeCreateForm}">
 
         <div class="mb-3">
             <label for="category" class="form-label">게시글유형</label>
@@ -19,18 +19,18 @@
 
         <div class="mb-3">
             <label for="title" class="form-label">제목</label>
-            <input type="text" class="form-control" id="title" name="title" th:field="*{title}">
+            <input type="text" class="form-control" id="title" name="title" th:field="${notice.title}">
         </div>
         <p th:each="err : ${#fields.errors('title')}" th:text="${err}" style="color:red; font-size:14px;"></p>
 
         <div class="mb-3">
             <label for="content" class="form-label">내용</label>
-            <textarea type="text" class="form-control" id="content" name="content" rows="10" th:field="*{content}"></textarea>
+            <textarea type="text" class="form-control" id="content" name="content" rows="10" th:field="${notice.content}"></textarea>
         </div>
         <p th:each="err : ${#fields.errors('content')}" th:text="${err}" style="color:red; font-size:14px;"></p>
 
         <div style="display:flex; justify-content:flex-end;">
-            <button type="submit" class="btn btn-primary" style="margin-left:10px;">작성하기</button>
+            <button type="submit" class="btn btn-primary" style="margin-left:10px;">수정하기</button>
         </div>
     </form>
 

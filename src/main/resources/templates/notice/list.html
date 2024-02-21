@@ -7,29 +7,29 @@
 
     <table class="table table-sm">
         <thead>
-        <tr style="text-align:center;">
+        <tr style="">
             <th scope="col">번호</th>
             <th scope="col">종류</th>
-            <th scope="col">제목</th>
-            <th scope="col">내용</th>
+            <th scope="col" style="width:500px;">제목</th>
             <th scope="col">작성날짜</th>
         </tr>
         </thead>
         <tbody>
-        <tr style="height:100px; text-align:center;" th:each="notice : ${noticeList}">
+        <tr style="height:100px;" th:each="notice : ${noticeList}">
             <td th:text="${notice.id}" style="line-height:100px;"></td>
             <td th:text="${notice.category}" style="line-height:100px;"></td>
-            <td th:text="${notice.title}" style="line-height:100px;"></td>
-            <td th:text="${notice.content}" style="line-height:100px;"></td>
+            <td style="line-height:100px;">
+                <a th:href="@{|/notice/detail/${notice.id}|}" th:text="${notice.title}"></a>
+            </td>
             <td th:text="${#temporals.format(notice.createDate, 'yyyy-MM-dd')}" style="line-height:100px;"></td>
         </tr>
         </tbody>
     </table>
 
     <div style="margin-top:100px; display:flex; justify-content:flex-end;">
-        <a class="btn btn-primary btn-sm" sec:authorize="isAuthenticated()" th:if="${@request.getSiteUser.role == 'admin'}" th:href="@{/notice/create}">공지/이벤트 등록</a>
+        <a class="btn btn-primary btn-sm" sec:authorize="isAuthenticated()"
+           th:if="${@request.getSiteUser.role == 'admin'}" th:href="@{/notice/create}">공지/이벤트 등록</a>
     </div>
-
 
 
 </div>
