@@ -8,6 +8,9 @@ import com.example.ecommerce.domain.user.entity.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class QuestionService {
@@ -24,5 +27,17 @@ public class QuestionService {
                 .build();
 
         this.questionRepository.save(question);
+    }
+
+    public List<Question> findAll() {
+        return this.questionRepository.findAll();
+    }
+
+    public Question findById(Long id) {
+        Optional<Question> question = this.questionRepository.findById(id);
+        if(question.isEmpty()) {
+            return null;
+        }
+        return question.get();
     }
 }

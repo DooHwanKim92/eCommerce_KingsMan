@@ -2,12 +2,10 @@ package com.example.ecommerce.domain.user.entity;
 
 
 import com.example.ecommerce.domain.cart.entity.Cart;
+import com.example.ecommerce.domain.confirm.entity.Confirm;
 import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.global.BaseEntity;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -60,11 +58,15 @@ public class SiteUser extends BaseEntity {
 
     @Column
     private char isSeller;
+    // Y, N
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Cart> cartList;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Question> questionList;
+
+    @OneToOne(mappedBy = "user")
+    private Confirm confirm;
 
 }

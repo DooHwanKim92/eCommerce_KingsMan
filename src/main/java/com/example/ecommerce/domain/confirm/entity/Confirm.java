@@ -1,7 +1,6 @@
-package com.example.ecommerce.domain.answer.entity;
+package com.example.ecommerce.domain.confirm.entity;
 
-
-import com.example.ecommerce.domain.question.entity.Question;
+import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.global.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,11 +15,18 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class Answer extends BaseEntity {
-
-    @Column
-    private String content;
+public class Confirm extends BaseEntity {
 
     @OneToOne
-    private Question question;
+    private SiteUser user;
+
+    @Column(unique = true)
+    private String sellerName;
+
+    @Column(unique = true)
+    private String sellerNumber;
+
+    @Column
+    private String isConfirmed;
+
 }

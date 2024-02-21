@@ -28,6 +28,10 @@
             <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
         </tr>
         <tr style="height:100px;">
+            <th scope="row" style="width:200px; text-align:center; line-height:100px;">판매권한</th>
+            <td th:text="${@request.getSiteUser.isSeller}" style="line-height:100px;"></td>
+        </tr>
+        <tr style="height:100px;">
             <th scope="row" style="width:200px; text-align:center; line-height:100px;">가입날짜</th>
             <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
                 style="line-height:100px;"></td>

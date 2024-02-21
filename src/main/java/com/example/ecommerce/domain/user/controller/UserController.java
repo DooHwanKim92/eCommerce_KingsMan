@@ -1,6 +1,9 @@
 package com.example.ecommerce.domain.user.controller;
 
 
+import com.example.ecommerce.domain.confirm.ConfirmForm;
+import com.example.ecommerce.domain.confirm.entity.Confirm;
+import com.example.ecommerce.domain.confirm.service.ConfirmService;
 import com.example.ecommerce.domain.user.UserCreateForm;
 import com.example.ecommerce.domain.user.UserModifyForm;
 import com.example.ecommerce.domain.user.entity.SiteUser;
@@ -8,6 +11,7 @@ import com.example.ecommerce.domain.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +25,8 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService userService;
+
+    private final ConfirmService confirmService;
 
     @GetMapping("/signup")
     public String signup(UserCreateForm userCreateForm) {
@@ -112,9 +118,30 @@ public class UserController {
     }
 
     @GetMapping("/confirm")
-    public String userConfirm() {
+    public String salesConfirm(Model model, ConfirmForm confirmForm, Principal principal) {
+        Confirm confirm = this.userService.findByUsername(principal.getName()).getConfirm();
+        model.addAttribute("confirm",confirm);
         return "/user/confirm";
     }
 
+    @PostMapping("/confirm")
+    public String salesConfirmPost(@Valid ConfirmForm confirmForm, BindingResult bindingResult, Principal principal) {
+        if (bindingResult.hasErrors()) {
+            return "/user/confirm";
+        }
+        if (this.confirmService.findBySellerName(confirmForm.getSellerName()) != null ) {
+            bindingResult.rejectValue("sellername", "nameDoubling",
+                    "이미 등록된 사업자명입니다.");
+            return "/user/confirm";
+        }
+        if (this.confirmService.findBySellerNumber(confirmForm.getSellerNumber()) != null ) {
+            bindingResult.rejectValue("sellernumber", "numberDoubling",
+                    "이미 등록된 사업자번호입니다.");
+            return "/user/confirm";
+        }
+        SiteUser user = this.userService.findByUsername(principal.getName());
+        this.confirmService.create(confirmForm, user);
+        return "redirect:/user/confirm";
+    }
 
 }

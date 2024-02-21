@@ -18,7 +18,9 @@
         <tbody>
         <tr style="height:100px;" th:each="question : ${questionList}">
             <td th:text="${question.category}" style="line-height:100px;"></td>
-            <td th:text="${question.title}" style="line-height:100px;"></td>
+            <td style="line-height:100px;">
+                <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.title}"></a>
+            </td>
             <td th:text="${question.productName}" style="line-height:100px;"></td>
             <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd')}" style="line-height:100px;"></td>
             <td th:text="${question.isAnswered}" style="line-height:100px;"></td>

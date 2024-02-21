@@ -33,31 +33,31 @@ public class CategoryService {
 
     public void create() {
         Category category1 = Category.builder()
-                .name("상의")
+                .name("카테고리1")
                 .build();
 
         Category category2 = Category.builder()
-                .name("아우터")
+                .name("카테고리2")
                 .build();
 
         Category category3 = Category.builder()
-                .name("바지")
+                .name("카테고리3")
                 .build();
 
         Category category4 = Category.builder()
-                .name("원피스")
+                .name("카테고리4")
                 .build();
 
         Category category5 = Category.builder()
-                .name("스커트")
+                .name("카테고리5")
                 .build();
 
         Category category6 = Category.builder()
-                .name("신발")
+                .name("카테고리6")
                 .build();
 
         Category category7 = Category.builder()
-                .name("가방")
+                .name("카테고리7")
                 .build();
 
         this.categoryRepository.save(category1);

@@ -1,14 +1,21 @@
 <nav th:fragment="navbarFragment" class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
     <div class="container-fluid" style="width:1400px;">
         <a class="navbar-brand" th:href="@{/}" style="font-size:24px;">
-            <i class="fa-solid fa-warehouse" style="color: #ffffff;"></i>
-            WareHouse
+            <i class="fa-solid fa-umbrella" style="color: #ffffff;"></i>
+            KingsMan
         </a>
         <div class="d-flex">
             <form class="d-flex" role="search" style="height:40px; width:700px;">
                 <input class="form-control me-2" type="search" placeholder="검색어 입력" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit" style="width:80px;">검색</button>
             </form>
+        </div>
+
+        <div>
+            <a th:href="@{/notice/list}" style="font-size:16px; color:white; text-decoration:none;">
+                <i class="fa-solid fa-bullhorn" style="color: #ffffff;"></i>
+                <span>공지사항/이벤트</span>
+            </a>
         </div>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
@@ -19,14 +26,22 @@
         <!-- 오프캔버스 -->
         <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
              aria-labelledby="offcanvasDarkNavbarLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel" sec:authorize="isAuthenticated()"
+            <div class="offcanvas-header" sec:authorize="isAuthenticated()">
+                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"
                     th:text="${@request.getSiteUser().nickname}"></h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                         aria-label="Close"></button>
             </div>
-            <div class="offcanvas-body" sec:authorize="isAuthenticated()">
+
+            <!-- user 메뉴 -->
+            <div class="offcanvas-body" sec:authorize="isAuthenticated()" th:if="${@request.getSiteUser.getRole == 'user'}">
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/}">
+                            <i class="fa-solid fa-bell" style="color: #ffffff;"></i>
+                            알림
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" th:href="@{/user/profile}">
                             <i class="fa-solid fa-user" style="color: #ffffff;"></i>
@@ -68,6 +83,104 @@
                     <button class="btn btn-success" type="submit">Search</button>
                 </form>
             </div>
+
+            <!-- seller 메뉴 -->
+            <div class="offcanvas-body" sec:authorize="isAuthenticated()" th:if="${@request.getSiteUser.getRole == 'seller'}">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/}">
+                            <i class="fa-solid fa-bell" style="color: #ffffff;"></i>
+                            알림
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/user/profile}">
+                            <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+                            나의정보
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/cart/list}">
+                            <i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i>
+                            장바구니
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="fa-solid fa-heart" style="color: #ffffff;"></i>
+                            찜목록
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/user/logout}">
+                            <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
+                            로그아웃
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" th:href="@{/question/list}" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <i class="fa-solid fa-headset" style="color: #ffffff;"></i>
+                            고객센터
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" th:href="@{/question/create}">문의하기 <i class="fa-regular fa-pen-to-square" style="color: #ffffff;"></i></a></li>
+                            <li><a class="dropdown-item" th:href="@{/question/mylist}">문의내역 <i class="fa-regular fa-comments" style="color: #ffffff;"></i></a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex mt-3" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-success" type="submit">Search</button>
+                </form>
+            </div>
+
+            <!-- admin 메뉴 -->
+            <div class="offcanvas-body" sec:authorize="isAuthenticated()" th:if="${@request.getSiteUser.getRole == 'admin'}">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/user/profile}">
+                            <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+                            나의정보
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/}">
+                            <i class="fa-solid fa-thumbtack" style="color: #ffffff;"></i>
+                            공지사항
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}">
+                            <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+                            회원관리
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/user/logout}">
+                            <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
+                            로그아웃
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <i class="fa-solid fa-headset" style="color: #ffffff;"></i>
+                            고객센터
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" th:href="@{/question/create}">문의하기 <i class="fa-regular fa-pen-to-square" style="color: #ffffff;"></i></a></li>
+                            <li><a class="dropdown-item" th:href="@{/question/mylist}">문의내역 <i class="fa-regular fa-comments" style="color: #ffffff;"></i></a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex mt-3" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-success" type="submit">Search</button>
+                </form>
+            </div>
+
+            <!-- 비로그인 상태 -->
             <div class="offcanvas-body" sec:authorize="isAnonymous()">
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                     <li class="nav-item">

@@ -45,7 +45,7 @@ public class UserService {
                 .role("user")
                 .point(0)
                 .grade("브론즈")
-                .isSeller('n')
+                .isSeller('N')
                 .cartList(cartList)
                 .build();
 
@@ -88,5 +88,14 @@ public class UserService {
                 .build();
 
         this.userRepository.save(user);
+    }
+
+    public void acceptSalesConfirm(SiteUser user) {
+        SiteUser acceptUser = user.toBuilder()
+                .role("seller")
+                .isSeller('Y')
+                .build();
+
+        this.userRepository.save(acceptUser);
     }
 }

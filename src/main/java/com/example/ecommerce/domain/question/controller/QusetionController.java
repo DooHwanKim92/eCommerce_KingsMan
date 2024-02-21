@@ -6,6 +6,7 @@ import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.domain.question.service.QuestionService;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.domain.user.service.UserService;
+import com.example.ecommerce.global.request.Request;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.Banner;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -50,9 +52,21 @@ public class QusetionController {
 
     @GetMapping("/mylist")
     public String myQuestionList(Model model, Principal principal) {
-        List<Question> questionList = this.userService.findByUsername(principal.getName()).getQuestionList();
-        model.addAttribute("questionList",questionList);
+        if (this.userService.findByUsername(principal.getName()).getRole().equals("admin")) {
+            List<Question> questionList = this.questionService.findAll();
+            model.addAttribute("questionList",questionList);
+        } else {
+            List<Question> questionList = this.userService.findByUsername(principal.getName()).getQuestionList();
+            model.addAttribute("questionList",questionList);
+        }
         return "/question/mylist";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String questionDetail(Model model, @PathVariable(value = "id")Long id) {
+        Question question = this.questionService.findById(id);
+        model.addAttribute("question",question);
+        return "/question/detail";
     }
 
 }

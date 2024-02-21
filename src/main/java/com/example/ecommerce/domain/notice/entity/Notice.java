@@ -17,9 +17,6 @@ import lombok.experimental.SuperBuilder;
 public class Notice extends BaseEntity {
 
     @Column
-    private Long userId;
-
-    @Column
     private String category;
 
     @Column
