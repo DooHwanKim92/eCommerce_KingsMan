@@ -2,6 +2,7 @@ package com.example.ecommerce.domain.product.service;
 
 import com.example.ecommerce.domain.category.entity.Category;
 import com.example.ecommerce.domain.category.service.CategoryService;
+import com.example.ecommerce.domain.option.entity.Option;
 import com.example.ecommerce.domain.product.ProductCreateForm;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.product.repository.ProductRepository;
@@ -9,6 +10,7 @@ import com.example.ecommerce.domain.user.entity.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,15 +38,14 @@ public class ProductService {
     public void createProduct(ProductCreateForm productCreateForm, SiteUser user, Category category) {
 
         Product product = Product.builder()
+                .user(user)
                 .category(category)
                 .name(productCreateForm.getName())
-                .amount(Integer.valueOf(productCreateForm.getAmount()))
                 .content(productCreateForm.getContent())
-                .price(Integer.valueOf(productCreateForm.getPrice()))
+                .sellerName(user.getConfirm().getSellerName())
                 .discount(Integer.valueOf(productCreateForm.getDiscount()))
                 .purchasing(0)
                 .isNew(true)
-                .sellerName(user.getNickname())
                 .build();
 
         this.productRepository.save(product);

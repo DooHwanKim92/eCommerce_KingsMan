@@ -22,7 +22,7 @@
         <h4 class="border-bottom py-2" th:text="답변"></h4>
         <div class="card my-3" th:if="${question.answer == null}">
             <div class="card-body">
-                <div class="card-text" style="white-space: pre-line;">등록된 답변이 없습니다.</div>
+                <div class="card-text" style="white-space: pre-line; color:red;">등록된 답변이 없습니다.</div>
             </div>
         </div>
         <div class="card my-3" th:if="${question.answer != null}">
@@ -38,7 +38,7 @@
         <!-- 답변 끝  -->
 
         <!-- 답변 작성 -->
-        <form th:if="${@request.getSiteUser.role == 'admin'}" th:action="@{|/answer/create/${question.id}|}"
+        <form th:if="${@request.getSiteUser.role == 'admin' and question.answer == null}" th:action="@{|/answer/create/${question.id}|}"
               method="post" class="my-3">
             <textarea name="content" id="content" rows="10" class="form-control"></textarea>
             <div style="margin-top:100px; display:flex; justify-content:flex-end;">
@@ -47,7 +47,7 @@
             </div>
         </form>
 
-        <div th:if="${@request.getSiteUser.role != 'admin'}" style="margin-top:100px; display:flex; justify-content:flex-end;">
+        <div th:if="${@request.getSiteUser.role != 'admin' or question.answer != null}" style="margin-top:100px; display:flex; justify-content:flex-end;">
             <a class="btn btn-primary btn-sm" th:href="@{/question/mylist}" style="margin-left:10px;">뒤로가기</a>
         </div>
 

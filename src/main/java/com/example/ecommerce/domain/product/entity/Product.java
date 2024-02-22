@@ -2,16 +2,16 @@ package com.example.ecommerce.domain.product.entity;
 
 import com.example.ecommerce.domain.cart.entity.Cart;
 import com.example.ecommerce.domain.category.entity.Category;
+import com.example.ecommerce.domain.option.entity.Option;
+import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.global.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
 
 
 @Entity
@@ -21,8 +21,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class Product extends BaseEntity {
 
-    @Column
-    private String sellerName;
+    @ManyToOne
+    private SiteUser user;
 
     @Column
     private String name;
@@ -31,18 +31,18 @@ public class Product extends BaseEntity {
     private String content;
 
     @Column
-    private Integer amount;
+    private String sellerName;
 
     @Column
-    private Integer price;
-
-    @Column
+    // 판매횟수
     private Integer purchasing;
 
     @Column
+    // 할인율
     private Integer discount;
 
     @Column
+    // 신상여부
     private boolean isNew;
 
     @Column
@@ -50,6 +50,9 @@ public class Product extends BaseEntity {
 
     @ManyToOne
     private Category category;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    private List<Option> optionList;
 
 
 }

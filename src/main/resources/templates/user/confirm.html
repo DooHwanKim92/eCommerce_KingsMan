@@ -47,11 +47,11 @@
         <h5 style="color:red;">판매권한신청 심사가 진행중입니다.</h5>
     </div>
 
-    <div th:if="${confirm != null and confirm.isConfirmed == '승인완료'}">
+    <div th:if="${@request.getSiteUser().role == 'seller'}">
         <h5 style="color:red;">판매권한을 이미 보유중입니다.</h5>
     </div>
 
-    <form th:if="${confirm == null}" th:action="@{/user/confirm}" method="post" th:object="${confirmForm}">
+    <form th:if="${@request.getSiteUser().role == 'user' and confirm == null}" th:action="@{/user/confirm}" method="post" th:object="${confirmForm}">
 
         <div class="mb-3">
             <label for="sellerName" class="form-label">사업자명</label>

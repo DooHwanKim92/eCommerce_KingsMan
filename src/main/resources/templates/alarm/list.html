@@ -1,0 +1,37 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:800px;">
+
+    <div class="my-3 border-bottom">
+        <h4>알림</h4>
+    </div>
+
+
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col">번호</th>
+            <th scope="col">제목</th>
+            <th scope="col">날짜</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr style="height:100px;" th:each="alarmList : ${alarmList}">
+            <td th:text="${alarmList.id}" style="line-height:100px;"></td>
+            <td style="line-height:100px;">
+                <a th:href="@{|/alarm/detail/${alarmList.id}|}" th:text="${alarmList.content}"></a>
+            </td>
+            <td th:text="${#temporals.format(alarmList.createDate, 'yyyy-MM-dd')}" style="line-height:100px;"></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <div style="margin-top:100px; display:flex; justify-content:flex-end;">
+        <a class="btn btn-danger btn-sm" href="#" style="margin-left:10px;">삭제</a>
+    </div>
+
+
+
+
+</div>
+</html>

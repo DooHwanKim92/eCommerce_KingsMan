@@ -25,7 +25,7 @@
                 <a th:href="@{|/confirm/accept/${confirm.id}|}" class="btn btn-primary btn-sm">수락</a>
                 <a th:href="@{|/confirm/deny/${confirm.id}|}" class="btn btn-danger btn-sm">거절</a>
             </td>
-            <td th:if="${confirm.isConfirmed == '승인완료'}" style="line-height:100px;" th:text="승인완료"></td>
+            <td th:if="${confirm.isConfirmed != '진행중'}" style="line-height:100px;" th:text="${confirm.isConfirmed}"></td>
         </tr>
         </tbody>
     </table>

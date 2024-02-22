@@ -1,5 +1,5 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content" class="container my-3">
+<div layout:fragment="content" class="container my-3" style="width:100%;">
 
     <!-- 캐러셀 -->
     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
@@ -27,9 +27,6 @@
 
 <div>
     <a th:href="@{/product/list}">상품보기</a>
-</div>
-<div>
-    <a sec:authorize="isAuthenticated()" th:href="@{/product/put}">상품판매(등록)</a>
 </div>
 
 </div>

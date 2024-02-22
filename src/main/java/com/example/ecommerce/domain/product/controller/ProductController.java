@@ -40,14 +40,14 @@ public class ProductController {
         return "/product/list";
     }
 
-    @GetMapping("/put")
+    @GetMapping("/create")
     public String productPut(Model model) {
         List<Category> categoryList = this.categoryService.findAll();
         model.addAttribute("categoryList",categoryList);
-        return "/product/put";
+        return "/product/create";
     }
 
-    @PostMapping("/put")
+    @PostMapping("/create")
     public String productPutPost(@Valid ProductCreateForm productCreateForm, BindingResult bindingResult, Principal principal) {
         SiteUser user = this.userService.findByUsername(principal.getName());
         Category category = this.categoryService.findByname(productCreateForm.getCategory());
@@ -67,4 +67,13 @@ public class ProductController {
         this.productService.removeProduct(id);
         return "redirect:/product/list";
     }
+
+    @GetMapping("/management")
+    public String productManagement(Model model, Principal principal) {
+        SiteUser user = this.userService.findByUsername(principal.getName());
+        List<Product> productList = user.getProductList();
+        model.addAttribute("productList",productList);
+        return "/product/management";
+    }
+
 }

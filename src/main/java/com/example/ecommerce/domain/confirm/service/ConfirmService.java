@@ -56,10 +56,10 @@ public class ConfirmService {
     }
 
     public void accept(Confirm confirm) {
-        Confirm confirmAccept = confirm.toBuilder()
-                .isConfirmed("승인완료")
-                .build();
+        this.confirmRepository.delete(confirm);
+    }
 
-        this.confirmRepository.save(confirmAccept);
+    public void deny(Confirm confirm) {
+        this.confirmRepository.delete(confirm);
     }
 }

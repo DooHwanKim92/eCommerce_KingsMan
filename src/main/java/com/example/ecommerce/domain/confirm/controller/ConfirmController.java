@@ -1,6 +1,8 @@
 package com.example.ecommerce.domain.confirm.controller;
 
 
+import com.example.ecommerce.domain.alarm.entity.Alarm;
+import com.example.ecommerce.domain.alarm.service.AlarmService;
 import com.example.ecommerce.domain.confirm.entity.Confirm;
 import com.example.ecommerce.domain.confirm.service.ConfirmService;
 import com.example.ecommerce.domain.user.entity.SiteUser;
@@ -22,6 +24,8 @@ public class ConfirmController {
     private final ConfirmService confirmService;
 
     private final UserService userService;
+
+    private final AlarmService alarmService;
 
     public Confirm findBySellername(String sellername) {
         return this.confirmService.findBySellerName(sellername);
@@ -46,8 +50,24 @@ public class ConfirmController {
         Confirm confirm = this.confirmService.findById(id);
         SiteUser user = confirm.getUser();
 
+        Alarm alarm = this.alarmService.confirmAcceptAlarm(user, confirm);
+        this.userService.acceptSalesConfirm(user, alarm);
         this.confirmService.accept(confirm);
-        this.userService.acceptSalesConfirm(user);
+
+        return "redirect:/confirm/list";
+    }
+
+    @GetMapping("/deny/{id}")
+    public String confirmDeny(@PathVariable(value = "id") Long id, Model model) {
+        List<Confirm> confirmList = this.confirmService.findAll();
+        model.addAttribute("confirmList",confirmList);
+
+        Confirm confirm = this.confirmService.findById(id);
+        SiteUser user = confirm.getUser();
+
+        Alarm alarm = this.alarmService.confirmDenyAlarm(user, confirm);
+        this.userService.denySalesConfirm(user, alarm);
+        this.confirmService.deny(confirm);
 
         return "redirect:/confirm/list";
     }

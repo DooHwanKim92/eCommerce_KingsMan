@@ -19,7 +19,7 @@
         <td>
             <a th:href="@{|/product/detail/${productList.id}|}" th:text="${productList.name}"></a>
         </td>
-        <td th:text="${productList.price}"></td>
+        <td th:text="${productList.content}"></td>
         <td th:text="${productList.sellerName}"></td>
         <td th:text="${#temporals.format(productList.createDate, 'yyyy-MM-dd')}"></td>
     </tr>

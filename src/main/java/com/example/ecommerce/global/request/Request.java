@@ -1,15 +1,18 @@
 package com.example.ecommerce.global.request;
 
 
+import com.example.ecommerce.domain.alarm.entity.Alarm;
+import com.example.ecommerce.domain.alarm.service.AlarmService;
 import com.example.ecommerce.domain.category.entity.Category;
 import com.example.ecommerce.domain.category.service.CategoryService;
+import com.example.ecommerce.domain.confirm.entity.Confirm;
+import com.example.ecommerce.domain.confirm.service.ConfirmService;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.domain.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -24,6 +27,7 @@ import java.util.List;
 public class Request {
     private final UserService userService;
     private final CategoryService categoryService;
+    private final ConfirmService confirmService;
     private final HttpServletRequest req;
     private final HttpServletResponse resp;
     private final HttpSession session;
@@ -31,9 +35,10 @@ public class Request {
     @Setter
     private SiteUser siteUser = null;
 
-    public Request(UserService userService, CategoryService categoryService, HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
+    public Request(UserService userService, CategoryService categoryService, ConfirmService confirmService, AlarmService alarmService, HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
         this.userService = userService;
         this.categoryService = categoryService;
+        this.confirmService = confirmService;
         this.req = req;
         this.resp = resp;
         this.session = session;
@@ -84,6 +89,30 @@ public class Request {
         }
 
         return categoryList;
+    }
+
+    public List<Confirm> isThereNewConfirm() {
+        List<Confirm> confirmList = confirmService.findAll();
+        if (confirmList.isEmpty()) {
+            return null;
+        }
+        return confirmList;
+    }
+
+    public boolean isThereNewAlarm() {
+        if(getSiteUser()==null) {
+            return false;
+        }
+        if(getSiteUser().getAlarmList()==null) {
+            return false;
+        }
+        List<Alarm> alarmList = getSiteUser().getAlarmList();
+        for(int i = 0; i < alarmList.size(); i++) {
+            if(!alarmList.get(i).isChecked()) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

@@ -1,9 +1,13 @@
 package com.example.ecommerce.global.image.entity;
 
 
+import com.example.ecommerce.domain.option.entity.Option;
+import com.example.ecommerce.domain.optiondetail.entity.OptionDetail;
 import com.example.ecommerce.global.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +24,10 @@ public class Image extends BaseEntity {
     private String typeName;
 
     @Column
-    private Long typeId;
+    private String imgURL;
 
-    @Column
-    private String content;
+    @ManyToOne
+    // 상품 옵션 등록 시 이미지
+    private OptionDetail optionDetail;
 
 }

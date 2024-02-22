@@ -40,4 +40,12 @@ public class QuestionService {
         }
         return question.get();
     }
+
+    public void isAnswered(Question question) {
+        Question answeredQ = question.toBuilder()
+                .isAnswered("Y")
+                .build();
+
+        this.questionRepository.save(answeredQ);
+    }
 }

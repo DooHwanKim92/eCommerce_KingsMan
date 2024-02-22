@@ -30,6 +30,7 @@ public class AnswerController {
             return "/question/detail";
         }
         this.answerService.create(answerCreateForm, question);
+        this.questionService.isAnswered(question);
         return String.format("redirect:/question/detail/%d",id);
     }
 

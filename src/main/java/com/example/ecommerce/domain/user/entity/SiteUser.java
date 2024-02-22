@@ -1,8 +1,10 @@
 package com.example.ecommerce.domain.user.entity;
 
 
+import com.example.ecommerce.domain.alarm.entity.Alarm;
 import com.example.ecommerce.domain.cart.entity.Cart;
 import com.example.ecommerce.domain.confirm.entity.Confirm;
+import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.global.BaseEntity;
 import jakarta.persistence.*;
@@ -68,5 +70,11 @@ public class SiteUser extends BaseEntity {
 
     @OneToOne(mappedBy = "user")
     private Confirm confirm;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Alarm> alarmList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Product> productList;
 
 }

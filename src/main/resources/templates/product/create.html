@@ -1,0 +1,53 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:600px;">
+
+    <div class="my-3 border-bottom">
+        <h4>상품 등록</h4>
+    </div>
+    <form th:action="@{/product/create}" method="post">
+
+        <div style="margin-top:10px;">
+            <label for="category">카테고리</label>
+            <select class="form-select" aria-label="Default select example" id="category" name="category">
+                <option selected>상품 카테고리 선택</option>
+                <option th:each="category : ${@request.getCategory}" th:text="${category.name}"
+                        th:value="${category.name}"></option>
+            </select>
+        </div>
+
+
+        <div style="margin-top:10px;">
+            <label for="name">상품명</label>
+            <input class="form-control" type="text" id="name" name="name">
+        </div>
+        <!--    <p th:each="err : ${#fields.errors('')}" th:text="${err}" style="color:red; font-size:14px;"></p>-->
+
+
+        <div style="margin-top:10px;">
+            <label for="content">상품설명</label>
+            <textarea class="form-control" id="content" name="content" rows="10"></textarea>
+        </div>
+
+
+        <div style="margin-top:10px;">
+            <label for="img">상품사진</label>
+            <input class="form-control" type="file" name="img" id="img">
+        </div>
+
+
+        <div style="margin-top:10px;">
+            <label for="discount">할인율</label>
+            <input class="form-control" type="text" name="discount" id="discount" placeholder="0~100 숫자입력">
+        </div>
+
+
+        <div style="display:flex; justify-content:flex-end; margin-top:20px;">
+            <a class="btn btn-primary btn-sm" th:href="@{/product/management}">뒤로가기</a>
+            <button type="submit" class="btn btn-primary btn-sm" style="margin-left:10px;">등록하기</button>
+        </div>
+
+    </form>
+
+
+</div>
+</html>
