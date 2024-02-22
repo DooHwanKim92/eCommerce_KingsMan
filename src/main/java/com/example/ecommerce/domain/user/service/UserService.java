@@ -3,6 +3,7 @@ package com.example.ecommerce.domain.user.service;
 
 import com.example.ecommerce.domain.alarm.entity.Alarm;
 import com.example.ecommerce.domain.cart.entity.Cart;
+import com.example.ecommerce.domain.confirm.entity.Confirm;
 import com.example.ecommerce.domain.user.UserCreateForm;
 import com.example.ecommerce.domain.user.UserModifyForm;
 import com.example.ecommerce.domain.user.entity.SiteUser;
@@ -92,12 +93,14 @@ public class UserService {
         this.userRepository.save(user);
     }
 
-    public void acceptSalesConfirm(SiteUser user, Alarm alarm) {
+    public void acceptSalesConfirm(SiteUser user, Alarm alarm, Confirm confirm) {
         List<Alarm> alarmList = user.getAlarmList();
         alarmList.add(alarm);
         SiteUser acceptUser = user.toBuilder()
                 .role("seller")
                 .isSeller('Y')
+                .sellerName(confirm.getSellerName())
+                .sellerNumber(confirm.getSellerNumber())
                 .alarmList(alarmList)
                 .build();
 

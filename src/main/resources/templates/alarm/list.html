@@ -6,7 +6,11 @@
     </div>
 
 
-    <table class="table table-sm">
+    <div th:if="${alarmList == null}">
+        <h5 style="color:red;">알림이 없습니다.</h5>
+    </div>
+
+    <table th:if="${alarmList != null}" class="table table-sm">
         <thead>
         <tr>
             <th scope="col">번호</th>
@@ -18,19 +22,12 @@
         <tr style="height:100px;" th:each="alarmList : ${alarmList}">
             <td th:text="${alarmList.id}" style="line-height:100px;"></td>
             <td style="line-height:100px;">
-                <a th:href="@{|/alarm/detail/${alarmList.id}|}" th:text="${alarmList.content}"></a>
+                <a th:href="@{|/alarm/detail/${alarmList.id}|}" th:text="${alarmList.title}"></a>
             </td>
             <td th:text="${#temporals.format(alarmList.createDate, 'yyyy-MM-dd')}" style="line-height:100px;"></td>
         </tr>
         </tbody>
     </table>
-
-
-    <div style="margin-top:100px; display:flex; justify-content:flex-end;">
-        <a class="btn btn-danger btn-sm" href="#" style="margin-left:10px;">삭제</a>
-    </div>
-
-
 
 
 </div>

@@ -2,12 +2,14 @@ package com.example.ecommerce.domain.alarm.service;
 
 import com.example.ecommerce.domain.alarm.entity.Alarm;
 import com.example.ecommerce.domain.alarm.repository.AlarmRepository;
+import com.example.ecommerce.domain.answer.entity.Answer;
 import com.example.ecommerce.domain.confirm.entity.Confirm;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -42,5 +44,36 @@ public class AlarmService {
 
     public List<Alarm> findAll() {
         return this.alarmRepository.findAll();
+    }
+
+    public Alarm findById(Long id) {
+        Optional<Alarm> alarm = this.alarmRepository.findById(id);
+        if (alarm.isEmpty()) {
+            return null;
+        }
+        return alarm.get();
+    }
+
+    public void check(Alarm alarm) {
+        Alarm checkAlarm = alarm.toBuilder()
+                .isChecked(true)
+                .build();
+
+        this.alarmRepository.save(checkAlarm);
+    }
+
+    public void remove(Alarm alarm) {
+        this.alarmRepository.delete(alarm);
+    }
+
+    public void questionAnswered(Answer answer, SiteUser user) {
+        Alarm alarm = Alarm.builder()
+                .user(user)
+                .title("문의하셨던 내용에 대한 답변이 작성되었습니다.")
+                .content("답변 : " + answer.getContent())
+                .isChecked(false)
+                .build();
+
+        this.alarmRepository.save(alarm);
     }
 }

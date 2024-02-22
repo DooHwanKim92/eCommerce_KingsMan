@@ -51,7 +51,7 @@ public class ConfirmController {
         SiteUser user = confirm.getUser();
 
         Alarm alarm = this.alarmService.confirmAcceptAlarm(user, confirm);
-        this.userService.acceptSalesConfirm(user, alarm);
+        this.userService.acceptSalesConfirm(user, alarm, confirm);
         this.confirmService.accept(confirm);
 
         return "redirect:/confirm/list";

@@ -42,8 +42,8 @@ public class ProductService {
                 .category(category)
                 .name(productCreateForm.getName())
                 .content(productCreateForm.getContent())
-                .sellerName(user.getConfirm().getSellerName())
-                .discount(Integer.valueOf(productCreateForm.getDiscount()))
+                .sellerName(user.getSellerName())
+                .discount(productCreateForm.getDiscount())
                 .purchasing(0)
                 .isNew(true)
                 .build();

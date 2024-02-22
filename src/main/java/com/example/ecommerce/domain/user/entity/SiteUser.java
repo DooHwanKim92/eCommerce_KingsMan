@@ -62,6 +62,12 @@ public class SiteUser extends BaseEntity {
     private char isSeller;
     // Y, N
 
+    @Column
+    private String sellerName;
+
+    @Column
+    private String sellerNumber;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Cart> cartList;
 

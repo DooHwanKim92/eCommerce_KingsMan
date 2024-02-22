@@ -12,11 +12,7 @@ public class ProductCreateForm {
 
     private String name;
 
-    private String amount;
-
     private String content;
-
-    private String price;
 
     private String discount;
 }

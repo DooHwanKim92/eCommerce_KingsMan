@@ -14,12 +14,13 @@ public class AnswerService {
 
     private final AnswerRepository answerRepository;
 
-    public void create(AnswerCreateForm answerCreateForm, Question question) {
+    public Answer create(AnswerCreateForm answerCreateForm, Question question) {
         Answer answer = Answer.builder()
                 .content(answerCreateForm.getContent())
                 .question(question)
                 .build();
 
         this.answerRepository.save(answer);
+        return answer;
     }
 }

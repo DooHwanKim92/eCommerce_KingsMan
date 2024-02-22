@@ -7,6 +7,8 @@ import com.example.ecommerce.domain.category.entity.Category;
 import com.example.ecommerce.domain.category.service.CategoryService;
 import com.example.ecommerce.domain.confirm.entity.Confirm;
 import com.example.ecommerce.domain.confirm.service.ConfirmService;
+import com.example.ecommerce.domain.question.entity.Question;
+import com.example.ecommerce.domain.question.service.QuestionService;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.domain.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +30,7 @@ public class Request {
     private final UserService userService;
     private final CategoryService categoryService;
     private final ConfirmService confirmService;
+    private final QuestionService questionService;
     private final HttpServletRequest req;
     private final HttpServletResponse resp;
     private final HttpSession session;
@@ -35,10 +38,11 @@ public class Request {
     @Setter
     private SiteUser siteUser = null;
 
-    public Request(UserService userService, CategoryService categoryService, ConfirmService confirmService, AlarmService alarmService, HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
+    public Request(UserService userService, CategoryService categoryService, ConfirmService confirmService, AlarmService alarmService, QuestionService questionService, HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
         this.userService = userService;
         this.categoryService = categoryService;
         this.confirmService = confirmService;
+        this.questionService = questionService;
         this.req = req;
         this.resp = resp;
         this.session = session;
@@ -97,6 +101,17 @@ public class Request {
             return null;
         }
         return confirmList;
+    }
+
+    public boolean isThereNewQuestion() {
+        List<Question> questionList = questionService.findAll();
+        for(int i = 0; i < questionList.size(); i++) {
+            if(questionList.get(i).getIsAnswered().equals("N")) {
+                // 답변하지 않은 문의가 있다.
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean isThereNewAlarm() {

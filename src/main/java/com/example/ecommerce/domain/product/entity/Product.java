@@ -39,7 +39,7 @@ public class Product extends BaseEntity {
 
     @Column
     // 할인율
-    private Integer discount;
+    private String discount;
 
     @Column
     // 신상여부
