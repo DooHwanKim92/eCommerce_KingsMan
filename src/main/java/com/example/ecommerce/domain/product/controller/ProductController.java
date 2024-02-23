@@ -41,18 +41,25 @@ public class ProductController {
     }
 
     @GetMapping("/create")
-    public String productPut(Model model) {
+    public String productCreate(Model model, ProductCreateForm productCreateForm) {
         List<Category> categoryList = this.categoryService.findAll();
         model.addAttribute("categoryList",categoryList);
         return "/product/create";
     }
 
     @PostMapping("/create")
-    public String productPutPost(@Valid ProductCreateForm productCreateForm, BindingResult bindingResult, Principal principal) {
+    public String productCreatePost(@Valid ProductCreateForm productCreateForm, BindingResult bindingResult, Principal principal) {
         SiteUser user = this.userService.findByUsername(principal.getName());
         Category category = this.categoryService.findByname(productCreateForm.getCategory());
+        if (bindingResult.hasErrors()) {
+            return "/product/create";
+        }
+        if(productCreateForm.getCategory().equals("상품 카테고리 선택")) {
+            bindingResult.rejectValue("category","categoryIncorrect","카테고리를 선택해주세요.");
+            return "/product/create";
+        }
         this.productService.createProduct(productCreateForm,user,category);
-        return "redirect:/product/list";
+        return "/product/create_option";
     }
 
     @GetMapping("/detail/{id}")

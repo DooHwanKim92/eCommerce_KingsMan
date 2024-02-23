@@ -19,10 +19,15 @@
         </tr>
         </thead>
         <tbody>
-        <tr style="height:100px;" th:each="alarmList : ${alarmList}">
+        <tr style="height:100px; position:relative;" th:each="alarmList : ${alarmList}">
             <td th:text="${alarmList.id}" style="line-height:100px;"></td>
             <td style="line-height:100px;">
                 <a th:href="@{|/alarm/detail/${alarmList.id}|}" th:text="${alarmList.title}"></a>
+                <span th:if="${!alarmList.isChecked}"
+                      class="position-absolute top-20 start-0 translate-middle badge rounded-pill bg-danger"
+                      th:text="New">
+                    <span class="visually-hidden">unread messages</span>
+                </span>
             </td>
             <td th:text="${#temporals.format(alarmList.createDate, 'yyyy-MM-dd')}" style="line-height:100px;"></td>
         </tr>

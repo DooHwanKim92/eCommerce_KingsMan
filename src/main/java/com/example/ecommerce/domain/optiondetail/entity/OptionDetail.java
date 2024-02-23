@@ -28,12 +28,12 @@ public class OptionDetail extends BaseEntity {
     private String detail;
 
     @Column
+    // 상품 가격
     private Integer price;
 
     @Column
+    // 상품 수량
     private String amount;
 
-    @OneToMany(mappedBy = "optionDetail", cascade = CascadeType.REMOVE)
-    private List<Image> imageList;
 
 }

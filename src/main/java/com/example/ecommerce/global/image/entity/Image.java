@@ -3,6 +3,7 @@ package com.example.ecommerce.global.image.entity;
 
 import com.example.ecommerce.domain.option.entity.Option;
 import com.example.ecommerce.domain.optiondetail.entity.OptionDetail;
+import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.global.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,10 +25,13 @@ public class Image extends BaseEntity {
     private String typeName;
 
     @Column
+    private Long typeId;
+
+    @Column
     private String imgURL;
 
     @ManyToOne
-    // 상품 옵션 등록 시 이미지
-    private OptionDetail optionDetail;
+    // 상품 이미지
+    private Product product;
 
 }
