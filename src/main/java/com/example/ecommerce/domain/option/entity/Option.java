@@ -27,6 +27,6 @@ public class Option extends BaseEntity {
     // color, size ...
     private String name;
 
-    @OneToMany(mappedBy = "option")
+    @OneToMany(mappedBy = "option", cascade = CascadeType.REMOVE)
     private List<OptionDetail> optionDetailList;
 }

@@ -3,6 +3,7 @@ package com.example.ecommerce.domain.product.controller;
 
 import com.example.ecommerce.domain.category.entity.Category;
 import com.example.ecommerce.domain.category.service.CategoryService;
+import com.example.ecommerce.domain.option.OptionCreateForm;
 import com.example.ecommerce.domain.product.ProductCreateForm;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.product.service.ProductService;
@@ -48,7 +49,7 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public String productCreatePost(@Valid ProductCreateForm productCreateForm, BindingResult bindingResult, Principal principal) {
+    public String productCreatePost(@Valid ProductCreateForm productCreateForm, BindingResult bindingResult, Principal principal, Model model, OptionCreateForm optionCreateForm) {
         SiteUser user = this.userService.findByUsername(principal.getName());
         Category category = this.categoryService.findByname(productCreateForm.getCategory());
         if (bindingResult.hasErrors()) {
@@ -58,7 +59,9 @@ public class ProductController {
             bindingResult.rejectValue("category","categoryIncorrect","카테고리를 선택해주세요.");
             return "/product/create";
         }
-        this.productService.createProduct(productCreateForm,user,category);
+        Product product = this.productService.createProduct(productCreateForm,user,category);
+        this.userService.createSellProduct(user, product);
+        model.addAttribute("product",product);
         return "/product/create_option";
     }
 
@@ -72,13 +75,13 @@ public class ProductController {
     @GetMapping("/remove/{id}")
     public String productRemove(@PathVariable(value = "id") Long id) {
         this.productService.removeProduct(id);
-        return "redirect:/product/list";
+        return "redirect:/product/management";
     }
 
     @GetMapping("/management")
     public String productManagement(Model model, Principal principal) {
         SiteUser user = this.userService.findByUsername(principal.getName());
-        List<Product> productList = user.getProductList();
+        List<Product> productList = user.getSellProductList();
         model.addAttribute("productList",productList);
         return "/product/management";
     }

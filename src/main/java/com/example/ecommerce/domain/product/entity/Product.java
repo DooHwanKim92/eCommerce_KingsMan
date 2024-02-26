@@ -42,11 +42,12 @@ public class Product extends BaseEntity {
 
     @Column
     // 신상여부
+    // 일정 기간이 지나면 자동으로 바뀌도록 구현필요
     private boolean isNew;
 
-    @Column
-    // 대표이미지
-    private String representImg;
+    @OneToOne
+    // 대표이미지 thumnail
+    private Image representImg;
 
     @ManyToOne
     private Category category;
@@ -58,6 +59,7 @@ public class Product extends BaseEntity {
     private List<Option> optionList;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    // 상품 이미지들
     private List<Image> imageList;
 
 }

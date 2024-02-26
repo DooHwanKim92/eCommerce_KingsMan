@@ -9,6 +9,8 @@ import com.example.ecommerce.domain.confirm.entity.Confirm;
 import com.example.ecommerce.domain.confirm.service.ConfirmService;
 import com.example.ecommerce.domain.notice.entity.Notice;
 import com.example.ecommerce.domain.notice.service.NoticeService;
+import com.example.ecommerce.domain.product.entity.Product;
+import com.example.ecommerce.domain.product.service.ProductService;
 import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.domain.question.service.QuestionService;
 import com.example.ecommerce.domain.user.entity.SiteUser;
@@ -34,6 +36,7 @@ public class Request {
     private final ConfirmService confirmService;
     private final QuestionService questionService;
     private final NoticeService noticeService;
+    private final ProductService productService;
     private final HttpServletRequest req;
     private final HttpServletResponse resp;
     private final HttpSession session;
@@ -41,12 +44,13 @@ public class Request {
     @Setter
     private SiteUser siteUser = null;
 
-    public Request(UserService userService, CategoryService categoryService, ConfirmService confirmService, AlarmService alarmService, QuestionService questionService, NoticeService noticeService, HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
+    public Request(UserService userService, CategoryService categoryService, ConfirmService confirmService, AlarmService alarmService, QuestionService questionService, NoticeService noticeService, ProductService productService, HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
         this.userService = userService;
         this.categoryService = categoryService;
         this.confirmService = confirmService;
         this.questionService = questionService;
         this.noticeService = noticeService;
+        this.productService = productService;
         this.req = req;
         this.resp = resp;
         this.session = session;
@@ -156,6 +160,10 @@ public class Request {
 
     public List<Notice> getNoticeList() {
         return noticeService.findAll();
+    }
+
+    public List<Product> getProductList() {
+        return productService.findAll();
     }
 
 

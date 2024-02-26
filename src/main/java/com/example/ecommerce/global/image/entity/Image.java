@@ -22,9 +22,11 @@ import lombok.experimental.SuperBuilder;
 public class Image extends BaseEntity {
 
     @Column
+    // Entity 이름 = Product, Review
     private String typeName;
 
     @Column
+    // Entity Id = product.id
     private Long typeId;
 
     @Column

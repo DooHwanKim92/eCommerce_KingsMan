@@ -29,7 +29,7 @@ public class OptionDetail extends BaseEntity {
 
     @Column
     // 상품 가격
-    private Integer price;
+    private String price;
 
     @Column
     // 상품 수량

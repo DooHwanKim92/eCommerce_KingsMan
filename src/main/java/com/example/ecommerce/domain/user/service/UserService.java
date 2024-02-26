@@ -4,6 +4,7 @@ package com.example.ecommerce.domain.user.service;
 import com.example.ecommerce.domain.alarm.entity.Alarm;
 import com.example.ecommerce.domain.cart.entity.Cart;
 import com.example.ecommerce.domain.confirm.entity.Confirm;
+import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.user.UserCreateForm;
 import com.example.ecommerce.domain.user.UserModifyForm;
 import com.example.ecommerce.domain.user.entity.SiteUser;
@@ -117,4 +118,13 @@ public class UserService {
         this.userRepository.save(denyUser);
     }
 
+    public void createSellProduct(SiteUser user, Product product) {
+        List<Product> sellProductList = user.getSellProductList();
+        sellProductList.add(product);
+        SiteUser sellUser = user.toBuilder()
+                .sellProductList(sellProductList)
+                .build();
+
+        this.userRepository.save(sellUser);
+    }
 }

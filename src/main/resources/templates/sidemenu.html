@@ -1,4 +1,4 @@
-<div th:fragment="sidemenuFragment" class="bg-dark" style="width:70px; position:fixed; top:50%; left:0; text-align:center; border-radius:5px; margin-left:10px;">
+<div th:fragment="sidemenuFragment" class="bg-dark" style="width:70px; position:fixed; top:50%; left:0; text-align:center; border-radius:5px; margin-left:10px; z-index:2;">
 
     <!-- 일반 사용자 메뉴 -->
     <div sec:authorize="isAuthenticated()" th:if="${@request.getSiteUser.role == 'user'}">
