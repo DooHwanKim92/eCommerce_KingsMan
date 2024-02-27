@@ -43,7 +43,7 @@ public class CartController {
             return "redirect:/user/login";
         }
         SiteUser user = this.userService.findByUsername(principal.getName());
-        List<Product> productList = this.cartService.findProductByCart(user.getCartList());
+        List<Product> productList = this.cartService.getProductListFindByUser(user);
         model.addAttribute("productList",productList);
         return "/cart/list";
     }

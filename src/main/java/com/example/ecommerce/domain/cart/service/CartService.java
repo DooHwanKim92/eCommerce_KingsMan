@@ -19,20 +19,21 @@ public class CartService {
     private final CartRepository cartRepository;
 
     public Cart addProduct(SiteUser user, Product product) {
-        Cart cart = Cart.builder()
+        Cart addCart = Cart.builder()
                 .user(user)
                 .product(product)
                 .build();
 
-        this.cartRepository.save(cart);
+        this.cartRepository.save(addCart);
 
-        return cart;
+        return addCart;
     }
 
-    public List<Product> findProductByCart(List<Cart> cartList) {
+
+    public List<Product> getProductListFindByUser(SiteUser user) {
         List<Product> productList = new ArrayList<>();
-        for(int i = 0; i < cartList.size(); i++) {
-            productList.add(cartList.get(i).getProduct());
+        for ( int i = 0; i < user.getCartList().size(); i++) {
+            productList.add(user.getCartList().get(i).getProduct());
         }
         return productList;
     }

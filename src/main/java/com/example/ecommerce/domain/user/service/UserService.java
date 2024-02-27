@@ -57,10 +57,10 @@ public class UserService {
     }
 
     public void addCart(SiteUser loginedUser, Cart cart) {
-        List<Cart> cartList = loginedUser.getCartList();
-        cartList.add(cart);
+        List<Cart> userCartList = loginedUser.getCartList();
+        userCartList.add(cart);
         SiteUser user = loginedUser.toBuilder()
-                .cartList(cartList)
+                .cartList(userCartList)
                 .build();
 
         this.userRepository.save(user);
