@@ -1,0 +1,90 @@
+<div th:fragment="sidemenuFragment" class="bg-dark" style="width:70px; position:fixed; top:50%; left:0; text-align:center; border-radius:5px; margin-left:10px; z-index:2;">
+
+    <!-- 일반 사용자 메뉴 -->
+    <div sec:authorize="isAuthenticated()" th:if="${@request.getSiteUser.role == 'user'}">
+        <div>
+            <a th:href="@{/cart/list}" style="font-size:30px;">
+                <i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i>
+            </a>
+        </div>
+        <span style="color:white; font-size:14px;">
+        장바구니
+    </span>
+        <div>
+            <a href="#" style="font-size:30px;">
+                <i class="fa-solid fa-heart" style="color: #ffffff;"></i>
+            </a>
+        </div>
+        <span style="color:white; font-size:14px;">
+        찜목록
+    </span>
+        <div>
+            <a th:href="@{/question/list}" style="font-size:30px;">
+                <i class="fa-solid fa-headset" style="color: #ffffff;"></i>
+            </a>
+        </div>
+        <span style="color:white; font-size:14px;">
+        고객센터
+    </span>
+    </div>
+
+    <!-- 판매자 메뉴 -->
+    <div sec:authorize="isAuthenticated()" th:if="${@request.getSiteUser.role == 'seller'}">
+        <div>
+            <a th:href="@{/product/management}" style="font-size:30px;">
+                <i class="fa-solid fa-gift" style="color: #ffffff;"></i>
+            </a>
+        </div>
+        <span style="color:white; font-size:14px;">
+        상품관리
+    </span>
+        <div>
+            <a href="#" style="font-size:30px;">
+                <i class="fa-solid fa-sack-dollar" style="color: #ffffff;"></i>
+            </a>
+        </div>
+        <span style="color:white; font-size:14px;">
+        정산
+    </span>
+        <div>
+            <a th:href="@{/question/list}" style="font-size:30px;">
+                <i class="fa-solid fa-headset" style="color: #ffffff;"></i>
+            </a>
+        </div>
+        <span style="color:white; font-size:14px;">
+        고객센터
+    </span>
+    </div>
+
+
+    <!-- 관리자 메뉴 -->
+    <div sec:authorize="isAuthenticated()" th:if="${@request.getSiteUser.role == 'admin'}">
+        <div>
+            <a th:href="@{/}" style="font-size:30px;">
+                <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+            </a>
+        </div>
+        <span style="color:white; font-size:14px;">
+        회원관리
+    </span>
+        <div style="position:relative;">
+            <a th:href="@{/confirm/list}" style="font-size:30px;">
+                <i class="fa-solid fa-clipboard-check" style="color: #ffffff;"></i>
+            </a>
+            <div th:if="${@request.isThereNewConfirm() != null}" class="spinner-grow spinner-grow-sm text-danger position-absolute top-0 start-90" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <span style="color:white; font-size:14px;">
+        판매신청
+    </span>
+        <div>
+            <a th:href="@{/question/list}" style="font-size:30px;">
+                <i class="fa-solid fa-headset" style="color: #ffffff;"></i>
+            </a>
+        </div>
+        <span style="color:white; font-size:14px;">
+        고객센터
+    </span>
+    </div>
+</div>

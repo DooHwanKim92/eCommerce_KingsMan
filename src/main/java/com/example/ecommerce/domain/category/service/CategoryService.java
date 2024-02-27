@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,33 +23,41 @@ public class CategoryService {
         return this.categoryRepository.findByname(category);
     }
 
+    public Category findById(Long id) {
+        Optional<Category> category = this.categoryRepository.findById(id);
+        if(category.isEmpty()) {
+            return null;
+        }
+        return category.get();
+    }
+
     public void create() {
         Category category1 = Category.builder()
-                .name("의류/잡화")
+                .name("카테고리1")
                 .build();
 
         Category category2 = Category.builder()
-                .name("식품")
+                .name("카테고리2")
                 .build();
 
         Category category3 = Category.builder()
-                .name("생활용품")
+                .name("카테고리3")
                 .build();
 
         Category category4 = Category.builder()
-                .name("가전디지털")
+                .name("카테고리4")
                 .build();
 
         Category category5 = Category.builder()
-                .name("도서/음반/DVD")
+                .name("카테고리5")
                 .build();
 
         Category category6 = Category.builder()
-                .name("문구/오피스")
+                .name("카테고리6")
                 .build();
 
         Category category7 = Category.builder()
-                .name("헬스/건강식품")
+                .name("카테고리7")
                 .build();
 
         this.categoryRepository.save(category1);

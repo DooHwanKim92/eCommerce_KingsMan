@@ -1,9 +1,11 @@
 package com.example.ecommerce.domain.review.entity;
 
 
+import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.global.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,8 +21,8 @@ public class Review extends BaseEntity {
     @Column
     private Long userId;
 
-    @Column
-    private Long productId;
+    @ManyToOne
+    private Product product;
 
     @Column
     private String title;

@@ -3,6 +3,8 @@ package com.example.ecommerce.domain.product.controller;
 
 import com.example.ecommerce.domain.category.entity.Category;
 import com.example.ecommerce.domain.category.service.CategoryService;
+import com.example.ecommerce.domain.option.OptionCreateForm;
+import com.example.ecommerce.domain.option.entity.Option;
 import com.example.ecommerce.domain.product.ProductCreateForm;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.product.service.ProductService;
@@ -40,31 +42,53 @@ public class ProductController {
         return "/product/list";
     }
 
-    @GetMapping("/put")
-    public String productPut(Model model) {
+    @GetMapping("/create")
+    public String productCreate(Model model, ProductCreateForm productCreateForm) {
         List<Category> categoryList = this.categoryService.findAll();
         model.addAttribute("categoryList",categoryList);
-        return "/product/put";
+        return "/product/create";
     }
 
-    @PostMapping("/put")
-    public String productPutPost(@Valid ProductCreateForm productCreateForm, BindingResult bindingResult, Principal principal) {
+    @PostMapping("/create")
+    public String productCreatePost(@Valid ProductCreateForm productCreateForm, BindingResult bindingResult, Principal principal, Model model, OptionCreateForm optionCreateForm) {
         SiteUser user = this.userService.findByUsername(principal.getName());
         Category category = this.categoryService.findByname(productCreateForm.getCategory());
-        this.productService.createProduct(productCreateForm,user,category);
-        return "redirect:/product/list";
+        if (bindingResult.hasErrors()) {
+            return "/product/create";
+        }
+        if(productCreateForm.getCategory().equals("상품 카테고리 선택")) {
+            bindingResult.rejectValue("category","categoryIncorrect","카테고리를 선택해주세요.");
+            return "/product/create";
+        }
+        Product product = this.productService.createProduct(productCreateForm,user,category);
+        this.userService.createSellProduct(user, product);
+        model.addAttribute("product",product);
+        return "/product/create_option";
     }
 
     @GetMapping("/detail/{id}")
     public String productDetail(Model model, @PathVariable(value = "id") Long id) {
         Product product = this.productService.findById(id);
+        Option option1 = product.getOptionList().get(0);
+        Option option2 = product.getOptionList().get(1);
         model.addAttribute("product",product);
+        model.addAttribute("option1",option1);
+        model.addAttribute("option2",option2);
         return "/product/detail";
     }
 
     @GetMapping("/remove/{id}")
     public String productRemove(@PathVariable(value = "id") Long id) {
         this.productService.removeProduct(id);
-        return "redirect:/product/list";
+        return "redirect:/product/management";
     }
+
+    @GetMapping("/management")
+    public String productManagement(Model model, Principal principal) {
+        SiteUser user = this.userService.findByUsername(principal.getName());
+        List<Product> productList = user.getSellProductList();
+        model.addAttribute("productList",productList);
+        return "/product/management";
+    }
+
 }

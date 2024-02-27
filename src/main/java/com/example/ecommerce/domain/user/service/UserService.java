@@ -1,14 +1,17 @@
 package com.example.ecommerce.domain.user.service;
 
 
+import com.example.ecommerce.domain.alarm.entity.Alarm;
 import com.example.ecommerce.domain.cart.entity.Cart;
+import com.example.ecommerce.domain.confirm.entity.Confirm;
+import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.user.UserCreateForm;
+import com.example.ecommerce.domain.user.UserModifyForm;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,7 @@ public class UserService {
 
     public void signup(UserCreateForm userCreateForm) {
         List<Cart> cartList = new ArrayList<>();
+        List<Alarm> alarmList = new ArrayList<>();
         SiteUser user = SiteUser.builder()
                 .username(userCreateForm.getUsername())
                 .password(passwordEncoder.encode(userCreateForm.getPassword2()))
@@ -42,7 +46,11 @@ public class UserService {
                 .phoneNumber(userCreateForm.getPhoneNumber())
                 .address(userCreateForm.getAddress())
                 .role("user")
+                .point(0)
+                .grade("브론즈")
+                .isSeller('N')
                 .cartList(cartList)
+                .alarmList(alarmList)
                 .build();
 
         this.userRepository.save(user);
@@ -72,5 +80,51 @@ public class UserService {
             return null;
         }
         return user.get();
+    }
+
+    public void modify(UserModifyForm userModifyForm, SiteUser modifyUser) {
+        SiteUser user = modifyUser.toBuilder()
+                .password(passwordEncoder.encode(userModifyForm.getPassword2()))
+                .nickname(userModifyForm.getNickname())
+                .email(userModifyForm.getEmail())
+                .phoneNumber(userModifyForm.getPhoneNumber())
+                .address(userModifyForm.getAddress())
+                .build();
+
+        this.userRepository.save(user);
+    }
+
+    public void acceptSalesConfirm(SiteUser user, Alarm alarm, Confirm confirm) {
+        List<Alarm> alarmList = user.getAlarmList();
+        alarmList.add(alarm);
+        SiteUser acceptUser = user.toBuilder()
+                .role("seller")
+                .isSeller('Y')
+                .sellerName(confirm.getSellerName())
+                .sellerNumber(confirm.getSellerNumber())
+                .alarmList(alarmList)
+                .build();
+
+        this.userRepository.save(acceptUser);
+    }
+
+    public void denySalesConfirm(SiteUser user, Alarm alarm) {
+        List<Alarm> alarmList = user.getAlarmList();
+        alarmList.add(alarm);
+        SiteUser denyUser = user.toBuilder()
+                .alarmList(alarmList)
+                .build();
+
+        this.userRepository.save(denyUser);
+    }
+
+    public void createSellProduct(SiteUser user, Product product) {
+        List<Product> sellProductList = user.getSellProductList();
+        sellProductList.add(product);
+        SiteUser sellUser = user.toBuilder()
+                .sellProductList(sellProductList)
+                .build();
+
+        this.userRepository.save(sellUser);
     }
 }

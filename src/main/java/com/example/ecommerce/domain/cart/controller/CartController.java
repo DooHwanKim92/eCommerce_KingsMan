@@ -39,6 +39,9 @@ public class CartController {
 
     @GetMapping("/list")
     public String cartList(Model model, Principal principal) {
+        if(principal==null) {
+            return "redirect:/user/login";
+        }
         SiteUser user = this.userService.findByUsername(principal.getName());
         List<Product> productList = this.cartService.findProductByCart(user.getCartList());
         model.addAttribute("productList",productList);

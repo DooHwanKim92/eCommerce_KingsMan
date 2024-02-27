@@ -1,0 +1,37 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:800px;">
+
+    <div class="my-3 border-bottom">
+        <h4>문의 내역</h4>
+    </div>
+
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col">문의유형</th>
+            <th scope="col">제목</th>
+            <th scope="col">상품</th>
+            <th scope="col">작성날짜</th>
+            <th scope="col">답변유무</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr style="height:100px;" th:each="question : ${questionList}">
+            <td th:text="${question.category}" style="line-height:100px;"></td>
+            <td style="line-height:100px;">
+                <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.title}"></a>
+            </td>
+            <td th:text="${question.productName}" style="line-height:100px;"></td>
+            <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd')}" style="line-height:100px;"></td>
+            <td th:text="${question.isAnswered}" style="line-height:100px;"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div style="margin-top:100px; display:flex; justify-content:flex-end;">
+        <a class="btn btn-primary" th:href="@{/question/list}" style="margin-left:10px;">뒤로가기</a>
+    </div>
+
+
+</div>
+</html>

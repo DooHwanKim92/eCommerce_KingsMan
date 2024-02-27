@@ -1,0 +1,34 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:800px;">
+
+    <div class="my-3 border-bottom">
+        <h4>판매권한 신청내역</h4>
+    </div>
+
+    <table class="table table-sm">
+        <thead>
+        <tr style="text-align:center;">
+            <th scope="col">유저명</th>
+            <th scope="col">사업자명</th>
+            <th scope="col">사업자등록번호</th>
+            <th scope="col">작성날짜</th>
+            <th scope="col">승인</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr style="height:100px; text-align:center;" th:each="confirm : ${confirmList}">
+            <td th:text="${confirm.user.nickname}" style="line-height:100px;"></td>
+            <td th:text="${confirm.sellerName}" style="line-height:100px;"></td>
+            <td th:text="${confirm.sellerNumber}" style="line-height:100px;"></td>
+            <td th:text="${#temporals.format(confirm.createDate, 'yyyy-MM-dd')}" style="line-height:100px;"></td>
+            <td th:if="${confirm.isConfirmed == '진행중'}" style="line-height:100px;">
+                <a th:href="@{|/confirm/accept/${confirm.id}|}" class="btn btn-primary btn-sm">수락</a>
+                <a th:href="@{|/confirm/deny/${confirm.id}|}" class="btn btn-danger btn-sm">거절</a>
+            </td>
+            <td th:if="${confirm.isConfirmed != '진행중'}" style="line-height:100px;" th:text="${confirm.isConfirmed}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</html>

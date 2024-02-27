@@ -1,12 +1,13 @@
 package com.example.ecommerce.domain.user.entity;
 
 
+import com.example.ecommerce.domain.alarm.entity.Alarm;
 import com.example.ecommerce.domain.cart.entity.Cart;
+import com.example.ecommerce.domain.confirm.entity.Confirm;
+import com.example.ecommerce.domain.product.entity.Product;
+import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.global.BaseEntity;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,18 +49,50 @@ public class SiteUser extends BaseEntity {
     private String address;
 
     @Column
+    // user, seller, admin
     private String role;
 
     @Column
+    // 포인트
     private Integer point;
 
     @Column
+    // 회원 등급
     private String grade;
 
     @Column
+    // 판매권한 여부 Y, N
     private char isSeller;
 
+    @Column
+    // 판매자 등록 시 사용할 판매자(사업자)명
+    private String sellerName;
+
+    @Column
+    // 판매자(사업자)번호
+    private String sellerNumber;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    // 장바구니
     private List<Cart> cartList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    // 문의내역
+    private List<Question> questionList;
+
+    @OneToOne(mappedBy = "user")
+    // 판매권한신청
+    private Confirm confirm;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Alarm> alarmList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    // 구매한 상품 리스트
+    private List<Product> buyProductList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    // 판매(등록)한 상품 리스트
+    private List<Product> sellProductList;
 
 }

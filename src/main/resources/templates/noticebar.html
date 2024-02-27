@@ -1,0 +1,14 @@
+<div th:fragment="noticebarFragment" style="display:flex; justify-content:center; background-color:#f0eded; height:40px;">
+    <div style="width:1000px; text-align:center;">
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="5000" style="line-height:40px;">
+                    KingsMan에 오신 것을 환영합니다.
+                </div>
+                <div class="carousel-item" th:each="notice : ${@request.getNoticeList}">
+                    <a th:href="@{|/notice/detail/${notice.id}|}" th:text="|<${notice.category}> ${notice.title}|" style="line-height:40px;"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,18 @@
 package com.example.ecommerce.global.request;
 
 
+import com.example.ecommerce.domain.alarm.entity.Alarm;
+import com.example.ecommerce.domain.alarm.service.AlarmService;
+import com.example.ecommerce.domain.category.entity.Category;
+import com.example.ecommerce.domain.category.service.CategoryService;
+import com.example.ecommerce.domain.confirm.entity.Confirm;
+import com.example.ecommerce.domain.confirm.service.ConfirmService;
+import com.example.ecommerce.domain.notice.entity.Notice;
+import com.example.ecommerce.domain.notice.service.NoticeService;
+import com.example.ecommerce.domain.product.entity.Product;
+import com.example.ecommerce.domain.product.service.ProductService;
+import com.example.ecommerce.domain.question.entity.Question;
+import com.example.ecommerce.domain.question.service.QuestionService;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.domain.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,12 +25,18 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 @RequestScope
 public class Request {
     private final UserService userService;
+    private final CategoryService categoryService;
+    private final ConfirmService confirmService;
+    private final QuestionService questionService;
+    private final NoticeService noticeService;
+    private final ProductService productService;
     private final HttpServletRequest req;
     private final HttpServletResponse resp;
     private final HttpSession session;
@@ -26,8 +44,13 @@ public class Request {
     @Setter
     private SiteUser siteUser = null;
 
-    public Request(UserService userService, HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
+    public Request(UserService userService, CategoryService categoryService, ConfirmService confirmService, AlarmService alarmService, QuestionService questionService, NoticeService noticeService, ProductService productService, HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
         this.userService = userService;
+        this.categoryService = categoryService;
+        this.confirmService = confirmService;
+        this.questionService = questionService;
+        this.noticeService = noticeService;
+        this.productService = productService;
         this.req = req;
         this.resp = resp;
         this.session = session;
@@ -69,6 +92,83 @@ public class Request {
         return user.getUsername();
     }
 
+    public List<Category> getCategory() {
+
+        List<Category> categoryList = new ArrayList<>();
+
+        for (int i = 1; i <= 7; i++) {
+            categoryList.add(this.categoryService.findById((long) i));
+        }
+
+        return categoryList;
+    }
+
+    public List<Confirm> isThereNewConfirm() {
+        List<Confirm> confirmList = confirmService.findAll();
+        if (confirmList.isEmpty()) {
+            return null;
+        }
+        return confirmList;
+    }
+
+    public boolean isThereNewQuestion() {
+        List<Question> questionList = questionService.findAll();
+        for(int i = 0; i < questionList.size(); i++) {
+            if(questionList.get(i).getIsAnswered().equals("N")) {
+                // 답변하지 않은 문의가 있다.
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isThereNewAlarm() {
+        if(getSiteUser()==null) {
+            return false;
+        }
+        if(getSiteUser().getAlarmList()==null) {
+            return false;
+        }
+        List<Alarm> alarmList = getSiteUser().getAlarmList();
+        for(int i = 0; i < alarmList.size(); i++) {
+            if(!alarmList.get(i).isChecked()) {
+                // 확인하지 않은 알림이 있을 때,
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String howManyNewAlarm() {
+        int a = 0;
+        String newAlarm = "";
+        if(getSiteUser()==null) {
+            return null;
+        }
+        if(getSiteUser().getAlarmList()==null) {
+            return null;
+        }
+        List<Alarm> alarmList = getSiteUser().getAlarmList();
+        for(int i = 0; i < alarmList.size(); i++) {
+            if(!alarmList.get(i).isChecked()) {
+                a++;
+            }
+        }
+        newAlarm = String.valueOf(a);
+        return newAlarm;
+    }
+
+    public List<Notice> getNoticeList() {
+        return noticeService.findAll();
+    }
+
+    public List<Product> getProductList() {
+        return productService.findAll();
+    }
+
+    public List<Product> getBestSellerList() {
+        return productService.getBestSeller();
+    }
 
 }
 

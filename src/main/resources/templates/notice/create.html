@@ -1,0 +1,40 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:1000px;">
+
+    <div class="my-3 border-bottom">
+        <h4>공지/이벤트 등록</h4>
+    </div>
+
+    <form th:action="@{/notice/create}" method="post" th:object="${noticeCreateForm}">
+
+        <div class="mb-3">
+            <label for="category" class="form-label">게시글유형</label>
+            <select class="form-select" aria-label="Default select example" id="category" name="category">
+                <option selected>유형선택</option>
+                <option value="공지">공지</option>
+                <option value="이벤트">이벤트</option>
+            </select>
+        </div>
+        <p th:each="err : ${#fields.errors('category')}" th:text="${err}" style="color:red; font-size:14px;"></p>
+
+        <div class="mb-3">
+            <label for="title" class="form-label">제목</label>
+            <input type="text" class="form-control" id="title" name="title" th:field="*{title}">
+        </div>
+        <p th:each="err : ${#fields.errors('title')}" th:text="${err}" style="color:red; font-size:14px;"></p>
+
+        <div class="mb-3">
+            <label for="content" class="form-label">내용</label>
+            <textarea type="text" class="form-control" id="content" name="content" rows="10" th:field="*{content}"></textarea>
+        </div>
+        <p th:each="err : ${#fields.errors('content')}" th:text="${err}" style="color:red; font-size:14px;"></p>
+
+        <div style="display:flex; justify-content:flex-end;">
+            <button type="submit" class="btn btn-primary" style="margin-left:10px;">작성하기</button>
+        </div>
+    </form>
+
+
+
+</div>
+</html>
