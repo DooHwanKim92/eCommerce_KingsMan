@@ -4,6 +4,7 @@ package com.example.ecommerce.domain.product.controller;
 import com.example.ecommerce.domain.category.entity.Category;
 import com.example.ecommerce.domain.category.service.CategoryService;
 import com.example.ecommerce.domain.option.OptionCreateForm;
+import com.example.ecommerce.domain.option.entity.Option;
 import com.example.ecommerce.domain.product.ProductCreateForm;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.product.service.ProductService;
@@ -68,7 +69,11 @@ public class ProductController {
     @GetMapping("/detail/{id}")
     public String productDetail(Model model, @PathVariable(value = "id") Long id) {
         Product product = this.productService.findById(id);
+        Option option1 = product.getOptionList().get(0);
+        Option option2 = product.getOptionList().get(1);
         model.addAttribute("product",product);
+        model.addAttribute("option1",option1);
+        model.addAttribute("option2",option2);
         return "/product/detail";
     }
 

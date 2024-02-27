@@ -37,6 +37,10 @@ public class Product extends BaseEntity {
     private Integer purchasing;
 
     @Column
+    // 가격
+    private String price;
+
+    @Column
     // 할인율
     private String discount;
 
@@ -51,6 +55,9 @@ public class Product extends BaseEntity {
 
     @ManyToOne
     private Category category;
+
+    @OneToOne(mappedBy = "product", cascade = CascadeType.REMOVE)
+    private Cart cart;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<Review> reviewList;

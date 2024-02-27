@@ -166,6 +166,9 @@ public class Request {
         return productService.findAll();
     }
 
+    public List<Product> getBestSellerList() {
+        return productService.getBestSeller();
+    }
 
 }
 

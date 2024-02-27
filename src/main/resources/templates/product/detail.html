@@ -1,27 +1,215 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content" class="container my-3">
+<div layout:fragment="content" class="container my-3" style="width:1000px;">
 
-    <h4>상품상세</h4>
-
-    <h4 th:text="|상품 카테고리 : ${product.category.name}|"></h4>
-    <h4 th:text="|상품 이름 : ${product.name}|"></h4>
-    <h4 th:text="|상품 판매자 : ${product.user.sellerName}|"></h4>
-    <h4 th:text="|상품 수량 : ${product.amount}|"></h4>
-    <h4 th:text="|상품 가격 : ${product.price}|"></h4>
-    <h4 th:text="|상품 판매량 : ${product.purchasing}|"></h4>
-
-
-    <div>
-
-        <a th:href="@{|/cart/add/${product.id}|}" th:text="장바구니담기"></a>
+    <div class="my-3 border-bottom">
+        <h4>상품 상세</h4>
     </div>
+
+    <div style="display:flex; justify-content:space-between;">
+        <div class="card" style="width: 500px; height:500px;">
+            <div id="carouselExample" class="carousel slide">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="https://m.greant.co.kr/web/product/big/202211/0985d4784d2c26c4ba3fe2d5fe247d88.jpg" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://lh3.googleusercontent.com/proxy/ezCocS9lvN7TnBuJIJk0rt77_DfPa3Dwy4EUcqLTBDRFwQC7xJm2PHYywWMRCtTetsXxD_Sm-VolHiyy51kbPZSs0IOMp33RhgzwFhCrot5h-GdMqags7aoLzzPid_Vw8_V-3EpHGRA7S-40uYso6OQ" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://m.greant.co.kr/web/product/big/202201/9d0879401fd23212d64286c7c76f5f5e.jpg" class="d-block w-100" alt="...">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" style="background-color:black;"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" style="background-color:black;"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div style="width:400px;">
+            <table class="table table-sm">
+                <tbody>
+                <tr style="">
+                    <th scope="row" style="width:100px;">카테고리</th>
+                    <td th:text="${product.category.name}" style=""></td>
+                </tr>
+                <tr style="">
+                    <th scope="row" style="width:100px;">상품명</th>
+                    <td th:text="${product.name}" style=""></td>
+                </tr>
+                <tr style="">
+                    <th scope="row" style="width:100px;">상품설명</th>
+                    <td th:text="${product.content}" style=""></td>
+                </tr>
+                <tr style="">
+                    <th scope="row" style="width:100px;">가격</th>
+                    <td th:text="${product.price}" style=""></td>
+                </tr>
+                <tr style="">
+                    <th scope="row" style="width:100px;">할인</th>
+                    <td th:text="${product.discount}" style=""></td>
+                </tr>
+                <tr style="">
+                    <th scope="row" style="width:100px;">판매자</th>
+                    <td th:text="${product.user.sellerName}" style=""></td>
+                </tr>
+                </tbody>
+            </table>
+            <form action="">
+                <div style="margin-top:10px;">
+                    <label for="option1" style="font-weight:bold;" th:text="${option1.name}"></label>
+                    <select class="form-select" aria-label="Default select example" id="option1" name="option1">
+                        <option selected>[필수] 옵션 선택</option>
+                        <option th:each="optionDetail1 : ${option1.optionDetailList}" th:text="${optionDetail1.detail}"
+                                th:value="${optionDetail1.detail}"></option>
+                    </select>
+                </div>
+                <div style="margin-top:10px;">
+                    <label for="option2" style="font-weight:bold;" th:text="${option2.name}"></label>
+                    <select class="form-select" aria-label="Default select example" id="option2" name="option2">
+                        <option selected>[필수] 옵션 선택</option>
+                        <option th:each="optionDetail2 : ${option2.optionDetailList}" th:text="${optionDetail2.detail}"
+                                th:value="${optionDetail2.detail}"></option>
+                    </select>
+                </div>
+            </form>
+            <div style="margin-top:20px; margin-bottom:20px; text-align:center;">
+                <a th:href="@{|/cart/add/${product.id}|}" style="text-decoration:none; color:inherit; font-size:24px;">
+                    <i class="fa-solid fa-cart-arrow-down" style="color: #000000;">
+                        <span>장바구니담기</span>
+                    </i>
+                </a>
+                <a th:href="@{#}" style="text-decoration:none; color:inherit; font-size:24px;">
+                    <i class="fa-regular fa-star" style="color: #000000;">
+                        <span>찜하기</span>
+                    </i>
+                </a>
+            </div>
+            <div>
+                <a class="btn btn-dark" th:href="@{#}" th:text="구매하기" style="width:100%; font-size:24px;"></a>
+            </div>
+        </div>
+    </div>
+
+    <ul class="nav nav-underline mb-3" id="pills-tab" role="tablist" style="margin-top:50px;">
+        <li class="nav-item" role="presentation" style="width:450px;">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                <h4>상품후기</h4>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation" style="width:450px;">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+                <h4>상품문의</h4>
+            </button>
+        </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">구입상품</th>
+                    <th scope="col">적립포인트</th>
+                    <th scope="col">적립날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품1</th>
+                    <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품2</th>
+                    <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품3</th>
+                    <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품4</th>
+                    <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품5</th>
+                    <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품6</th>
+                    <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
+                        style="line-height:100px;"></td>
+                    <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
+                        style="line-height:100px;"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">구입상품</th>
+                    <th scope="col">사용포인트</th>
+                    <th scope="col">사용날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품1</th>
+                    <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품2</th>
+                    <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품3</th>
+                    <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품4</th>
+                    <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품5</th>
+                    <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
+                    <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
+                </tr>
+                <tr style="height:100px;">
+                    <th scope="row" style="width:200px; line-height:100px;">상품6</th>
+                    <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
+                        style="line-height:100px;"></td>
+                    <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
+                        style="line-height:100px;"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
 
     <div>
 
         <a th:href="@{/product/list}" th:text="상품목록"></a>
     </div>
     <div>
-        <a sec:authorize="isAuthenticated()" th:if="${@request.getSiteUser().nickname == product.sellerName}"
+        <a sec:authorize="isAuthenticated()" th:if="${@request.getSiteUser().sellerName == product.user.sellerName}"
            th:href="@{|/product/remove/${product.id}|}" th:text="상품삭제"></a>
     </div>
     <div>

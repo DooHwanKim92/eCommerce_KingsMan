@@ -5,7 +5,7 @@
         <h4>상품 등록</h4>
     </div>
 
-    <div>
+    <div style="margin-top:40px; margin-bottom:40px;">
         <div style="display:flex; justify-content:space-between;">
             <div style="color:gray; font-size:14px;">시작</div>
             <div style="font-weight:bold; font-size:14px;">상품입력</div>
@@ -51,6 +51,13 @@
             <label for="img">대표이미지</label>
             <input class="form-control" type="file" name="img" id="img">
         </div>
+
+        <div style="margin-top:10px;">
+            <label for="price">상품가격</label>
+            <input class="form-control" type="text" name="price" id="price" placeholder="상품 가격 숫자로 입력"
+                   th:field="*{price}">
+        </div>
+        <p th:each="err : ${#fields.errors('price')}" th:text="${err}" style="color:red; font-size:14px;"></p>
 
 
         <div style="margin-top:10px;">

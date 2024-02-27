@@ -45,6 +45,7 @@ public class ProductService {
                 .category(category)
                 .name(productCreateForm.getName())
                 .content(productCreateForm.getContent())
+                .price(productCreateForm.getPrice())
                 .discount(productCreateForm.getDiscount())
                 .purchasing(0)
                 .isNew(true)
@@ -79,5 +80,9 @@ public class ProductService {
 
     public Product findByOptionId(Long id) {
         return this.optionService.findById(id).getProduct();
+    }
+
+    public List<Product> getBestSeller() {
+        return this.productRepository.getBestSeller();
     }
 }

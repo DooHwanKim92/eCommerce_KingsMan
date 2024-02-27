@@ -27,13 +27,5 @@ public class OptionDetail extends BaseEntity {
     // option이 size라면 95,100,105 ...
     private String detail;
 
-    @Column
-    // 상품 가격
-    private String price;
-
-    @Column
-    // 상품 수량
-    private String amount;
-
 
 }

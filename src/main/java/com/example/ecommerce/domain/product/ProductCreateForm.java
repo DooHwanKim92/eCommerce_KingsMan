@@ -19,6 +19,9 @@ public class ProductCreateForm {
     @NotEmpty(message = "상품 설명을 입력해주세요.")
     private String content;
 
+    @NotEmpty(message = "상품 가격을 입력해주세요.")
+    private String price;
+
     @NotEmpty(message = "할인율을 입력해주세요 '0~100'")
     private String discount;
 }

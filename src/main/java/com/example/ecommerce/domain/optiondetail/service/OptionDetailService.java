@@ -9,6 +9,7 @@ import com.example.ecommerce.domain.product.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,12 +22,26 @@ public class OptionDetailService {
         OptionDetail optionDetail = OptionDetail.builder()
                 .option(option)
                 .detail(optionDetailCreateForm.getDetail())
-                .price("0")
-                .amount("0")
                 .build();
 
         this.optionDetailRepository.save(optionDetail);
 
         return optionDetail;
     }
+
+    public List<String> getOptionList(Product product) {
+        Option option1 = product.getOptionList().get(0);
+        Option option2 = product.getOptionList().get(1);
+        List<String> optionNames = new ArrayList<>();
+        String optionName = "";
+        for (int i = 0; i < option1.getOptionDetailList().size(); i++) {
+            for (int j = 0; j < option2.getOptionDetailList().size(); j++) {
+                optionName = option1.getOptionDetailList().get(i).getDetail() + " - " + option2.getOptionDetailList().get(j).getDetail();
+                optionNames.add(optionName);
+            }
+        }
+        return optionNames;
+    }
+
+
 }
