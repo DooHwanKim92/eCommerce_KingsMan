@@ -10,23 +10,22 @@
             <div id="carouselExample" class="carousel slide">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="https://m.greant.co.kr/web/product/big/202211/0985d4784d2c26c4ba3fe2d5fe247d88.jpg" class="d-block w-100" alt="...">
+                        <img th:src="${product.representImg.FilePath}" alt="대표이미지" style="width:500px; height:500px; object-fit:cover;">
                     </div>
-                    <div class="carousel-item">
-                        <img src="https://lh3.googleusercontent.com/proxy/ezCocS9lvN7TnBuJIJk0rt77_DfPa3Dwy4EUcqLTBDRFwQC7xJm2PHYywWMRCtTetsXxD_Sm-VolHiyy51kbPZSs0IOMp33RhgzwFhCrot5h-GdMqags7aoLzzPid_Vw8_V-3EpHGRA7S-40uYso6OQ" class="d-block w-100" alt="...">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="https://m.greant.co.kr/web/product/big/202201/9d0879401fd23212d64286c7c76f5f5e.jpg" class="d-block w-100" alt="...">
+                    <div class="carousel-item" th:if="${product.imageList != null}" th:each="imgList : ${product.imageList}">
+                        <img th:src="${imgList.FilePath}" alt="상세이미지" style="width:500px; height:500px; object-fit:cover;">
                     </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" style="background-color:black;"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" style="background-color:black;"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+                <div th:if="${product.imageList != null}">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" style="background-color:black;"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" style="background-color:black;"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
             </div>
         </div>
         <div style="width:400px;">

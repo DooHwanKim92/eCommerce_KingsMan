@@ -30,7 +30,10 @@ public class Image extends BaseEntity {
     private Long typeId;
 
     @Column
-    private String imgURL;
+    private String FileName;
+
+    @Column
+    private String FilePath;
 
     @ManyToOne
     // 상품 이미지

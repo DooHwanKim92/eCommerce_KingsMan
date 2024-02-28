@@ -10,16 +10,16 @@ import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.product.service.ProductService;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.domain.user.service.UserService;
+import com.example.ecommerce.global.image.service.ImageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -34,6 +34,8 @@ public class ProductController {
     private final ProductService productService;
 
     private final CategoryService categoryService;
+
+    private final ImageService imageService;
 
     @GetMapping("/list")
     public String productList(Model model) {
@@ -50,7 +52,8 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public String productCreatePost(@Valid ProductCreateForm productCreateForm, BindingResult bindingResult, Principal principal, Model model, OptionCreateForm optionCreateForm) {
+    public String productCreatePost(@Valid ProductCreateForm productCreateForm, BindingResult bindingResult, Principal principal, Model model, OptionCreateForm optionCreateForm,
+                                    @RequestParam(value = "representImg")MultipartFile representImg, @RequestParam(value = "detailImg") List<MultipartFile> detailImg) throws IOException {
         SiteUser user = this.userService.findByUsername(principal.getName());
         Category category = this.categoryService.findByname(productCreateForm.getCategory());
         if (bindingResult.hasErrors()) {
@@ -61,6 +64,7 @@ public class ProductController {
             return "/product/create";
         }
         Product product = this.productService.createProduct(productCreateForm,user,category);
+        this.productService.addImages(product, this.imageService.createProductRepImg(product,representImg),this.imageService.createProductDetailImg(product,detailImg));
         this.userService.createSellProduct(user, product);
         model.addAttribute("product",product);
         return "/product/create_option";
@@ -89,6 +93,15 @@ public class ProductController {
         List<Product> productList = user.getSellProductList();
         model.addAttribute("productList",productList);
         return "/product/management";
+    }
+
+    @GetMapping("/list/category/{id}")
+    public String categoryList(Model model, @PathVariable(value = "id") Long id) {
+        List<Product> productList = this.productService.findByCategoryId(id);
+        Category category = this.categoryService.findById(id);
+        model.addAttribute("productList",productList);
+        model.addAttribute("category",category);
+        return "/product/category_list";
     }
 
 }

@@ -46,7 +46,7 @@ public class SiteUser extends BaseEntity {
     private String phoneNumber;
 
     @Column
-    private String address;
+    private List<String> address;
 
     @Column
     // user, seller, admin
@@ -88,7 +88,7 @@ public class SiteUser extends BaseEntity {
     private List<Alarm> alarmList;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    // 구매한 상품 리스트
+    // 구매한 상품 리스트, 구매 확정 시 추가해야한다.
     private List<Product> buyProductList;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)

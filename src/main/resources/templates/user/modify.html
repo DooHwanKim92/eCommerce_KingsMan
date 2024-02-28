@@ -53,11 +53,28 @@
         </div>
         <p th:each="err : ${#fields.errors('phoneNumber')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
 
+        <div>주소입력</div>
         <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon7">
-            <i class="fa-solid fa-map-location-dot" style="color: #000000;"></i>
-        </span>
-            <input type="text" class="form-control" placeholder="주소" aria-describedby="basic-addon7" name="address" th:field="*{address}">
+            <span class="input-group-text" id="basic-addon7">
+                <i class="fa-solid fa-map-location-dot" style="color: #000000;"></i>
+            </span>
+            <input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호" name="address">
+            <input type="button" class="btn btn-success btn-sm" onclick="sample4_execDaumPostcode()" value="주소 찾기"><br>
+        </div>
+        <div class="input-group mb-3" style="display:flex;">
+            <span class="input-group-text" id="basic-addon8">
+                <i class="fa-solid fa-map-location-dot" style="color: #000000;"></i>
+            </span>
+            <input type="text" class="form-control" id="sample4_roadAddress" name="address" placeholder="도로명주소">
+            <input type="text" class="form-control" id="sample4_jibunAddress" name="address" placeholder="지번주소">
+        </div>
+        <div class="input-group mb-3" style="display:flex;">
+            <span class="input-group-text" id="basic-addon9">
+                <i class="fa-solid fa-map-location-dot" style="color: #000000;"></i>
+            </span>
+            <input type="text" class="form-control" id="sample4_detailAddress" name="address" placeholder="상세주소">
+            <span id="guide" style="color:#999;display:none"></span>
+            <input type="text" class="form-control" id="sample4_extraAddress" name="address" placeholder="참고항목">
         </div>
         <p th:each="err : ${#fields.errors('address')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
 

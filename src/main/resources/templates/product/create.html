@@ -20,7 +20,7 @@
     </div>
 
 
-    <form th:action="@{/product/create}" method="post" th:object="${productCreateForm}">
+    <form th:action="@{/product/create}" method="post" th:object="${productCreateForm}" enctype="multipart/form-data">
 
         <div style="margin-top:10px;">
             <label for="category">카테고리</label>
@@ -48,8 +48,13 @@
 
 
         <div style="margin-top:10px;">
-            <label for="img">대표이미지</label>
-            <input class="form-control" type="file" name="img" id="img">
+            <label for="representImg">대표이미지</label>
+            <input class="form-control" type="file" name="representImg" id="representImg">
+        </div>
+
+        <div style="margin-top:10px;">
+            <label for="detailImg">상품이미지</label>
+            <input class="form-control" multiple="multiple" type="file" name="detailImg" id="detailImg">
         </div>
 
         <div style="margin-top:10px;">

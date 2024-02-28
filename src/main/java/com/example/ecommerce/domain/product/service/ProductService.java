@@ -8,12 +8,15 @@ import com.example.ecommerce.domain.product.ProductCreateForm;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.product.repository.ProductRepository;
 import com.example.ecommerce.domain.user.entity.SiteUser;
+import com.example.ecommerce.global.image.entity.Image;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +27,6 @@ public class ProductService {
     private final CategoryService categoryService;
 
     private final OptionService optionService;
-
 
     public Product findById(Long id) {
         Optional<Product> product = this.productRepository.findById(id);
@@ -84,5 +86,39 @@ public class ProductService {
 
     public List<Product> getBestSeller() {
         return this.productRepository.getBestSeller();
+    }
+
+    public List<Product> getNewProducts() {
+        List<Product> productList = this.productRepository.findAll();
+        for ( int i = 0 ; i < productList.size(); i++) {
+            if (!productList.get(i).isNew()) {
+                productList.remove(productList.get(i));
+            }
+        }
+        return productList;
+    }
+
+    public void addImages(Product product, Image productRepImg, List<Image> productDetailImg) {
+
+        Product addImages = product.toBuilder()
+                .representImg(productRepImg)
+                .imageList(productDetailImg)
+                .build();
+
+        this.productRepository.save(addImages);
+    }
+
+    public List<Product> findByCategoryId(Long id) {
+        List<Product> productAllList = this.productRepository.findAll();
+
+        List<Product> productList = new ArrayList<>();
+
+        for ( int i = 0 ; i < productAllList.size(); i++) {
+            if (Objects.equals(productAllList.get(i).getCategory().getId(), id)) {
+                productList.add(productAllList.get(i));
+            }
+        }
+
+        return productList;
     }
 }

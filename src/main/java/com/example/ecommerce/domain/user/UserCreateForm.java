@@ -5,6 +5,8 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class UserCreateForm {
@@ -37,6 +39,6 @@ public class UserCreateForm {
     private String phoneNumber;
 
     @NotEmpty(message = "주소를 입력해주세요.")
-    private String address;
+    private List<String> address;
 
 }

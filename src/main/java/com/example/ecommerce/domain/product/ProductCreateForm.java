@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,4 +27,9 @@ public class ProductCreateForm {
 
     @NotEmpty(message = "할인율을 입력해주세요 '0~100'")
     private String discount;
+
+    private MultipartFile representImg;
+
+    private List<MultipartFile> detailImg;
+
 }

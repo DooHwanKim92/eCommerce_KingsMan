@@ -1,0 +1,23 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:1000px;">
+
+    <div class="my-3 border-bottom">
+        <h4 th:text="${category.name}"></h4>
+    </div>
+
+
+    <div th:each="product : ${productList}">
+        <img th:src="${product.representImg.FilePath}" alt="대표이미지" style="width:300px; height:300px; object-fit:cover;">
+        <div >
+            <a th:href="@{|/product/detail/${product.id}|}" th:text="${product.name}"></a>
+        </div>
+        <div th:text="${product.price}"></div>
+    </div>
+
+
+
+
+
+
+</div>
+</html>

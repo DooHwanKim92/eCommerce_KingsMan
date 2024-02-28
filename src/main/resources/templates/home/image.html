@@ -1,0 +1,32 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:1000px;">
+
+    <div class="my-3 border-bottom">
+        <h4>메인 이미지 관리</h4>
+    </div>
+    
+    <div class="my-3 border-bottom">
+        <h5>지금 등록된 이미지</h5>
+        <div th:each="mainImg : ${@request.getMainImages()}">
+            <img th:src="${mainImg.FilePath}" alt="메인이미지" style="width:500px; height:500px;">
+        </div>
+    </div>
+
+    <div>
+        <h5>변경할 이미지 등록</h5>
+        <div>
+            <form th:action="@{/home/image}" method="post" enctype="multipart/form-data">
+                <div style="margin-top:10px;">
+                    <label for="mainImg">메인이미지</label>
+                    <input class="form-control" multiple="multiple" type="file" name="mainImg" id="mainImg">
+                </div>
+                <div style="display:flex; justify-content:flex-end; margin-top:20px;">
+                    <button type="submit" class="btn btn-primary btn-sm" style="margin-left:10px;">변경하기</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</div>
+</html>
