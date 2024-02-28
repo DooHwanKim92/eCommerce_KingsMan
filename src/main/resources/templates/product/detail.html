@@ -10,18 +10,23 @@
             <div id="carouselExample" class="carousel slide">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img th:src="${product.representImg.FilePath}" alt="대표이미지" style="width:500px; height:500px; object-fit:cover;">
+                        <img th:src="${product.representImg.FilePath}" alt="대표이미지"
+                             style="width:500px; height:500px; object-fit:cover;">
                     </div>
-                    <div class="carousel-item" th:if="${product.imageList != null}" th:each="imgList : ${product.imageList}">
-                        <img th:src="${imgList.FilePath}" alt="상세이미지" style="width:500px; height:500px; object-fit:cover;">
+                    <div class="carousel-item" th:if="${product.imageList != null}"
+                         th:each="imgList : ${product.imageList}">
+                        <img th:src="${imgList.FilePath}" alt="상세이미지"
+                             style="width:500px; height:500px; object-fit:cover;">
                     </div>
                 </div>
                 <div th:if="${product.imageList != null}">
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                            data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" style="background-color:black;"></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                            data-bs-slide="next">
                         <span class="carousel-control-next-icon" style="background-color:black;"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
@@ -57,7 +62,7 @@
                 </tr>
                 </tbody>
             </table>
-            <form action="">
+            <form th:action="@{|/orders/option/${product.id}|}" method="post" th:object="${ordersCreateForm}">
                 <div style="margin-top:10px;">
                     <label for="option1" style="font-weight:bold;" th:text="${option1.name}"></label>
                     <select class="form-select" aria-label="Default select example" id="option1" name="option1">
@@ -66,6 +71,10 @@
                                 th:value="${optionDetail1.detail}"></option>
                     </select>
                 </div>
+                <p th:each="err : ${#fields.errors('option1')}" th:text="${err}" class="error"
+                   style="color:red; font-size:14px;"></p>
+
+
                 <div style="margin-top:10px;">
                     <label for="option2" style="font-weight:bold;" th:text="${option2.name}"></label>
                     <select class="form-select" aria-label="Default select example" id="option2" name="option2">
@@ -74,7 +83,29 @@
                                 th:value="${optionDetail2.detail}"></option>
                     </select>
                 </div>
+                <p th:each="err : ${#fields.errors('option2')}" th:text="${err}" class="error"
+                   style="color:red; font-size:14px;"></p>
+
+
+                <div style="margin-top:10px;">
+                    <label for="amount" style="font-weight:bold;">수량입력</label>
+                    <input class="form-control" type="text" id="amount" name="amount">
+                </div>
+                <p th:each="err : ${#fields.errors('amount')}" th:text="${err}" class="error"
+                   style="color:red; font-size:14px;"></p>
+
+                <div style="margin-top:20px; display:flex; justify-content:flex-end;">
+                    <button class="btn btn-primary btn-sm" type="submit" th:text="옵션선택"></button>
+                </div>
             </form>
+
+            <div style="margin-top:10px;" th:if="${orders != null}">
+                선택한 옵션
+                <div th:text="|상품 : ${orders.option1} + ${orders.option2}|"></div>
+                <div th:text="|수량 : ${orders.amount}|"></div>
+            </div>
+
+
             <div style="margin-top:20px; margin-bottom:20px; text-align:center;">
                 <a th:href="@{|/cart/add/${product.id}|}" style="text-decoration:none; color:inherit; font-size:24px;">
                     <i class="fa-solid fa-cart-arrow-down" style="color: #000000;">
@@ -95,18 +126,21 @@
 
     <ul class="nav nav-underline mb-3" id="pills-tab" role="tablist" style="margin-top:50px;">
         <li class="nav-item" role="presentation" style="width:450px;">
-            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+                    type="button" role="tab" aria-controls="pills-home" aria-selected="true">
                 <h4>상품후기</h4>
             </button>
         </li>
         <li class="nav-item" role="presentation" style="width:450px;">
-            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+                    type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
                 <h4>상품문의</h4>
             </button>
         </li>
     </ul>
     <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"
+             tabindex="0">
             <table class="table table-sm">
                 <thead>
                 <tr>
@@ -197,10 +231,6 @@
             </table>
         </div>
     </div>
-
-
-
-
 
 
     <div>

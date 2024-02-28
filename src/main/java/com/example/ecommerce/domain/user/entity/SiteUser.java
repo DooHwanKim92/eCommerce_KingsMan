@@ -4,6 +4,7 @@ package com.example.ecommerce.domain.user.entity;
 import com.example.ecommerce.domain.alarm.entity.Alarm;
 import com.example.ecommerce.domain.cart.entity.Cart;
 import com.example.ecommerce.domain.confirm.entity.Confirm;
+import com.example.ecommerce.domain.orders.entity.Orders;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.global.BaseEntity;
@@ -94,5 +95,8 @@ public class SiteUser extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     // 판매(등록)한 상품 리스트
     private List<Product> sellProductList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Orders> ordersList;
 
 }
