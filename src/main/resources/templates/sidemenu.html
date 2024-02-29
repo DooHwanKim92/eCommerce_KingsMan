@@ -60,7 +60,7 @@
     <!-- 관리자 메뉴 -->
     <div sec:authorize="isAuthenticated()" th:if="${@request.getSiteUser.role == 'admin'}">
         <div>
-            <a th:href="@{/}" style="font-size:30px;">
+            <a th:href="@{/user/management}" style="font-size:30px;">
                 <i class="fa-solid fa-user" style="color: #ffffff;"></i>
             </a>
         </div>
@@ -78,10 +78,13 @@
         <span style="color:white; font-size:14px;">
         판매신청
     </span>
-        <div>
+        <div style="position:relative;">
             <a th:href="@{/question/list}" style="font-size:30px;">
                 <i class="fa-solid fa-headset" style="color: #ffffff;"></i>
             </a>
+            <div th:if="${@request.isThereNewQuestion()}" class="spinner-grow spinner-grow-sm text-danger position-absolute top-0 start-90" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
         <span style="color:white; font-size:14px;">
         고객센터

@@ -1,6 +1,7 @@
 package com.example.ecommerce.domain.orders.controller;
 
 
+import com.example.ecommerce.domain.option.entity.Option;
 import com.example.ecommerce.domain.orders.OrdersCreateForm;
 import com.example.ecommerce.domain.orders.entity.Orders;
 import com.example.ecommerce.domain.orders.service.OrdersService;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,22 +34,41 @@ public class OrdersController {
 
     @PostMapping("/option/{id}")
     public String selectOptionPost(Model model, @PathVariable(value = "id") Long id, Principal principal, @Valid OrdersCreateForm ordersCreateForm, BindingResult bindingResult) {
+        if(principal==null) {
+            return "redirect:/user/login";
+        }
         SiteUser user = this.userService.findByUsername(principal.getName());
         Product product = this.productService.findById(id);
-        if(ordersCreateForm.getOption1().equals("[필수] 옵션 선택")) {
-            bindingResult.rejectValue("option1","unChoicOption1","옵션 1을 선택해주세요.");
-            model.addAttribute("product",product);
+
+        model.addAttribute("product",product);
+
+        if(bindingResult.hasErrors()) {
             return "/product/detail";
         }
-        if(ordersCreateForm.getOption2().equals("[필수] 옵션 선택")) {
-            bindingResult.rejectValue("option2","unChoicOption2","옵션 2를 선택해주세요.");
-            model.addAttribute("product",product);
+        if(ordersCreateForm.getOption().contains("[필수] 옵션 선택")) {
+            bindingResult.rejectValue("option","unChoicOption","옵션을 선택해주세요.");
             return "/product/detail";
         }
         Orders orders = this.ordersService.create(user,product,ordersCreateForm);
-        model.addAttribute("product",product);
         model.addAttribute("orders",orders);
-        return String.format("redirect:/product/detail/%d",id);
+        return "/product/detail";
+    }
+
+    @GetMapping("/remove/{id}")
+    public String removeOrders(Model model, @PathVariable(value = "id") Long id, OrdersCreateForm ordersCreateForm) {
+        Product product = this.ordersService.findById(id).getProduct();
+        this.ordersService.removeById(id);
+
+        model.addAttribute("product",product);
+
+        return "/product/detail";
+    }
+
+    @GetMapping("/buy/{id}")
+    public String buyOrders(Model model, @PathVariable(value = "id") Long id) {
+        Product product = this.productService.findById(id);
+        model.addAttribute("product",product);
+        return "/orders/detail";
     }
 
 }

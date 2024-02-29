@@ -1,0 +1,27 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:1000px;">
+
+    <div class="my-3 border-bottom">
+        <h4>구매하기</h4>
+    </div>
+
+    <div>
+        <h5>구매상품</h5>
+    </div>
+    <div>
+        <img th:src="${product.representImg.FilePath}" alt="상품이미지" style="width:400px; height:400px;">
+        <div th:text="|상품이름 : ${product.name}|"></div>
+        <div th:text="|가격 : ${product.price}|"></div>
+        <div th:each="option : ${product.ordersList}">선택옵션
+            <div th:text="|옵션 : ${option.option}|"></div>
+            <div th:text="|수량 : ${option.amount}|"></div>
+        </div>
+    </div>
+
+    <div>
+        <h5>결제</h5>
+    </div>
+
+
+</div>
+</html>

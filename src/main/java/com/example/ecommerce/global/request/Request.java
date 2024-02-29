@@ -107,6 +107,7 @@ public class Request {
         return categoryList;
     }
 
+    // 승인, 거절하지 않은 신청이 있는지
     public List<Confirm> isThereNewConfirm() {
         List<Confirm> confirmList = confirmService.findAll();
         if (confirmList.isEmpty()) {
@@ -115,11 +116,11 @@ public class Request {
         return confirmList;
     }
 
+    // 답변하지 않은 문의가 있는지
     public boolean isThereNewQuestion() {
         List<Question> questionList = questionService.findAll();
         for(int i = 0; i < questionList.size(); i++) {
             if(questionList.get(i).getIsAnswered().equals("N")) {
-                // 답변하지 않은 문의가 있다.
                 return true;
             }
         }

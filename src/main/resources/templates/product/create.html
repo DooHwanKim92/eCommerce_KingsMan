@@ -59,7 +59,8 @@
 
         <div style="margin-top:10px;">
             <label for="price">상품가격</label>
-            <input class="form-control" type="text" name="price" id="price" placeholder="상품 가격 숫자로 입력"
+            <input class="form-control" type="text" onkeyup="inputNumberFormat(this);" name="price" id="price"
+                   placeholder="상품 가격 숫자로 입력"
                    th:field="*{price}">
         </div>
         <p th:each="err : ${#fields.errors('price')}" th:text="${err}" style="color:red; font-size:14px;"></p>
@@ -79,6 +80,31 @@
         </div>
 
     </form>
+
+    <script>
+        function comma(str) {
+         str = String(str);
+         return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+    }
+
+    function uncomma(str) {
+         str = String(str);
+         return str.replace(/[^\d]+/g, '');
+    }
+
+    function inputNumberFormat(obj) {
+         obj.value = comma(uncomma(obj.value));
+    }
+
+    function inputOnlyNumberFormat(obj) {
+         obj.value = onlynumber(uncomma(obj.value));
+    }
+
+    function onlynumber(str) {
+         str = String(str);
+         return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g,'$1');
+    }
+    </script>
 
 
 </div>

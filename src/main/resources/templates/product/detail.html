@@ -63,33 +63,22 @@
                 </tbody>
             </table>
             <form th:action="@{|/orders/option/${product.id}|}" method="post" th:object="${ordersCreateForm}">
-                <div style="margin-top:10px;">
-                    <label for="option1" style="font-weight:bold;" th:text="${option1.name}"></label>
-                    <select class="form-select" aria-label="Default select example" id="option1" name="option1">
+
+                <div style="margin-top:10px;" th:each="optionList : ${product.optionList}">
+                    <label for="option" style="font-weight:bold;" th:text="${optionList.name}"></label>
+                    <select class="form-select" aria-label="Default select example" id="option" name="option">
                         <option selected>[필수] 옵션 선택</option>
-                        <option th:each="optionDetail1 : ${option1.optionDetailList}" th:text="${optionDetail1.detail}"
-                                th:value="${optionDetail1.detail}"></option>
+                        <option th:each="optionDetail : ${optionList.optionDetailList}" th:text="${optionDetail.detail}" th:value="${optionDetail.detail}"></option>
                     </select>
                 </div>
-                <p th:each="err : ${#fields.errors('option1')}" th:text="${err}" class="error"
+                <p th:each="err : ${#fields.errors('option')}" th:text="${err}" class="error"
                    style="color:red; font-size:14px;"></p>
 
-
-                <div style="margin-top:10px;">
-                    <label for="option2" style="font-weight:bold;" th:text="${option2.name}"></label>
-                    <select class="form-select" aria-label="Default select example" id="option2" name="option2">
-                        <option selected>[필수] 옵션 선택</option>
-                        <option th:each="optionDetail2 : ${option2.optionDetailList}" th:text="${optionDetail2.detail}"
-                                th:value="${optionDetail2.detail}"></option>
-                    </select>
-                </div>
-                <p th:each="err : ${#fields.errors('option2')}" th:text="${err}" class="error"
-                   style="color:red; font-size:14px;"></p>
 
 
                 <div style="margin-top:10px;">
                     <label for="amount" style="font-weight:bold;">수량입력</label>
-                    <input class="form-control" type="text" id="amount" name="amount">
+                    <input class="form-control" type="text" id="amount" name="amount" th:field="*{amount}">
                 </div>
                 <p th:each="err : ${#fields.errors('amount')}" th:text="${err}" class="error"
                    style="color:red; font-size:14px;"></p>
@@ -99,10 +88,19 @@
                 </div>
             </form>
 
-            <div style="margin-top:10px;" th:if="${orders != null}">
-                선택한 옵션
-                <div th:text="|상품 : ${orders.option1} + ${orders.option2}|"></div>
-                <div th:text="|수량 : ${orders.amount}|"></div>
+            <div style="margin-top:10px; height:200px; overflow:scroll;">
+                <span style="font-weight:bold;">선택한 옵션</span>
+                <hr>
+                <div th:each="orders : ${product.ordersList}">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span th:text="|선택옵션 : ${orders.option}|"></span>
+                        <span>
+                            <a class="btn btn-danger btn-sm" th:href="@{|/orders/remove/${orders.id}|}">X</a>
+                        </span>
+                    </div>
+                    <div th:text="|수량 : ${orders.amount}|"></div>
+                    <hr>
+                </div>
             </div>
 
 
@@ -119,11 +117,12 @@
                 </a>
             </div>
             <div>
-                <a class="btn btn-dark" th:href="@{#}" th:text="구매하기" style="width:100%; font-size:24px;"></a>
+                <a class="btn btn-dark" th:href="@{|/orders/buy/${product.id}|}" th:text="구매하기" style="width:100%; font-size:24px;"></a>
             </div>
         </div>
     </div>
 
+    <!-- 상품후기, 상품문의 탭 -->
     <ul class="nav nav-underline mb-3" id="pills-tab" role="tablist" style="margin-top:50px;">
         <li class="nav-item" role="presentation" style="width:450px;">
             <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
@@ -138,6 +137,8 @@
             </button>
         </li>
     </ul>
+
+    <!-- 상품후기 -->
     <div class="tab-content" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"
              tabindex="0">
@@ -185,6 +186,8 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- 상품문의 -->
         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
             <table class="table table-sm">
                 <thead>

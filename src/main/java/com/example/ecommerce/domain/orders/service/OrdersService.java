@@ -9,24 +9,39 @@ import com.example.ecommerce.domain.user.entity.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class OrdersService {
 
     private final OrdersRepository ordersRepository;
 
+    public Orders findById(Long id) {
+        Optional<Orders> orders = this.ordersRepository.findById(id);
+        if (orders.isEmpty()) {
+            return null;
+        }
+        return orders.get();
+    }
+
     public Orders create(SiteUser user, Product product, OrdersCreateForm ordersCreateForm) {
 
         Orders orders = Orders.builder()
                 .user(user)
                 .product(product)
-                .option1(ordersCreateForm.getOption1())
-                .option2(ordersCreateForm.getOption2())
+                .option(ordersCreateForm.getOption())
                 .isPurchase(true)
+                .amount(ordersCreateForm.getAmount())
                 .build();
 
         this.ordersRepository.save(orders);
 
         return orders;
+    }
+
+    public void removeById(Long id) {
+        Orders orders = this.findById(id);
+        this.ordersRepository.delete(orders);
     }
 }

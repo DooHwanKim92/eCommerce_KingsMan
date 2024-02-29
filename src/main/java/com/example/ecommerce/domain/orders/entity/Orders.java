@@ -12,6 +12,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 @Entity
 @Getter
 @SuperBuilder(toBuilder = true)
@@ -29,8 +31,8 @@ public class Orders extends BaseEntity {
     private boolean isPurchase;
 
     @Column
-    private String option1;
+    private List<String> option;
 
     @Column
-    private String option2;
+    private String amount;
 }

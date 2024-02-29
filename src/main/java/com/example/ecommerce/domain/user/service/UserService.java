@@ -54,6 +54,15 @@ public class UserService {
                 .build();
 
         this.userRepository.save(user);
+
+        if(user.getUsername().equals("admin")) {
+            SiteUser admin = user.toBuilder()
+                    .role("admin")
+                    .grade("다이아몬드")
+                    .build();
+
+            this.userRepository.save(admin);
+        }
     }
 
     public void addCart(SiteUser loginedUser, Cart cart) {

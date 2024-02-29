@@ -145,4 +145,9 @@ public class UserController {
         return "redirect:/user/confirm";
     }
 
+    @GetMapping("/management")
+    public String userManagement() {
+        return "/user/management";
+    }
+
 }

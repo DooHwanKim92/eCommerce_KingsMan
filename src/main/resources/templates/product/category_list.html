@@ -6,14 +6,17 @@
     </div>
 
 
-    <div th:each="product : ${productList}">
-        <img th:src="${product.representImg.FilePath}" alt="대표이미지" style="width:300px; height:300px; object-fit:cover;">
-        <div >
-            <a th:href="@{|/product/detail/${product.id}|}" th:text="${product.name}"></a>
+    <div style="display:flex; justify-content:space-between; flex-flow:wrap;">
+        <div th:each="product : ${productList}">
+            <img th:src="${product.representImg.FilePath}" alt="대표이미지" style="width:300px; height:300px; object-fit:cover;">
+            <div style="text-align:center; font-size:20px; font-weight:bold;">
+                <a th:href="@{|/product/detail/${product.id}|}" th:text="${product.name}"></a>
+            </div>
+            <div style="text-align:center;">가격 :
+                <span th:text="${product.price}"> 원</span>
+            </div>
         </div>
-        <div th:text="${product.price}"></div>
     </div>
-
 
 
 

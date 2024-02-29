@@ -4,6 +4,8 @@ import com.example.ecommerce.domain.category.entity.Category;
 import com.example.ecommerce.domain.category.service.CategoryService;
 import com.example.ecommerce.domain.option.entity.Option;
 import com.example.ecommerce.domain.option.service.OptionService;
+import com.example.ecommerce.domain.orders.entity.Orders;
+import com.example.ecommerce.domain.orders.service.OrdersService;
 import com.example.ecommerce.domain.product.ProductCreateForm;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.product.repository.ProductRepository;
@@ -27,6 +29,8 @@ public class ProductService {
     private final CategoryService categoryService;
 
     private final OptionService optionService;
+
+    private final OrdersService ordersService;
 
     public Product findById(Long id) {
         Optional<Product> product = this.productRepository.findById(id);
@@ -120,5 +124,12 @@ public class ProductService {
         }
 
         return productList;
+    }
+
+    public Product findByOrdersId(Long id) {
+        Orders orders = this.ordersService.findById(id);
+        Product product = this.findById(orders.getProduct().getId());
+
+        return product;
     }
 }

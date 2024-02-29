@@ -45,6 +45,8 @@ public class Product extends BaseEntity {
     // 할인율
     private String discount;
 
+    private List<String> keyword;
+
     @Column
     // 신상여부
     // 일정 기간이 지나면 자동으로 바뀌도록 구현필요
