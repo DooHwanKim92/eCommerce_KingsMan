@@ -44,4 +44,16 @@ public class OrdersService {
         Orders orders = this.findById(id);
         this.ordersRepository.delete(orders);
     }
+
+    public int getTotalPrice(Product product, SiteUser user) {
+        int totalPrice = 0;
+
+        for(int i = 0 ; i < product.getOrdersList().size(); i++) {
+            if(user==product.getOrdersList().get(i).getUser()) {
+                totalPrice += Integer.parseInt(product.getPrice().replace(",","")) * Integer.parseInt(product.getOrdersList().get(i).getAmount());
+            }
+        }
+
+        return totalPrice;
+    }
 }

@@ -136,4 +136,12 @@ public class UserService {
 
         this.userRepository.save(sellUser);
     }
+
+    public SiteUser findById(Long id) {
+        Optional<SiteUser> user = this.userRepository.findById(id);
+        if(user.isEmpty()) {
+            return null;
+        }
+        return user.get();
+    }
 }

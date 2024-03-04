@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" style="height:100%;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -21,7 +21,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <title>🧥 KingsMan</title>
 </head>
-<body style="font-family: 'Noto Sans KR', sans-serif;">
+<body style="font-family: 'Noto Sans KR', sans-serif; height:100%;">
 
 <!-- 1st 네비게이션바 -->
 <nav th:replace="~{navbar :: navbarFragment}"></nav>
@@ -37,6 +37,8 @@
 
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
 <th:block layout:fragment="content"></th:block>
+
+<div style="height:100%; position:relative; padding-bottom:200px;"></div>
 
 <!-- footer -->
 <footer th:replace="~{footer :: footerFragment}"></footer>

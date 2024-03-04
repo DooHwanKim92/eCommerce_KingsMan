@@ -1,12 +1,11 @@
 package com.example.ecommerce.domain.orders.entity;
 
 
+import com.example.ecommerce.domain.orderdetail.entity.OrderDetail;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.global.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,4 +34,7 @@ public class Orders extends BaseEntity {
 
     @Column
     private String amount;
+
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.REMOVE)
+    private List<OrderDetail> orderDetailList;
 }

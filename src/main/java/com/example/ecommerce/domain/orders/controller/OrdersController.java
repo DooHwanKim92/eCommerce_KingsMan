@@ -2,6 +2,7 @@ package com.example.ecommerce.domain.orders.controller;
 
 
 import com.example.ecommerce.domain.option.entity.Option;
+import com.example.ecommerce.domain.orderdetail.OrderDetailCreateForm;
 import com.example.ecommerce.domain.orders.OrdersCreateForm;
 import com.example.ecommerce.domain.orders.entity.Orders;
 import com.example.ecommerce.domain.orders.service.OrdersService;
@@ -49,8 +50,10 @@ public class OrdersController {
             bindingResult.rejectValue("option","unChoicOption","옵션을 선택해주세요.");
             return "/product/detail";
         }
+
         Orders orders = this.ordersService.create(user,product,ordersCreateForm);
         model.addAttribute("orders",orders);
+
         return "/product/detail";
     }
 
@@ -65,9 +68,23 @@ public class OrdersController {
     }
 
     @GetMapping("/buy/{id}")
-    public String buyOrders(Model model, @PathVariable(value = "id") Long id) {
+    public String buyOrders(Model model, @PathVariable(value = "id") Long id, Principal principal, OrderDetailCreateForm orderDetailCreateForm) {
+
         Product product = this.productService.findById(id);
-        model.addAttribute("product",product);
+        SiteUser user = this.userService.findByUsername(principal.getName());
+
+        int totalPrice = 0;
+
+        totalPrice = this.ordersService.getTotalPrice(product, user);
+
+        if(totalPrice==0) {
+            return String.format("redirect:/product/detail/%d",id);
+        }
+
+        model.addAttribute("product", product);
+        model.addAttribute("user", user);
+        model.addAttribute("totalPrice", totalPrice);
+
         return "/orders/detail";
     }
 

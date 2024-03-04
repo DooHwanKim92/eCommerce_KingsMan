@@ -5,22 +5,230 @@
         <h4>구매하기</h4>
     </div>
 
-    <div>
-        <h5>구매상품</h5>
-    </div>
-    <div>
-        <img th:src="${product.representImg.FilePath}" alt="상품이미지" style="width:400px; height:400px;">
-        <div th:text="|상품이름 : ${product.name}|"></div>
-        <div th:text="|가격 : ${product.price}|"></div>
-        <div th:each="option : ${product.ordersList}">선택옵션
-            <div th:text="|옵션 : ${option.option}|"></div>
-            <div th:text="|수량 : ${option.amount}|"></div>
-        </div>
+    <div style="margin-top:50px;">
+        <h5>상품정보</h5>
+        <table class="table table-sm">
+            <tbody>
+            <tr style="">
+                <td>
+                    <div style="display:flex; justify-content:space-between;">
+                        <img th:src="${product.representImg.FilePath}" alt="상품이미지" style="width:200px; height:200px;">
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <div>상품 :
+                            <a th:href="@{|/product/detail/${product.id}|}" th:text="${product.name}"></a>
+                        </div>
+                        <div th:text="|가격 : ${product.price}|"></div>
+                    </div>
+                </td>
+                <td>
+                    <div th:each="option : ${product.ordersList}" th:if="${@request.getSiteUser() == option.user}">선택옵션
+                        <div th:text="|옵션 : ${option.option}|"></div>
+                        <div th:text="|수량 : ${option.amount}|"></div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
-    <div>
-        <h5>결제</h5>
+    <div style="margin-top:50px;">
+        <h5>구매자정보</h5>
+        <table class="table table-sm">
+            <tbody>
+            <tr style="">
+                <th scope="row" style="width:100px;">이름</th>
+                <td th:text="${user.nickname}" style=""></td>
+            </tr>
+            <tr style="">
+                <th scope="row" style="width:100px;">주소</th>
+                <td th:text="${user.address}" style=""></td>
+            </tr>
+            <tr style="">
+                <th scope="row" style="width:100px;">연락처</th>
+                <td th:text="${user.phoneNumber}" style=""></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+
+
+    <!-- 입력 폼 시작 -->
+    <form th:action="@{|/orderdetail/${product.id}|}" method="post" th:object="${orderDetailCreateForm}">
+        <div style="margin-top:50px;">
+            <h5>받는사람정보</h5>
+            <table class="table table-sm">
+                <tbody>
+                <tr style="">
+                    <th scope="row" style="width:100px;">이름</th>
+                    <td style="">
+                        <input type="text" name="name" th:field="*{name}" style="width:100%;">
+                        <p th:each="err : ${#fields.errors('name')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+                    </td>
+                </tr>
+                <tr style="">
+                    <th scope="row" style="width:100px;">주소</th>
+                    <td style="">
+                        <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon7">
+                            <i class="fa-solid fa-map-location-dot" style="color: #000000;"></i>
+                        </span>
+                            <input type="text" class="form-control" id="sample4_postcode" placeholder="우편번호"
+                                   name="postnum" th:field="*{postnum}">
+                            <input type="button" class="btn btn-success btn-sm" onclick="sample4_execDaumPostcode()"
+                                   value="주소 찾기"><br>
+                        </div>
+                        <p th:each="err : ${#fields.errors('postnum')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+                        <div class="input-group mb-3" style="display:flex;">
+                        <span class="input-group-text" id="basic-addon8">
+                            <i class="fa-solid fa-map-location-dot" style="color: #000000;"></i>
+                        </span>
+                            <input type="text" class="form-control" id="sample4_roadAddress" name="roadname"
+                                   placeholder="도로명주소" th:field="*{roadname}">
+                            <input type="text" class="form-control" id="sample4_jibunAddress" name="groundname"
+                                   placeholder="지번주소" th:field="*{groundname}">
+                        </div>
+                        <p th:each="err : ${#fields.errors('roadname')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+                        <p th:each="err : ${#fields.errors('groundname')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+                        <div class="input-group mb-3" style="display:flex;">
+                        <span class="input-group-text" id="basic-addon9">
+                            <i class="fa-solid fa-map-location-dot" style="color: #000000;"></i>
+                        </span>
+                            <input type="text" class="form-control" id="sample4_detailAddress" name="detailaddress"
+                                   placeholder="상세주소" th:field="*{detailaddress}">
+                            <span id="guide" style="color:#999;display:none"></span>
+                            <input type="text" class="form-control" id="sample4_extraAddress" name="etc"
+                                   placeholder="참고항목">
+                        </div>
+                        <p th:each="err : ${#fields.errors('detailaddress')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+
+                    </td>
+                </tr>
+                <tr style="">
+                    <th scope="row" style="width:100px;">연락처</th>
+                    <td style="">
+                        <input type="text" name="phoneNumber" th:field="*{phoneNumber}" style="width:100%;">
+                        <p th:each="err : ${#fields.errors('phoneNumber')}" th:text="${err}" class="error" style="color:red; font-size:14px;"></p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div style="margin-top:50px;">
+            <h5>결제정보</h5>
+            <table class="table table-sm">
+                <tbody>
+                <tr style="">
+                    <th scope="row" style="width:100px;">총상품가격</th>
+                    <td th:text="${#numbers.formatInteger(totalPrice, 3, 'COMMA') + '원'}"></td>
+                </tr>
+                <tr style="">
+                    <th scope="row" style="width:100px;">할인쿠폰</th>
+                    <td th:text="${user.address}"></td>
+                </tr>
+                <tr style="">
+                    <th scope="row" style="width:100px;">배송비</th>
+                    <td th:text="|${product.price}원|"></td>
+                </tr>
+                <tr style="">
+                    <th scope="row" style="width:100px;">총결제금액</th>
+                    <td th:text="${#numbers.formatInteger(totalPrice, 3, 'COMMA') + '원'}"
+                        style="color:red; font-weight:bold;"></td>
+                </tr>
+                <tr style="">
+                    <th scope="row" style="width:100px;">결제방식</th>
+                    <td>
+                        <input type="radio" class="btn-check" name="howToPay" id="option1" value="계좌이체"
+                               autocomplete="off" checked>
+                        <label class="btn" for="option1">계좌이체</label>
+
+                        <input type="radio" class="btn-check" name="howToPay" id="option2" value="신용/체크카드"
+                               autocomplete="off">
+                        <label class="btn" for="option2">신용/체크카드</label>
+
+                        <input type="radio" class="btn-check" name="howToPay" id="option3" value="휴대폰"
+                               autocomplete="off">
+                        <label class="btn" for="option3">휴대폰</label>
+
+                        <input type="radio" class="btn-check" name="howToPay" id="option4" value="무통장입금"
+                               autocomplete="off">
+                        <label class="btn" for="option4">무통장입금</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top:100px; display:flex; justify-content:flex-end;">
+            <button type="submit" class="btn btn-primary btn-sm" style="margin-left:10px;">주문하기</button>
+            <a class="btn btn-danger btn-sm" th:href="@{|/product/detail/${product.id}|}" style="margin-left:10px;">주문취소</a>
+        </div>
+    </form>
+    <!-- 입력 폼 끝 -->
+
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
+        function sample4_execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var roadAddr = data.roadAddress; // 도로명 주소 변수
+                    var extraRoadAddr = ''; // 참고 항목 변수
+
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraRoadAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                       extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if(extraRoadAddr !== ''){
+                        extraRoadAddr = ' (' + extraRoadAddr + ')';
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('sample4_postcode').value = data.zonecode;
+                    document.getElementById("sample4_roadAddress").value = roadAddr;
+                    document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
+
+                    // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+                    if(roadAddr !== ''){
+                        document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+                    } else {
+                        document.getElementById("sample4_extraAddress").value = '';
+                    }
+
+                    var guideTextBox = document.getElementById("guide");
+                    // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+                    if(data.autoRoadAddress) {
+                        var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
+                        guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
+                        guideTextBox.style.display = 'block';
+
+                    } else if(data.autoJibunAddress) {
+                        var expJibunAddr = data.autoJibunAddress;
+                        guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
+                        guideTextBox.style.display = 'block';
+                    } else {
+                        guideTextBox.innerHTML = '';
+                        guideTextBox.style.display = 'none';
+                    }
+                }
+            }).open();
+        }
+    </script>
 
 
 </div>

@@ -38,11 +38,11 @@ public class ProductController {
 
     private final ImageService imageService;
 
-    @GetMapping("/list")
-    public String productList(Model model) {
-        List<Product> productList = this.productService.getList();
+    @GetMapping("/list/seller/{id}")
+    public String productList(Model model, @PathVariable(value = "id") Long id) {
+        List<Product> productList = this.userService.findById(id).getSellProductList();
         model.addAttribute("productList",productList);
-        return "/product/list";
+        return "/product/seller_list";
     }
 
     @GetMapping("/create")
