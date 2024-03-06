@@ -4,6 +4,7 @@ package com.example.ecommerce.domain.user.entity;
 import com.example.ecommerce.domain.alarm.entity.Alarm;
 import com.example.ecommerce.domain.cart.entity.Cart;
 import com.example.ecommerce.domain.confirm.entity.Confirm;
+import com.example.ecommerce.domain.orderdetail.entity.OrderDetail;
 import com.example.ecommerce.domain.orders.entity.Orders;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.question.entity.Question;
@@ -89,14 +90,15 @@ public class SiteUser extends BaseEntity {
     private List<Alarm> alarmList;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    // 구매한 상품 리스트, 구매 확정 시 추가해야한다.
-    private List<Product> buyProductList;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     // 판매(등록)한 상품 리스트
     private List<Product> sellProductList;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    // 선택한 상품 옵션
     private List<Orders> ordersList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    // 구매 내역
+    private List<OrderDetail> orderDetailList;
 
 }

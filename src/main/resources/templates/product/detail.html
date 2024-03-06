@@ -54,13 +54,16 @@
                     <th scope="row" style="width:100px;">상품설명</th>
                     <td th:text="${product.content}" style=""></td>
                 </tr>
-                <tr style="">
+                <tr th:if="${product.discount == '0'}">
                     <th scope="row" style="width:100px;">가격</th>
-                    <td th:text="${product.price}" style=""></td>
+                    <td th:text="|${product.price}원|" style=""></td>
                 </tr>
-                <tr style="">
+                <tr th:if="${product.discount != '0'}">
                     <th scope="row" style="width:100px;">할인</th>
-                    <td th:text="${product.discount}" style=""></td>
+                    <td>
+                        <del th:text="|${product.price}원|"></del>
+                        <span th:text="${#numbers.formatInteger(dcprice, 3, 'COMMA') + '원'}" style="color:red; font-weight:bold;"></span>
+                    </td>
                 </tr>
                 </tbody>
             </table>

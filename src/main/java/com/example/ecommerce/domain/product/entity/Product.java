@@ -45,15 +45,16 @@ public class Product extends BaseEntity {
     // 할인율
     private String discount;
 
+    @Column
+    // 할인 시 할인된 금액
+    private Integer DCPrice;
+
     private List<String> keyword;
 
     @Column
     // 신상여부
     // 일정 기간이 지나면 자동으로 바뀌도록 구현필요
     private boolean isNew;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
-    private List<Cart> cartList;
 
     @OneToOne
     // 대표이미지 thumnail

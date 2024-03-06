@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/orderdetail")
@@ -35,6 +37,8 @@ public class OrderDetailController {
     private final OrdersService ordersService;
 
     @PostMapping("/{id}")
+    //구매 확정
+    // 상품 판매 회수 증가 필요, 해당 상품에 대한 구매 유저의 구매 여부 true 변경 필요
     public String orderDetail(Model model, @PathVariable(value = "id") Long id, Principal principal, @Valid OrderDetailCreateForm orderDetailCreateForm, BindingResult bindingResult) {
         Product product = this.productService.findById(id);
         SiteUser user = this.userService.findByUsername(principal.getName());
@@ -55,15 +59,22 @@ public class OrderDetailController {
             return "/orders/detail";
         }
 
+        List<Orders> ordersList = new ArrayList<>();
+
         for (int i = 0; i < product.getOrdersList().size(); i++) {
             if(product.getOrdersList().get(i).getUser() == user && product.getOrdersList().get(i).getProduct() == product) {
                 Orders orders = this.ordersService.findById(product.getOrdersList().get(i).getId());
+                ordersList.add(orders);
             }
         }
 
+        OrderDetail orderDetail = this.orderDetailService.create(ordersList, user, orderDetailCreateForm, totalPrice);
 
 
-        return "/orders/list";
+
+        model.addAttribute("orderDetail",orderDetail);
+
+        return "/orders/complete";
     }
 
 

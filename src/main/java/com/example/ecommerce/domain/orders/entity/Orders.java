@@ -27,14 +27,12 @@ public class Orders extends BaseEntity {
     private Product product;
 
     @Column
-    private boolean isPurchase;
-
-    @Column
     private List<String> option;
 
     @Column
     private String amount;
 
-    @OneToMany(mappedBy = "orders", cascade = CascadeType.REMOVE)
-    private List<OrderDetail> orderDetailList;
+    @ManyToOne
+    private OrderDetail orderDetail;
+
 }

@@ -31,7 +31,6 @@ public class OrdersService {
                 .user(user)
                 .product(product)
                 .option(ordersCreateForm.getOption())
-                .isPurchase(true)
                 .amount(ordersCreateForm.getAmount())
                 .build();
 

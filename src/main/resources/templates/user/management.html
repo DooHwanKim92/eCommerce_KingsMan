@@ -7,6 +7,15 @@
 
     <div>
         <h5>회원통계</h5>
+        <div th:each = "user : ${userList}">
+            <span th:text="${user.username}"></span>
+            <span th:text="${user.nickname}"></span>
+            <span th:text="${user.age}"></span>
+            <span th:text="${user.sex}"></span>
+            <span th:text="${user.role}"></span>
+            <span th:text="${user.point}"></span>
+            <span th:text="${user.grade}"></span>
+        </div>
     </div>
 
     <div>

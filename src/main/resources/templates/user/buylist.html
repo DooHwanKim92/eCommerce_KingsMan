@@ -1,5 +1,5 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content" class="container my-3" style="width:600px;">
+<div layout:fragment="content" class="container my-3" style="width:1000px;">
 
     <div class="my-3 border-bottom">
         <h4>
@@ -12,50 +12,26 @@
         <thead>
         <tr>
             <th scope="col">구입상품</th>
-            <th scope="col">가격</th>
+            <th scope="col">옵션</th>
             <th scope="col">수량</th>
-            <th scope="col">구입날짜</th>
+            <th scope="col">결제금액</th>
+            <th scope="col">받는사람</th>
         </tr>
         </thead>
         <tbody>
-        <tr style="height:100px;">
-            <th scope="row" style="width:200px; line-height:100px;">상품1</th>
-            <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
-            <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
-            <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
-        </tr>
-        <tr style="height:100px;">
-            <th scope="row" style="width:200px; line-height:100px;">상품2</th>
-            <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
-            <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
-            <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
-        </tr>
-        <tr style="height:100px;">
-            <th scope="row" style="width:200px; line-height:100px;">상품3</th>
-            <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
-            <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
-            <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
-        </tr>
-        <tr style="height:100px;">
-            <th scope="row" style="width:200px; line-height:100px;">상품4</th>
-            <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
-            <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
-            <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
-        </tr>
-        <tr style="height:100px;">
-            <th scope="row" style="width:200px; line-height:100px;">상품5</th>
-            <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
-            <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
-            <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
-        </tr>
-        <tr style="height:100px;">
-            <th scope="row" style="width:200px; line-height:100px;">상품6</th>
-            <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
-                style="line-height:100px;"></td>
-            <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
-                style="line-height:100px;"></td>
-            <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
-                style="line-height:100px;"></td>
+        <tr th:each="orders : ${user.orderDetailList}">
+            <th scope="row" style="width:200px; text-align:center;">
+                <img th:src="${orders.product.representImg.FilePath}" alt="상품이미지" style="width:200px; height:200px; object-fit:cover;">
+                <a th:href="@{|/product/detail/${orders.product.id}|}" th:text="${orders.product.name}"></a>
+            </th>
+            <td style="line-height:200px;">
+                <div th:each="option : ${orders.option}" style="display:inline-block;">
+                    <span th:text = ${option}></span>
+                </div>
+            </td>
+            <td th:text="${orders.amount}" style="line-height:200px;"></td>
+            <td th:text="${orders.orderDetail.totalPrice}" style="line-height:200px;"></td>
+            <td style="line-height:200px;"></td>
         </tr>
         </tbody>
     </table>

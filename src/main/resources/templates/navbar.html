@@ -59,11 +59,16 @@
                             나의정보
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="position:relative;">
                         <a class="nav-link" th:href="@{/cart/list}">
                             <i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i>
                             장바구니
                         </a>
+                        <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger"
+                              th:if="${#lists.size(@request.getSiteUser.cartList) > 0}"
+                              th:text="${#lists.size(@request.getSiteUser.cartList)}">
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">

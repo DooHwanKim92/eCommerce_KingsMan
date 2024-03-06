@@ -144,4 +144,8 @@ public class UserService {
         }
         return user.get();
     }
+
+    public List<SiteUser> findAll() {
+        return this.userRepository.findAll();
+    }
 }

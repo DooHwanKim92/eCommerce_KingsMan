@@ -75,6 +75,13 @@ public class ProductController {
     public String productDetail(Model model, @PathVariable(value = "id") Long id, OrdersCreateForm ordersCreateForm) {
         Product product = this.productService.findById(id);
 
+        int dcprice = Integer.parseInt(product.getPrice().replace(",",""));
+
+        if(!product.getDiscount().equals("0")) {
+            dcprice = Integer.parseInt(product.getPrice().replace(",","")) - Integer.parseInt(product.getPrice().replace(",",""))/Integer.parseInt(product.getDiscount());
+        }
+
+        model.addAttribute("dcprice",dcprice);
         model.addAttribute("product",product);
 
         return "/product/detail";

@@ -1,14 +1,20 @@
-<div th:fragment="sidemenuFragment" class="bg-dark" style="width:70px; position:fixed; top:50%; left:0; text-align:center; border-radius:5px; margin-left:10px; z-index:2;">
+<div th:fragment="sidemenuFragment" class="bg-dark"
+     style="width:70px; position:fixed; top:50%; left:0; text-align:center; border-radius:5px; margin-left:10px; z-index:2;">
 
     <!-- 일반 사용자 메뉴 -->
     <div sec:authorize="isAuthenticated()" th:if="${@request.getSiteUser.role == 'user'}">
-        <div>
+        <div style="position:relative;">
             <a th:href="@{/cart/list}" style="font-size:30px;">
                 <i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i>
             </a>
         </div>
         <span style="color:white; font-size:14px;">
         장바구니
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  th:if="${#lists.size(@request.getSiteUser.cartList) > 0}"
+                  th:text="${#lists.size(@request.getSiteUser.cartList)}">
+                <span class="visually-hidden">unread messages</span>
+            </span>
     </span>
         <div>
             <a href="#" style="font-size:30px;">
@@ -71,7 +77,8 @@
             <a th:href="@{/confirm/list}" style="font-size:30px;">
                 <i class="fa-solid fa-clipboard-check" style="color: #ffffff;"></i>
             </a>
-            <div th:if="${@request.isThereNewConfirm() != null}" class="spinner-grow spinner-grow-sm text-danger position-absolute top-0 start-90" role="status">
+            <div th:if="${@request.isThereNewConfirm() != null}"
+                 class="spinner-grow spinner-grow-sm text-danger position-absolute top-0 start-90" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>
@@ -82,7 +89,8 @@
             <a th:href="@{/question/list}" style="font-size:30px;">
                 <i class="fa-solid fa-headset" style="color: #ffffff;"></i>
             </a>
-            <div th:if="${@request.isThereNewQuestion()}" class="spinner-grow spinner-grow-sm text-danger position-absolute top-0 start-90" role="status">
+            <div th:if="${@request.isThereNewQuestion()}"
+                 class="spinner-grow spinner-grow-sm text-danger position-absolute top-0 start-90" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>

@@ -114,7 +114,9 @@ public class UserController {
     }
 
     @GetMapping("/buylist")
-    public String userBuyList() {
+    public String userBuyList(Model model, Principal principal) {
+        SiteUser user = this.userService.findByUsername(principal.getName());
+        model.addAttribute("user",user);
         return "/user/buylist";
     }
 
@@ -146,7 +148,9 @@ public class UserController {
     }
 
     @GetMapping("/management")
-    public String userManagement() {
+    public String userManagement(Model model) {
+        List<SiteUser> userList = this.userService.findAll();
+        model.addAttribute("userList",userList);
         return "/user/management";
     }
 
