@@ -63,12 +63,8 @@ public class OptionDetailController {
     @GetMapping("/create_last/{id}")
     public String lastSelectOptionDetail(Model model, @PathVariable(value = "id") Long id) {
         Product product = this.productService.findById(id);
-        List<OptionDetail> option1 = product.getOptionList().get(0).getOptionDetailList();
-        List<OptionDetail> option2 = product.getOptionList().get(1).getOptionDetailList();
 
         model.addAttribute("product",product);
-        model.addAttribute("option1",option1);
-        model.addAttribute("option2",option2);
 
         return "/product/create_last";
     }

@@ -1,13 +1,17 @@
 package com.example.ecommerce.domain.orders.entity;
 
 
+import com.example.ecommerce.domain.orderdetail.entity.OrderDetail;
+import com.example.ecommerce.domain.product.entity.Product;
+import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.global.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -16,12 +20,19 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class Orders extends BaseEntity {
 
-    @Column
-    private Long userId;
+    @ManyToOne
+    private SiteUser user;
+
+    @ManyToOne
+    private Product product;
 
     @Column
-    private Long productId;
+    private List<String> option;
 
     @Column
-    private boolean isPurchase;
+    private String amount;
+
+    @ManyToOne
+    private OrderDetail orderDetail;
+
 }

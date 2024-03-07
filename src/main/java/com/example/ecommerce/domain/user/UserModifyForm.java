@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class UserModifyForm {
@@ -30,6 +32,6 @@ public class UserModifyForm {
     private String phoneNumber;
 
     @NotEmpty(message = "변경하실 주소를 입력해주세요.")
-    private String address;
+    private List<String> address;
 
 }

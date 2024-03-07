@@ -10,9 +10,7 @@ import com.example.ecommerce.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -43,13 +41,14 @@ public class CartController {
             return "redirect:/user/login";
         }
         SiteUser user = this.userService.findByUsername(principal.getName());
-        List<Product> productList = this.cartService.findProductByCart(user.getCartList());
-        model.addAttribute("productList",productList);
+        List<Cart> cartList = user.getCartList();
+        model.addAttribute("cartList",cartList);
         return "/cart/list";
     }
 
-    @GetMapping("/remove/{id}")
-    public String removeProduct() {
+    @PostMapping("/remove")
+    public String removeProduct(@RequestParam(value = "cartId") List<Long> id) {
+        this.cartService.remove(id);
         return "redirect:/cart/list";
     }
 

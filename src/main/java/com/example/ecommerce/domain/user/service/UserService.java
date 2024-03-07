@@ -54,13 +54,22 @@ public class UserService {
                 .build();
 
         this.userRepository.save(user);
+
+        if(user.getUsername().equals("admin")) {
+            SiteUser admin = user.toBuilder()
+                    .role("admin")
+                    .grade("다이아몬드")
+                    .build();
+
+            this.userRepository.save(admin);
+        }
     }
 
     public void addCart(SiteUser loginedUser, Cart cart) {
-        List<Cart> cartList = loginedUser.getCartList();
-        cartList.add(cart);
+        List<Cart> userCartList = loginedUser.getCartList();
+        userCartList.add(cart);
         SiteUser user = loginedUser.toBuilder()
-                .cartList(cartList)
+                .cartList(userCartList)
                 .build();
 
         this.userRepository.save(user);
@@ -126,5 +135,17 @@ public class UserService {
                 .build();
 
         this.userRepository.save(sellUser);
+    }
+
+    public SiteUser findById(Long id) {
+        Optional<SiteUser> user = this.userRepository.findById(id);
+        if(user.isEmpty()) {
+            return null;
+        }
+        return user.get();
+    }
+
+    public List<SiteUser> findAll() {
+        return this.userRepository.findAll();
     }
 }

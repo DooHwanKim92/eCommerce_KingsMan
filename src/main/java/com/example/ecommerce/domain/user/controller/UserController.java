@@ -114,7 +114,9 @@ public class UserController {
     }
 
     @GetMapping("/buylist")
-    public String userBuyList() {
+    public String userBuyList(Model model, Principal principal) {
+        SiteUser user = this.userService.findByUsername(principal.getName());
+        model.addAttribute("user",user);
         return "/user/buylist";
     }
 
@@ -143,6 +145,13 @@ public class UserController {
         SiteUser user = this.userService.findByUsername(principal.getName());
         this.confirmService.create(confirmForm, user);
         return "redirect:/user/confirm";
+    }
+
+    @GetMapping("/management")
+    public String userManagement(Model model) {
+        List<SiteUser> userList = this.userService.findAll();
+        model.addAttribute("userList",userList);
+        return "/user/management";
     }
 
 }

@@ -15,6 +15,8 @@ import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.domain.question.service.QuestionService;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.domain.user.service.UserService;
+import com.example.ecommerce.global.image.entity.Image;
+import com.example.ecommerce.global.image.service.ImageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -37,6 +39,7 @@ public class Request {
     private final QuestionService questionService;
     private final NoticeService noticeService;
     private final ProductService productService;
+    private final ImageService imageService;
     private final HttpServletRequest req;
     private final HttpServletResponse resp;
     private final HttpSession session;
@@ -44,13 +47,14 @@ public class Request {
     @Setter
     private SiteUser siteUser = null;
 
-    public Request(UserService userService, CategoryService categoryService, ConfirmService confirmService, AlarmService alarmService, QuestionService questionService, NoticeService noticeService, ProductService productService, HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
+    public Request(UserService userService, CategoryService categoryService, ConfirmService confirmService, AlarmService alarmService, QuestionService questionService, NoticeService noticeService, ProductService productService, ImageService imageService, HttpServletRequest req, HttpServletResponse resp, HttpSession session) {
         this.userService = userService;
         this.categoryService = categoryService;
         this.confirmService = confirmService;
         this.questionService = questionService;
         this.noticeService = noticeService;
         this.productService = productService;
+        this.imageService = imageService;
         this.req = req;
         this.resp = resp;
         this.session = session;
@@ -103,6 +107,7 @@ public class Request {
         return categoryList;
     }
 
+    // 승인, 거절하지 않은 신청이 있는지
     public List<Confirm> isThereNewConfirm() {
         List<Confirm> confirmList = confirmService.findAll();
         if (confirmList.isEmpty()) {
@@ -111,11 +116,11 @@ public class Request {
         return confirmList;
     }
 
+    // 답변하지 않은 문의가 있는지
     public boolean isThereNewQuestion() {
         List<Question> questionList = questionService.findAll();
         for(int i = 0; i < questionList.size(); i++) {
             if(questionList.get(i).getIsAnswered().equals("N")) {
-                // 답변하지 않은 문의가 있다.
                 return true;
             }
         }
@@ -168,6 +173,14 @@ public class Request {
 
     public List<Product> getBestSellerList() {
         return productService.getBestSeller();
+    }
+
+    public List<Product> getNewProductList() {
+        return productService.getNewProducts();
+    }
+
+    public List<Image> getMainImages() {
+        return this.imageService.getMainImageList();
     }
 
 }
