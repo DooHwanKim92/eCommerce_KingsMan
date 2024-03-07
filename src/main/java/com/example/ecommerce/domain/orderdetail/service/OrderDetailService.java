@@ -19,11 +19,21 @@ public class OrderDetailService {
 
     private final OrderDetailRepository orderDetailRepository;
 
-    public OrderDetail create(List<Orders> ordersList, SiteUser user, OrderDetailCreateForm orderDetailCreateForm, int totalPrice) {
+    public OrderDetail create(Product product, SiteUser user, List<Orders> ordersList, OrderDetailCreateForm orderDetailCreateForm, int totalPrice) {
+
+        String options = "";
+        for ( int i = 0 ; i < ordersList.size(); i ++ ) {
+            options += "옵션 : ";
+            options += ordersList.get(i).getOption();
+            options += ", ";
+            options += "수량 : ";
+            options += ordersList.get(i).getAmount();
+        }
 
         OrderDetail orderDetail = OrderDetail.builder()
-                .ordersList(ordersList)
+                .product(product)
                 .user(user)
+                .productOption(options)
                 .receiverName(orderDetailCreateForm.getName())
                 .receiverAddress(orderDetailCreateForm.getPostnum() +", "+ orderDetailCreateForm.getRoadname() +", "+ orderDetailCreateForm.getGroundname() +", "+ orderDetailCreateForm.getDetailaddress() +", "+ orderDetailCreateForm.getEtc())
                 .receiverPhoneNumber(orderDetailCreateForm.getPhoneNumber())

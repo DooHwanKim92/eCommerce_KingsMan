@@ -87,6 +87,7 @@ public class SiteUser extends BaseEntity {
     private Confirm confirm;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    // 알림리스트
     private List<Alarm> alarmList;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
@@ -98,7 +99,7 @@ public class SiteUser extends BaseEntity {
     private List<Orders> ordersList;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    // 구매 내역
+    // 선택한 상품 옵션
     private List<OrderDetail> orderDetailList;
 
 }

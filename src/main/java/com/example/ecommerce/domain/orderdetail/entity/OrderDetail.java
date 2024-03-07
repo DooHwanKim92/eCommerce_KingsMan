@@ -23,11 +23,14 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDetail extends BaseEntity {
 
-    @OneToMany(mappedBy = "orderDetail",cascade = CascadeType.REMOVE)
-    private List<Orders> ordersList;
+    @ManyToOne
+    private Product product;
 
     @ManyToOne
     private SiteUser user;
+
+    @Column
+    private String productOption;
 
     @Column
     private String receiverName;

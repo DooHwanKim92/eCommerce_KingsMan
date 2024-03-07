@@ -5,8 +5,8 @@
             KingsMan
         </a>
         <div class="d-flex">
-            <form class="d-flex" role="search" style="height:40px; width:700px;">
-                <input class="form-control me-2" type="search" placeholder="검색어 입력" aria-label="Search">
+            <form th:action="@{/product/list}" class="d-flex" role="search" style="height:40px; width:700px;">
+                <input class="form-control me-2" type="search" placeholder="검색어 입력" aria-label="Search" name="kw" th:value="${kw}">
                 <button class="btn btn-outline-success" type="submit" style="width:80px;">검색</button>
             </form>
         </div>

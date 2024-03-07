@@ -38,11 +38,28 @@ public class ProductController {
 
     private final ImageService imageService;
 
+    @GetMapping("/list")
+    public String searchProductList(Model model, @RequestParam(value = "kw", defaultValue = "") String kw) {
+        List<Product> productList = this.productService.findAllByKeyword(kw);
+        model.addAttribute("productList",productList);
+        model.addAttribute("kw", kw);
+        return "/product/search_list";
+    }
+
     @GetMapping("/list/seller/{id}")
-    public String productList(Model model, @PathVariable(value = "id") Long id) {
+    public String sellerProductList(Model model, @PathVariable(value = "id") Long id) {
         List<Product> productList = this.userService.findById(id).getSellProductList();
         model.addAttribute("productList",productList);
         return "/product/seller_list";
+    }
+
+    @GetMapping("/list/category/{id}")
+    public String categoryProductList(Model model, @PathVariable(value = "id") Long id) {
+        List<Product> productList = this.productService.findByCategoryId(id);
+        Category category = this.categoryService.findById(id);
+        model.addAttribute("productList",productList);
+        model.addAttribute("category",category);
+        return "/product/category_list";
     }
 
     @GetMapping("/create")
@@ -101,13 +118,6 @@ public class ProductController {
         return "/product/management";
     }
 
-    @GetMapping("/list/category/{id}")
-    public String categoryList(Model model, @PathVariable(value = "id") Long id) {
-        List<Product> productList = this.productService.findByCategoryId(id);
-        Category category = this.categoryService.findById(id);
-        model.addAttribute("productList",productList);
-        model.addAttribute("category",category);
-        return "/product/category_list";
-    }
+
 
 }

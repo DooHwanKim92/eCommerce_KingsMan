@@ -9,6 +9,8 @@ import com.example.ecommerce.domain.user.entity.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,12 +49,26 @@ public class OrdersService {
     public int getTotalPrice(Product product, SiteUser user) {
         int totalPrice = 0;
 
-        for(int i = 0 ; i < product.getOrdersList().size(); i++) {
-            if(user==product.getOrdersList().get(i).getUser()) {
-                totalPrice += Integer.parseInt(product.getPrice().replace(",","")) * Integer.parseInt(product.getOrdersList().get(i).getAmount());
+        for (int i = 0; i < product.getOrdersList().size(); i++) {
+            if (user == product.getOrdersList().get(i).getUser()) {
+                if (product.getDiscount().equals("0")) {
+                    totalPrice += Integer.parseInt(product.getPrice().replace(",", "")) * Integer.parseInt(product.getOrdersList().get(i).getAmount());
+                } else {
+                    totalPrice += product.getDCPrice() * Integer.parseInt(product.getOrdersList().get(i).getAmount());
+                }
             }
         }
 
         return totalPrice;
+    }
+
+    public List<Orders> findByUserandProduct(SiteUser user, Product product) {
+        List<Orders> ordersList = new ArrayList<>();
+        for (int i = 0; i < product.getOrdersList().size(); i++) {
+            if (user == product.getOrdersList().get(i).getUser()) {
+                ordersList.add(product.getOrdersList().get(i));
+            }
+        }
+        return ordersList;
     }
 }

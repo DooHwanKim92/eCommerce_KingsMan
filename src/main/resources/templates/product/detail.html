@@ -37,6 +37,9 @@
                     <div th:text="|판매자 : ${product.user.sellerName}|" style="font-weight:bold;"></div>
                     <a th:href="@{|/product/list/seller/${product.user.id}|}">판매자가 등록한 다른 상품 보기</a>
                 </div>
+                <div class="card-body">
+                    <div th:text="|상품평점 : ${product.score}점|" style="font-weight:bold;"></div>
+                </div>
             </div>
         </div>
         <div style="width:400px;">
@@ -62,7 +65,7 @@
                     <th scope="row" style="width:100px;">할인</th>
                     <td>
                         <del th:text="|${product.price}원|"></del>
-                        <span th:text="${#numbers.formatInteger(dcprice, 3, 'COMMA') + '원'}" style="color:red; font-weight:bold;"></span>
+                        <span th:text="${#numbers.formatInteger(product.DCPrice, 3, 'COMMA') + '원'}" style="color:red; font-weight:bold;"></span>
                     </td>
                 </tr>
                 </tbody>
@@ -244,10 +247,6 @@
     </div>
 
 
-    <div>
-
-        <a th:href="@{/product/list}" th:text="상품목록"></a>
-    </div>
     <div>
         <a sec:authorize="isAuthenticated()" th:if="${@request.getSiteUser().sellerName == product.user.sellerName}"
            th:href="@{|/product/remove/${product.id}|}" th:text="상품삭제"></a>

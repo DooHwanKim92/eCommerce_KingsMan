@@ -13,9 +13,9 @@
         <tr>
             <th scope="col">구입상품</th>
             <th scope="col">옵션</th>
-            <th scope="col">수량</th>
             <th scope="col">결제금액</th>
             <th scope="col">받는사람</th>
+            <th scope="col">주문날짜</th>
         </tr>
         </thead>
         <tbody>
@@ -24,14 +24,24 @@
                 <img th:src="${orders.product.representImg.FilePath}" alt="상품이미지" style="width:200px; height:200px; object-fit:cover;">
                 <a th:href="@{|/product/detail/${orders.product.id}|}" th:text="${orders.product.name}"></a>
             </th>
-            <td style="line-height:200px;">
-                <div th:each="option : ${orders.option}" style="display:inline-block;">
-                    <span th:text = ${option}></span>
+            <td>
+                <div style="display:inline-block; width:200px;">
+                    <span th:text = ${orders.productOption}></span>
                 </div>
             </td>
-            <td th:text="${orders.amount}" style="line-height:200px;"></td>
-            <td th:text="${orders.orderDetail.totalPrice}" style="line-height:200px;"></td>
-            <td style="line-height:200px;"></td>
+            <td th:text="${#numbers.formatInteger(orders.totalPrice, 3, 'COMMA') + '원'}"></td>
+            <td>
+                <div>
+                    <span th:text="|이름 : ${orders.receiverName}|"></span>
+                    <br>
+                    <span th:text="|주소 : ${orders.receiverAddress}|"></span>
+                    <br>
+                    <span th:text="|전화번호 : ${orders.receiverPhoneNumber}|"></span>
+                </div>
+            </td>
+            <td>
+                <div th:text="${#temporals.format(orders.createDate, 'yyyy-MM-dd')}"></div>
+            </td>
         </tr>
         </tbody>
     </table>
