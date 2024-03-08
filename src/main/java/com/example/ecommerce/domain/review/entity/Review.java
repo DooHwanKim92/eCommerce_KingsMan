@@ -2,14 +2,17 @@ package com.example.ecommerce.domain.review.entity;
 
 
 import com.example.ecommerce.domain.product.entity.Product;
+import com.example.ecommerce.domain.reply.entity.Reply;
+import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.global.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import com.example.ecommerce.global.image.entity.Image;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,8 +21,8 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class Review extends BaseEntity {
 
-    @Column
-    private Long userId;
+    @ManyToOne
+    private SiteUser user;
 
     @ManyToOne
     private Product product;
@@ -36,6 +39,7 @@ public class Review extends BaseEntity {
     @Column
     private Integer score;
 
-    @Column
-    private Long replyId;
+    @OneToOne(mappedBy = "review",cascade = CascadeType.REMOVE)
+    private Image reviewImg;
+
 }

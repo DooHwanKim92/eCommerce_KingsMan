@@ -54,17 +54,17 @@ public class OrdersController {
         Orders orders = this.ordersService.create(user,product,ordersCreateForm);
         model.addAttribute("orders",orders);
 
-        return "/product/detail";
+        return String.format("redirect:/product/detail/%d",id);
     }
 
     @GetMapping("/remove/{id}")
     public String removeOrders(Model model, @PathVariable(value = "id") Long id, OrdersCreateForm ordersCreateForm) {
         Product product = this.ordersService.findById(id).getProduct();
-        this.ordersService.removeById(id);
-
         model.addAttribute("product",product);
 
-        return "/product/detail";
+        this.ordersService.removeById(id);
+
+        return String.format("redirect:/product/detail/%d",product.getId());
     }
 
     @GetMapping("/buy/{id}")

@@ -179,6 +179,12 @@ public class Request {
         return productService.getNewProducts();
     }
 
+    public List<Product> getHighQualityProducts() {
+        return productService.getHighQualityProducts();
+    }
+
+
+
     public List<Image> getMainImages() {
         return this.imageService.getMainImageList();
     }

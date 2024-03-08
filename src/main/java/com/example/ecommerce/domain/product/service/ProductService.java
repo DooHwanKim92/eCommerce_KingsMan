@@ -149,7 +149,9 @@ public class ProductService {
         return this.productRepository.findAllByKeyword(kw);
     }
 
+
     public void purchase(Product product, List<Orders> ordersList) {
+        //상품 구매시 판매량 증가
         int amount = 0;
 
         for(int i = 0 ; i < ordersList.size(); i ++) {
@@ -163,5 +165,26 @@ public class ProductService {
                 .build();
 
         this.productRepository.save(productPurchase);
+    }
+
+    public void scoreSum(Product product) {
+        float scoreSummary = 0;
+        int ss = 0;
+        if(!product.getReviewList().isEmpty()) {
+            for(int i = 0 ; i < product.getReviewList().size(); i++) {
+                ss += product.getReviewList().get(i).getScore();
+            }
+            scoreSummary = (float) ss /product.getReviewList().size();
+        }
+
+        Product scoreSum = product.toBuilder()
+                .score(scoreSummary)
+                .build();
+
+        this.productRepository.save(scoreSum);
+    }
+
+    public List<Product> getHighQualityProducts() {
+        return this.productRepository.getHighQualityProducts();
     }
 }

@@ -41,6 +41,10 @@
                     <div th:text="|상품평점 : ${product.score}점|" style="font-weight:bold;"></div>
                 </div>
             </div>
+            <div style="margin-top:50px; display:flex; justify-content:space-around;">
+                <a class="btn btn-outline-dark" th:href="@{|/review/create/${product.id}|}">후기작성</a>
+                <a class="btn btn-outline-dark" th:href="@{/}">문의하기</a>
+            </div>
         </div>
         <div style="width:400px;">
             <table class="table table-sm">
@@ -125,8 +129,7 @@
                 </a>
             </div>
             <div>
-                <a th:classappend="${product.ordersList == null} ? 'disabled' : ''"
-                   class="btn btn-dark" th:href="@{|/orders/buy/${product.id}|}" th:text="구매하기"
+                <a class="btn btn-dark" th:href="@{|/orders/buy/${product.id}|}" th:text="구매하기"
                    style="width:100%; font-size:24px;"></a>
             </div>
         </div>
@@ -156,43 +159,28 @@
             <table class="table table-sm">
                 <thead>
                 <tr>
-                    <th scope="col">제목</th>
+                    <th scope="col">별점</th>
+                    <th scope="col">후기</th>
                     <th scope="col">작성자</th>
                     <th scope="col">작성일자</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품1</th>
-                    <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
-                    <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
-                </tr>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품2</th>
-                    <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
-                    <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
-                </tr>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품3</th>
-                    <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
-                    <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
-                </tr>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품4</th>
-                    <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
-                    <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
-                </tr>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품5</th>
-                    <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
-                    <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
-                </tr>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품6</th>
-                    <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
-                        style="line-height:100px;"></td>
-                    <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
-                        style="line-height:100px;"></td>
+                <tr style="height:100px;" th:each="review : ${reviewList}">
+                    <td style="line-height:150px;">
+                        <div th:if="${review.score == 1}">★☆☆☆☆</div>
+                        <div th:if="${review.score == 2}">★★☆☆☆</div>
+                        <div th:if="${review.score == 3}">★★★☆☆</div>
+                        <div th:if="${review.score == 4}">★★★★☆</div>
+                        <div th:if="${review.score == 5}">★★★★★</div>
+                    </td>
+                    <td>
+                        <img th:src="${review.reviewImg.FilePath}" alt="리뷰이미지" style="width:150px; height:150px;">
+                        <span th:text="${review.title}"></span>
+                        <span th:text="${review.content}"></span>
+                    </td>
+                    <td th:text="${review.user.nickname}" style="line-height:150px;"></td>
+                    <td th:text="${#temporals.format(review.createDate, 'yyyy-MM-dd')}" style="line-height:150px;"></td>
                 </tr>
                 </tbody>
             </table>
@@ -251,11 +239,6 @@
         <a sec:authorize="isAuthenticated()" th:if="${@request.getSiteUser().sellerName == product.user.sellerName}"
            th:href="@{|/product/remove/${product.id}|}" th:text="상품삭제"></a>
     </div>
-    <div>
-        <a th:href="@{/cart/list}" th:text="장바구니"></a>
-    </div>
-
-    <a th:href="@{/}" th:text="메인"></a>
 
     <!--${@rq.isLogin() == false}-->
 

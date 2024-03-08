@@ -2,6 +2,7 @@ package com.example.ecommerce.global.image.service;
 
 
 import com.example.ecommerce.domain.product.entity.Product;
+import com.example.ecommerce.domain.review.entity.Review;
 import com.example.ecommerce.global.image.entity.Image;
 import com.example.ecommerce.global.image.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
@@ -121,6 +122,34 @@ public class ImageService {
             }
         }
         return imageList;
+    }
+
+    public void createReviewImg(Review review, MultipartFile reviewImg) throws IOException {
+
+        // 프로젝트 외부 저장
+        // C://kingsman//file_upload//review
+        String thumnailPath = "";
+        String thunmail = "";
+
+        if (reviewImg.isEmpty()) {
+            thumnailPath = "/images/기본이미지.jpg";
+        } else if (!reviewImg.isEmpty()) {
+            thunmail = "review/" + UUID.randomUUID().toString() + ".jpg";
+            File representImgFile = new File(fileDirPath + "/" + thunmail);
+            reviewImg.transferTo(representImgFile);
+            thumnailPath = "/file/" + thunmail;
+        }
+
+        Image img = Image.builder()
+                .typeName("review")
+                .typeId(review.getId())
+                .FileName(reviewImg.getOriginalFilename())
+                .FilePath(thumnailPath)
+                .review(review)
+                .build();
+
+        this.imageRepository.save(img);
+
     }
 
 }

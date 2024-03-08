@@ -9,6 +9,7 @@ import com.example.ecommerce.domain.orders.OrdersCreateForm;
 import com.example.ecommerce.domain.product.ProductCreateForm;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.product.service.ProductService;
+import com.example.ecommerce.domain.review.entity.Review;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.domain.user.service.UserService;
 import com.example.ecommerce.global.image.service.ImageService;
@@ -90,6 +91,8 @@ public class ProductController {
 
     @GetMapping("/detail/{id}")
     public String productDetail(Model model, @PathVariable(value = "id") Long id, OrdersCreateForm ordersCreateForm) {
+        this.productService.scoreSum(this.productService.findById(id));
+
         Product product = this.productService.findById(id);
 
         int dcprice = Integer.parseInt(product.getPrice().replace(",",""));
@@ -98,8 +101,11 @@ public class ProductController {
             dcprice = Integer.parseInt(product.getPrice().replace(",","")) - Integer.parseInt(product.getPrice().replace(",",""))/Integer.parseInt(product.getDiscount());
         }
 
+        List<Review> reviewList = product.getReviewList();
+
         model.addAttribute("dcprice",dcprice);
         model.addAttribute("product",product);
+        model.addAttribute("reviewList",reviewList);
 
         return "/product/detail";
     }

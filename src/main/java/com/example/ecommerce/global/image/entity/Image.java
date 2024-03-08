@@ -4,11 +4,9 @@ package com.example.ecommerce.global.image.entity;
 import com.example.ecommerce.domain.option.entity.Option;
 import com.example.ecommerce.domain.optiondetail.entity.OptionDetail;
 import com.example.ecommerce.domain.product.entity.Product;
+import com.example.ecommerce.domain.review.entity.Review;
 import com.example.ecommerce.global.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,5 +36,9 @@ public class Image extends BaseEntity {
     @ManyToOne
     // 상품 이미지
     private Product product;
+
+    @OneToOne
+    // 리뷰 이미지
+    private Review review;
 
 }
