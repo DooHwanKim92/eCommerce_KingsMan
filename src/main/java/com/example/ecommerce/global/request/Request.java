@@ -188,6 +188,5 @@ public class Request {
     public List<Image> getMainImages() {
         return this.imageService.getMainImageList();
     }
-
 }
 
