@@ -1,6 +1,7 @@
 package com.example.ecommerce.domain.question.service;
 
 
+import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.question.QuestionCreateForm;
 import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.domain.question.repository.QuestionRepository;
@@ -47,5 +48,19 @@ public class QuestionService {
                 .build();
 
         this.questionRepository.save(answeredQ);
+    }
+
+    public void createProductQuestion(QuestionCreateForm questionCreateForm, SiteUser user, Product product) {
+        Question question = Question.builder()
+                .user(user)
+                .category(questionCreateForm.getCategory())
+                .productName(questionCreateForm.getProductName())
+                .title(questionCreateForm.getTitle())
+                .content(questionCreateForm.getContent())
+                .isAnswered("N")
+                .product(product)
+                .build();
+
+        this.questionRepository.save(question);
     }
 }

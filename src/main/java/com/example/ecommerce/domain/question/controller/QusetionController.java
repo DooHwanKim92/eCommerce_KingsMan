@@ -1,6 +1,8 @@
 package com.example.ecommerce.domain.question.controller;
 
 
+import com.example.ecommerce.domain.product.entity.Product;
+import com.example.ecommerce.domain.product.service.ProductService;
 import com.example.ecommerce.domain.question.QuestionCreateForm;
 import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.domain.question.service.QuestionService;
@@ -29,6 +31,8 @@ public class QusetionController {
     private final QuestionService questionService;
 
     private final UserService userService;
+
+    private final ProductService productService;
 
     @GetMapping("/list")
     public String list() {
@@ -67,6 +71,35 @@ public class QusetionController {
         Question question = this.questionService.findById(id);
         model.addAttribute("question",question);
         return "/question/detail";
+    }
+
+    @GetMapping("/create/product/{id}")
+    public String createProductQuestion(QuestionCreateForm questionCreateForm, @PathVariable(value = "id") Long id, Model model, Principal principal) {
+        Product product = this.productService.findById(id);
+        SiteUser user = this.userService.findByUsername(principal.getName());
+        boolean isPurchase = false;
+        for(int i = 0; i <user.getOrderDetailList().size(); i++) {
+            if(user.getOrderDetailList().get(i).getProduct() == product) {
+                isPurchase = user.getOrderDetailList().get(i).isPurchase();
+            }
+        }
+        if(!isPurchase) {
+            return String.format("redirect:/product/detail/%d",id);
+        }
+        model.addAttribute("product", product);
+        return "/question/create_product";
+    }
+
+    @PostMapping("/create/product/{id}")
+    public String createProductQuestionPost(@Valid QuestionCreateForm questionCreateForm, BindingResult bindingResult, Principal principal, @PathVariable(value = "id") Long id, Model model) {
+        SiteUser user = this.userService.findByUsername(principal.getName());
+        Product product = this.productService.findById(id);
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("product", product);
+            return "/question/create_product";
+        }
+        this.questionService.createProductQuestion(questionCreateForm, user, product);
+        return String.format("redirect:/product/detail/%d",id);
     }
 
 }

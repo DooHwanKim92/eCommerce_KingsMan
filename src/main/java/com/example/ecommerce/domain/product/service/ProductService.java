@@ -57,6 +57,7 @@ public class ProductService {
                 .isNew(true)
                 .DCPrice(0)
                 .score(0)
+                .income(0)
                 .build();
 
         this.productRepository.save(product);
@@ -186,5 +187,22 @@ public class ProductService {
 
     public List<Product> getHighQualityProducts() {
         return this.productRepository.getHighQualityProducts();
+    }
+
+    public void getIncome(List<Product> sellProductList) {
+        int income = 0;
+        for ( int i = 0; i < sellProductList.size(); i++) {
+            if(sellProductList.get(i).getDiscount().equals("0")) {
+                income = sellProductList.get(i).getPurchasing() * Integer.parseInt(sellProductList.get(i).getPrice().replace(",",""));
+            } else {
+                income = sellProductList.get(i).getPurchasing() * sellProductList.get(i).getDCPrice();
+            }
+
+            Product updateIncome = sellProductList.get(i).toBuilder()
+                    .income(income)
+                    .build();
+
+            this.productRepository.save(updateIncome);
+        }
     }
 }

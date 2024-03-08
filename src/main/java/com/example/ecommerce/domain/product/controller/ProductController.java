@@ -9,6 +9,7 @@ import com.example.ecommerce.domain.orders.OrdersCreateForm;
 import com.example.ecommerce.domain.product.ProductCreateForm;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.product.service.ProductService;
+import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.domain.review.entity.Review;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.domain.user.service.UserService;
@@ -102,10 +103,12 @@ public class ProductController {
         }
 
         List<Review> reviewList = product.getReviewList();
+        List<Question> questionList = product.getQuestionList();
 
         model.addAttribute("dcprice",dcprice);
         model.addAttribute("product",product);
         model.addAttribute("reviewList",reviewList);
+        model.addAttribute("questionList",questionList);
 
         return "/product/detail";
     }
@@ -119,6 +122,7 @@ public class ProductController {
     @GetMapping("/management")
     public String productManagement(Model model, Principal principal) {
         SiteUser user = this.userService.findByUsername(principal.getName());
+        this.productService.getIncome(user.getSellProductList());
         List<Product> productList = user.getSellProductList();
         model.addAttribute("productList",productList);
         return "/product/management";

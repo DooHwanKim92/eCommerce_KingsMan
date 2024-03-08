@@ -5,6 +5,7 @@ import com.example.ecommerce.domain.category.entity.Category;
 import com.example.ecommerce.domain.option.entity.Option;
 import com.example.ecommerce.domain.orderdetail.entity.OrderDetail;
 import com.example.ecommerce.domain.orders.entity.Orders;
+import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.domain.review.entity.Review;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.global.BaseEntity;
@@ -57,6 +58,10 @@ public class Product extends BaseEntity {
     private float score;
 
     @Column
+    // 판매금액
+    private Integer income;
+
+    @Column
     // 신상여부
     // 일정 기간이 지나면 자동으로 바뀌도록 구현필요
     private boolean isNew;
@@ -86,5 +91,8 @@ public class Product extends BaseEntity {
 
     @OneToMany(mappedBy = "product")
     private List<OrderDetail> orderDetailList;
+
+    @OneToMany(mappedBy = "product")
+    private List<Question> questionList;
 
 }
