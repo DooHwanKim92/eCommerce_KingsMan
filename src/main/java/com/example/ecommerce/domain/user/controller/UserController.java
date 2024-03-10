@@ -105,7 +105,7 @@ public class UserController {
         }
         SiteUser modifyUser = userService.findByUsername(principal.getName());
         this.userService.modify(userModifyForm, modifyUser);
-        return "/logout";
+        return "/user/profile";
     }
 
     @GetMapping("/point")

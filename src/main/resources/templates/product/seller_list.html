@@ -1,8 +1,8 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content" class="container my-3" style="width:1000px;">
+<div layout:fragment="content" class="container my-3" style="width:1200px;">
 
     <div class="my-3 border-bottom">
-        <h4>상품 리스트</h4>
+        <h4 th:text="|${user.sellerName}(이)가 등록한 상품 리스트|"></h4>
     </div>
 
 
@@ -12,8 +12,18 @@
             <div style="text-align:center; font-size:20px; font-weight:bold;">
                 <a th:href="@{|/product/detail/${product.id}|}" th:text="${product.name}"></a>
             </div>
-            <div style="text-align:center;">가격 :
-                <span th:text="${product.price}"> 원</span>
+            <div style="text-align:center;">
+                <tr th:if="${product.discount == '0'}">
+                    <th scope="row" style="width:100px;">가격</th>
+                    <td th:text="|${product.price}원|" style=""></td>
+                </tr>
+                <tr th:if="${product.discount != '0'}">
+                    <th scope="row" style="width:100px;">할인</th>
+                    <td>
+                        <del th:text="|${product.price}원|"></del>
+                        <span th:text="${#numbers.formatInteger(product.DCPrice, 3, 'COMMA') + '원'}" style="color:red; font-weight:bold;"></span>
+                    </td>
+                </tr>
             </div>
         </div>
     </div>

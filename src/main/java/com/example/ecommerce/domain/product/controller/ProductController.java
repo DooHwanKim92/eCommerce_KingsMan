@@ -50,7 +50,9 @@ public class ProductController {
 
     @GetMapping("/list/seller/{id}")
     public String sellerProductList(Model model, @PathVariable(value = "id") Long id) {
-        List<Product> productList = this.userService.findById(id).getSellProductList();
+        SiteUser user = this.userService.findById(id);
+        List<Product> productList = user.getSellProductList();
+        model.addAttribute("user",user);
         model.addAttribute("productList",productList);
         return "/product/seller_list";
     }
@@ -86,7 +88,9 @@ public class ProductController {
         Product product = this.productService.createProduct(productCreateForm,user,category);
         this.productService.addImages(product, this.imageService.createProductRepImg(product,representImg),this.imageService.createProductDetailImg(product,detailImg));
         this.userService.createSellProduct(user, product);
+
         model.addAttribute("product",product);
+
         return "/product/create_option";
     }
 
