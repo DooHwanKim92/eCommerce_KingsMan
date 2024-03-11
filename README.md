@@ -5,7 +5,7 @@
 - 
 
 
-[[기능정의서]()]
+[[기능정의서](https://velog.io/@asdf4321/%EC%A4%91%EA%B0%84-2%EC%B0%A8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%9D%B4%EC%BB%A4%EB%A8%B8%EC%8A%A4%EC%87%BC%ED%95%91%EB%AA%B0-%EA%B8%B0%EB%8A%A5%EC%A0%95%EC%9D%98)]
 
 ---
 
