@@ -25,6 +25,11 @@
 
 ![이커머스 DB 스케치 (2)](https://github.com/DooHwanKim92/eCommerce_KingsMan/assets/144447216/28bde2bc-8904-46e4-8481-f8cb90fbfce3)
 
+---
+
+## 📊 FLOW-CHART
+
+<img width="3312" alt="이커머스 workflow (2)" src="https://github.com/DooHwanKim92/eCommerce_KingsMan/assets/144447216/39952a44-88a1-4c02-ba62-765ea9d78e9f">
 
 
 
