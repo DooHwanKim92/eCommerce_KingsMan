@@ -62,6 +62,10 @@ findAll()에서 가져온 List<Product>를 정렬시켜서… 10개만 저장 �
 
 
 #### 🚥 [해결]
+
+![image](https://github.com/DooHwanKim92/eCommerce_KingsMan/assets/144447216/176a0072-af07-4f2c-ae2e-d6d67e07154a)
+
+
 JPA 쿼리를 사용하면 데이터를 두 번 가공할 필요 없이 필요한 데이터를 바로 추출할 수 있다.
 
 
