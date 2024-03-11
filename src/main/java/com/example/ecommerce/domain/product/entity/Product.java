@@ -8,6 +8,7 @@ import com.example.ecommerce.domain.orders.entity.Orders;
 import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.domain.review.entity.Review;
 import com.example.ecommerce.domain.user.entity.SiteUser;
+import com.example.ecommerce.domain.wishlist.entity.Wishlist;
 import com.example.ecommerce.global.BaseEntity;
 import com.example.ecommerce.global.image.entity.Image;
 import jakarta.persistence.*;
@@ -51,6 +52,7 @@ public class Product extends BaseEntity {
     // 할인 시 할인된 금액
     private Integer DCPrice;
 
+
     private List<String> tag;
 
     @Column
@@ -68,6 +70,9 @@ public class Product extends BaseEntity {
 
     @OneToOne(mappedBy = "product",cascade = CascadeType.REMOVE)
     private Cart cart;
+
+    @OneToOne(mappedBy = "product",cascade = CascadeType.REMOVE)
+    private Wishlist wishlist;
 
     @OneToOne
     // 대표이미지 thumnail

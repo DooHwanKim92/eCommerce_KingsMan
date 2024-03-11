@@ -175,7 +175,7 @@
                         <div th:if="${review.score == 5}">★★★★★</div>
                     </td>
                     <td>
-                        <img th:src="${review.reviewImg.FilePath}" alt="리뷰이미지" style="width:150px; height:150px;">
+                        <img th:src="${review.reviewImg.FilePath}" alt="리뷰이미지" style="width:150px; height:150px; object-fit:cover;">
                         <span th:text="${review.title}"></span>
                         <span th:text="${review.content}"></span>
                     </td>

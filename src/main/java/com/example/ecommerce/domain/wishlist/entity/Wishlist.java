@@ -1,8 +1,12 @@
 package com.example.ecommerce.domain.wishlist.entity;
 
 
+import com.example.ecommerce.domain.product.entity.Product;
+import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.global.BaseEntity;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +19,10 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class Wishlist extends BaseEntity {
 
-    private Long userId;
+    @ManyToOne
+    private SiteUser user;
 
-    private Long productId;
+    @OneToOne
+    private Product product;
 
 }
