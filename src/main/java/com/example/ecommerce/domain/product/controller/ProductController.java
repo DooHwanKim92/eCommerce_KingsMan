@@ -9,6 +9,8 @@ import com.example.ecommerce.domain.orders.OrdersCreateForm;
 import com.example.ecommerce.domain.product.ProductCreateForm;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.product.service.ProductService;
+import com.example.ecommerce.domain.question.entity.Question;
+import com.example.ecommerce.domain.review.entity.Review;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.domain.user.service.UserService;
 import com.example.ecommerce.global.image.service.ImageService;
@@ -38,11 +40,30 @@ public class ProductController {
 
     private final ImageService imageService;
 
+    @GetMapping("/list")
+    public String searchProductList(Model model, @RequestParam(value = "kw", defaultValue = "") String kw) {
+        List<Product> productList = this.productService.findAllByKeyword(kw);
+        model.addAttribute("productList",productList);
+        model.addAttribute("kw", kw);
+        return "/product/search_list";
+    }
+
     @GetMapping("/list/seller/{id}")
-    public String productList(Model model, @PathVariable(value = "id") Long id) {
-        List<Product> productList = this.userService.findById(id).getSellProductList();
+    public String sellerProductList(Model model, @PathVariable(value = "id") Long id) {
+        SiteUser user = this.userService.findById(id);
+        List<Product> productList = user.getSellProductList();
+        model.addAttribute("user",user);
         model.addAttribute("productList",productList);
         return "/product/seller_list";
+    }
+
+    @GetMapping("/list/category/{id}")
+    public String categoryProductList(Model model, @PathVariable(value = "id") Long id) {
+        List<Product> productList = this.productService.findByCategoryId(id);
+        Category category = this.categoryService.findById(id);
+        model.addAttribute("productList",productList);
+        model.addAttribute("category",category);
+        return "/product/category_list";
     }
 
     @GetMapping("/create")
@@ -67,12 +88,16 @@ public class ProductController {
         Product product = this.productService.createProduct(productCreateForm,user,category);
         this.productService.addImages(product, this.imageService.createProductRepImg(product,representImg),this.imageService.createProductDetailImg(product,detailImg));
         this.userService.createSellProduct(user, product);
+
         model.addAttribute("product",product);
+
         return "/product/create_option";
     }
 
     @GetMapping("/detail/{id}")
     public String productDetail(Model model, @PathVariable(value = "id") Long id, OrdersCreateForm ordersCreateForm) {
+        this.productService.scoreSum(this.productService.findById(id));
+
         Product product = this.productService.findById(id);
 
         int dcprice = Integer.parseInt(product.getPrice().replace(",",""));
@@ -81,8 +106,13 @@ public class ProductController {
             dcprice = Integer.parseInt(product.getPrice().replace(",","")) - Integer.parseInt(product.getPrice().replace(",",""))/Integer.parseInt(product.getDiscount());
         }
 
+        List<Review> reviewList = product.getReviewList();
+        List<Question> questionList = product.getQuestionList();
+
         model.addAttribute("dcprice",dcprice);
         model.addAttribute("product",product);
+        model.addAttribute("reviewList",reviewList);
+        model.addAttribute("questionList",questionList);
 
         return "/product/detail";
     }
@@ -96,18 +126,12 @@ public class ProductController {
     @GetMapping("/management")
     public String productManagement(Model model, Principal principal) {
         SiteUser user = this.userService.findByUsername(principal.getName());
+        this.productService.getIncome(user.getSellProductList());
         List<Product> productList = user.getSellProductList();
         model.addAttribute("productList",productList);
         return "/product/management";
     }
 
-    @GetMapping("/list/category/{id}")
-    public String categoryList(Model model, @PathVariable(value = "id") Long id) {
-        List<Product> productList = this.productService.findByCategoryId(id);
-        Category category = this.categoryService.findById(id);
-        model.addAttribute("productList",productList);
-        model.addAttribute("category",category);
-        return "/product/category_list";
-    }
+
 
 }

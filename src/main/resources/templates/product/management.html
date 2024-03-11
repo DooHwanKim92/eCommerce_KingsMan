@@ -5,41 +5,78 @@
         <h4>등록한 상품 목록</h4>
     </div>
 
-    <table class="table table-sm" th:if="${productList != null}">
-        <thead>
-        <tr>
-            <th scope="col">상품번호</th>
-            <th scope="col">상품명</th>
-            <th scope="col">상품이미지</th>
-            <th scope="col">판매량</th>
-            <th scope="col">등록날짜</th>
-        </tr>
-        </thead>
-        <tbody >
-        <tr style="height:100px;" th:each="product : ${productList}">
-            <th scope="row" style="width:200px; line-height:100px;"
-                th:text="${product.id}"></th>
-            <td style="line-height:100px;">
-                <a th:href="@{|/product/detail/${product.id}|}" th:text="${product.name}"></a>
-            </td>
-            <td th:text="상품이미지" style="line-height:100px;"></td>
-            <td th:text="${product.purchasing}" style="line-height:100px;"></td>
-            <td th:text="${#temporals.format(product.createDate, 'yyyy-MM-dd')}" style="line-height:100px;"></td>
-        </tr>
-        </tbody>
-    </table>
+        <table class="table table-sm" th:if="${productList != null}">
+            <thead>
+            <tr>
+                <th scope="col">상품번호</th>
+                <th scope="col">상품이미지</th>
+                <th scope="col">상품명</th>
+                <th scope="col">평점</th>
+                <th scope="col">판매량</th>
+                <th scope="col">판매수익</th>
+                <th scope="col">등록날짜</th>
+            </tr>
+            </thead>
+            <tbody >
+            <tr style="height:100px;" th:each="product : ${productList}">
+                <td style="line-height:100px;"
+                    th:text="${product.id}"></td>
+                <td>
+                    <img th:src="${product.representImg.FilePath}" alt="" style="width:100px; height:100px;">
+                </td>
+                <td style="line-height:100px;">
+                    <a th:href="@{|/product/detail/${product.id}|}" th:text="${product.name}"></a>
+                </td>
+                <td th:text="${product.score}" style="line-height:100px;"></td>
+                <td th:text="${product.purchasing}" style="line-height:100px;"></td>
+                <td th:text="${#numbers.formatInteger(product.income, 3, 'COMMA') + '원'}" style="line-height:100px;"></td>
+                <td th:text="${#temporals.format(product.createDate, 'yyyy-MM-dd')}" style="line-height:100px;"></td>
+            </tr>
+            </tbody>
+        </table>
+
 
     <div th:if="${productList == null}">
         <h5 style="color:red;">아직 등록한 상품이 없습니다.</h5>
     </div>
 
+<!--    <div class="my-3 border-bottom">-->
+<!--        <h4>상품통계</h4>-->
+<!--    </div>-->
+
+<!--    <table class="table table-sm" th:if="${productList != null}">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th scope="col">상품번호</th>-->
+<!--            <th scope="col">상품명</th>-->
+<!--            <th scope="col">상품이미지</th>-->
+<!--            <th scope="col">판매량</th>-->
+<!--            <th scope="col">판매수익</th>-->
+<!--            <th scope="col">등록날짜</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody >-->
+<!--        <tr style="height:100px;" th:each="product : ${productList}">-->
+<!--            <th scope="row" style="width:200px; line-height:100px;"-->
+<!--                th:text="${product.id}"></th>-->
+<!--            <td style="line-height:100px;">-->
+<!--                <a th:href="@{|/product/detail/${product.id}|}" th:text="${product.name}"></a>-->
+<!--            </td>-->
+<!--            <td th:text="상품이미지" style="line-height:100px;"></td>-->
+<!--            <td th:text="${product.purchasing}" style="line-height:100px;"></td>-->
+<!--            <td th:text="${product.purchasing}" style="line-height:100px;"></td>-->
+<!--            <td th:text="${#temporals.format(product.createDate, 'yyyy-MM-dd')}" style="line-height:100px;"></td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+
 
 
     <div style="margin-top:100px; display:flex; justify-content:flex-end;">
         <a class="btn btn-primary btn-sm" th:href="@{/product/create}">상품등록</a>
-        <a class="btn btn-primary btn-sm" th:href="@{/}" style="margin-left:10px;">쿠폰등록</a>
-        <a class="btn btn-primary btn-sm" th:href="@{/}" style="margin-left:10px;">예비용1</a>
-        <a class="btn btn-success btn-sm" th:href="@{/}" style="margin-left:10px;">예비용2</a>
+        <a class="btn btn-primary btn-sm" th:href="@{#}" style="margin-left:10px;">정산하기</a>
+        <a class="btn btn-primary btn-sm" th:href="@{#}" style="margin-left:10px;">예비용1</a>
+        <a class="btn btn-success btn-sm" th:href="@{#}" style="margin-left:10px;">예비용2</a>
         <a class="btn btn-danger btn-sm" href="#" style="margin-left:10px;">예비용3</a>
     </div>
 

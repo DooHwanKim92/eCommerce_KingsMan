@@ -5,7 +5,7 @@
         <h4>문의작성</h4>
     </div>
 
-    <form th:action="@{/question/create}" method="post" th:object="${questionCreateForm}">
+    <form th:action="@{|/question/create/product/${product.id}|}" method="post" th:object="${questionCreateForm}">
 
         <div class="mb-3">
             <label for="category" class="form-label">문의유형</label>
@@ -18,13 +18,8 @@
 
         <div class="mb-3">
             <label for="productName" class="form-label">상품</label>
-            <select class="form-select" aria-label="Default select example" id="productName" name="productName">
-                <option selected>상품1</option>
-                <option value="상품2">상품2</option>
-                <option value="상품3">상품3</option>
-            </select>
+            <input th:value="${product.name}" id="productName" name="productName" style="font-weight:bold;">
         </div>
-        <p th:each="err : ${#fields.errors('productName')}" th:text="${err}" style="color:red; font-size:14px;"></p>
 
         <div class="mb-3">
             <label for="title" class="form-label">제목</label>
@@ -39,8 +34,8 @@
         <p th:each="err : ${#fields.errors('content')}" th:text="${err}" style="color:red; font-size:14px;"></p>
 
         <div style="display:flex; justify-content:flex-end;">
-            <a class="btn btn-primary btn-sm" th:href="@{/question/list}">뒤로가기</a>
-            <button type="submit" class="btn btn-primary btn-sm" style="margin-left:10px;">작성하기</button>
+            <a class="btn btn-primary" th:href="@{|/product/detail/${product.id}|}">뒤로가기</a>
+            <button type="submit" class="btn btn-primary" style="margin-left:10px;">작성하기</button>
         </div>
     </form>
 

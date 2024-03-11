@@ -38,20 +38,15 @@
         <!-- 답변 끝  -->
 
         <!-- 답변 작성 -->
-        <form th:if="${@request.getSiteUser.role == 'admin' and question.answer == null}"
+        <form th:if="${@request.getSiteUser() == question.product.user and question.answer == null}"
               th:action="@{|/answer/create/${question.id}|}"
               method="post" class="my-3">
             <textarea name="content" id="content" rows="10" class="form-control"></textarea>
             <div style="margin-top:100px; display:flex; justify-content:flex-end;">
-                <button type="submit" th:text="답변등록" class="btn btn-primary btn-sm"></button>
-                <a class="btn btn-primary btn-sm" th:href="@{/question/mylist}" style="margin-left:10px;">뒤로가기</a>
+                <button type="submit" class="btn btn-primary btn-sm" th:text="답변등록"></button>
+                <a class="btn btn-primary btn-sm" th:href="@{|/product/detail/${question.product.id}|}" style="margin-left:10px;">뒤로가기</a>
             </div>
         </form>
-
-        <div th:if="${@request.getSiteUser.role != 'admin' or question.answer != null}"
-             style="margin-top:100px; display:flex; justify-content:flex-end;">
-            <a class="btn btn-primary btn-sm" th:href="@{/question/mylist}" style="margin-left:10px;">뒤로가기</a>
-        </div>
 
 
     </div>

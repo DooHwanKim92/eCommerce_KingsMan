@@ -2,12 +2,10 @@ package com.example.ecommerce.domain.question.entity;
 
 
 import com.example.ecommerce.domain.answer.entity.Answer;
+import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.global.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,5 +38,8 @@ public class Question extends BaseEntity {
 
     @Column
     private String isAnswered;
+
+    @ManyToOne
+    private Product product;
 
 }

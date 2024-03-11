@@ -55,9 +55,22 @@ public class ProductService {
                 .discount(productCreateForm.getDiscount())
                 .purchasing(0)
                 .isNew(true)
+                .DCPrice(0)
+                .score(0)
+                .income(0)
                 .build();
 
         this.productRepository.save(product);
+
+        if(!product.getDiscount().equals("0")) {
+            int DCPrice = Integer.parseInt(product.getPrice().replace(",","")) - Integer.parseInt(product.getPrice().replace(",",""))/Integer.parseInt(product.getDiscount());
+            Product DCproduct = product.toBuilder()
+                    .DCPrice(DCPrice)
+                    .build();
+
+            this.productRepository.save(DCproduct);
+        }
+
 
         this.categoryService.addProduct(category, product);
 
@@ -93,7 +106,7 @@ public class ProductService {
     }
 
     public List<Product> getNewProducts() {
-        List<Product> productList = this.productRepository.findAll();
+        List<Product> productList = this.productRepository.getNewProducts();
         for ( int i = 0 ; i < productList.size(); i++) {
             if (!productList.get(i).isNew()) {
                 productList.remove(productList.get(i));
@@ -131,5 +144,65 @@ public class ProductService {
         Product product = this.findById(orders.getProduct().getId());
 
         return product;
+    }
+
+    public List<Product> findAllByKeyword(String kw) {
+        return this.productRepository.findAllByKeyword(kw);
+    }
+
+
+    public void purchase(Product product, List<Orders> ordersList) {
+        //상품 구매시 판매량 증가
+        int amount = 0;
+
+        for(int i = 0 ; i < ordersList.size(); i ++) {
+            amount += Integer.parseInt(ordersList.get(i).getAmount());
+        }
+
+        int purchasingnum = product.getPurchasing() + amount;
+
+        Product productPurchase = product.toBuilder()
+                .purchasing(purchasingnum)
+                .build();
+
+        this.productRepository.save(productPurchase);
+    }
+
+    public void scoreSum(Product product) {
+        float scoreSummary = 0;
+        int ss = 0;
+        if(!product.getReviewList().isEmpty()) {
+            for(int i = 0 ; i < product.getReviewList().size(); i++) {
+                ss += product.getReviewList().get(i).getScore();
+            }
+            scoreSummary = (float) ss /product.getReviewList().size();
+        }
+
+        Product scoreSum = product.toBuilder()
+                .score(scoreSummary)
+                .build();
+
+        this.productRepository.save(scoreSum);
+    }
+
+    public List<Product> getHighQualityProducts() {
+        return this.productRepository.getHighQualityProducts();
+    }
+
+    public void getIncome(List<Product> sellProductList) {
+        int income = 0;
+        for ( int i = 0; i < sellProductList.size(); i++) {
+            if(sellProductList.get(i).getDiscount().equals("0")) {
+                income = sellProductList.get(i).getPurchasing() * Integer.parseInt(sellProductList.get(i).getPrice().replace(",",""));
+            } else {
+                income = sellProductList.get(i).getPurchasing() * sellProductList.get(i).getDCPrice();
+            }
+
+            Product updateIncome = sellProductList.get(i).toBuilder()
+                    .income(income)
+                    .build();
+
+            this.productRepository.save(updateIncome);
+        }
     }
 }

@@ -3,7 +3,9 @@ package com.example.ecommerce.domain.product.entity;
 import com.example.ecommerce.domain.cart.entity.Cart;
 import com.example.ecommerce.domain.category.entity.Category;
 import com.example.ecommerce.domain.option.entity.Option;
+import com.example.ecommerce.domain.orderdetail.entity.OrderDetail;
 import com.example.ecommerce.domain.orders.entity.Orders;
+import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.domain.review.entity.Review;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.global.BaseEntity;
@@ -49,12 +51,23 @@ public class Product extends BaseEntity {
     // 할인 시 할인된 금액
     private Integer DCPrice;
 
-    private List<String> keyword;
+    private List<String> tag;
+
+    @Column
+    // 평점
+    private float score;
+
+    @Column
+    // 판매금액
+    private Integer income;
 
     @Column
     // 신상여부
     // 일정 기간이 지나면 자동으로 바뀌도록 구현필요
     private boolean isNew;
+
+    @OneToOne(mappedBy = "product",cascade = CascadeType.REMOVE)
+    private Cart cart;
 
     @OneToOne
     // 대표이미지 thumnail
@@ -75,5 +88,11 @@ public class Product extends BaseEntity {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<Orders> ordersList;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderDetail> orderDetailList;
+
+    @OneToMany(mappedBy = "product")
+    private List<Question> questionList;
 
 }

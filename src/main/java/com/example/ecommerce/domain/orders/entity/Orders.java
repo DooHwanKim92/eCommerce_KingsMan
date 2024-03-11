@@ -32,7 +32,4 @@ public class Orders extends BaseEntity {
     @Column
     private String amount;
 
-    @ManyToOne
-    private OrderDetail orderDetail;
-
 }

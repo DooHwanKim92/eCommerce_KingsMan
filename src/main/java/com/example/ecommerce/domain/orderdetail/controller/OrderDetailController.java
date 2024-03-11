@@ -47,32 +47,23 @@ public class OrderDetailController {
 
         totalPrice = this.ordersService.getTotalPrice(product, user);
 
-        if(totalPrice==0) {
-            return String.format("redirect:/product/detail/%d",id);
+        if (totalPrice == 0) {
+            return String.format("redirect:/product/detail/%d", id);
         }
 
         model.addAttribute("product", product);
         model.addAttribute("user", user);
         model.addAttribute("totalPrice", totalPrice);
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "/orders/detail";
         }
 
-        List<Orders> ordersList = new ArrayList<>();
+        List<Orders> ordersList = this.ordersService.findByUserandProduct(user, product);
+        OrderDetail orderDetail = this.orderDetailService.create(product, user, ordersList, orderDetailCreateForm, totalPrice);
+        this.productService.purchase(product, ordersList);
 
-        for (int i = 0; i < product.getOrdersList().size(); i++) {
-            if(product.getOrdersList().get(i).getUser() == user && product.getOrdersList().get(i).getProduct() == product) {
-                Orders orders = this.ordersService.findById(product.getOrdersList().get(i).getId());
-                ordersList.add(orders);
-            }
-        }
-
-        OrderDetail orderDetail = this.orderDetailService.create(ordersList, user, orderDetailCreateForm, totalPrice);
-
-
-
-        model.addAttribute("orderDetail",orderDetail);
+        model.addAttribute("orderDetail", orderDetail);
 
         return "/orders/complete";
     }

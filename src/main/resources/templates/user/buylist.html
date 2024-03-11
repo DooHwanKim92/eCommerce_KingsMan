@@ -1,5 +1,5 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content" class="container my-3" style="width:1000px;">
+<div layout:fragment="content" class="container my-3" style="width:1200px;">
 
     <div class="my-3 border-bottom">
         <h4>
@@ -11,11 +11,11 @@
     <table class="table table-sm">
         <thead>
         <tr>
-            <th scope="col">구입상품</th>
-            <th scope="col">옵션</th>
-            <th scope="col">수량</th>
-            <th scope="col">결제금액</th>
-            <th scope="col">받는사람</th>
+            <th>구입상품</th>
+            <th>옵션</th>
+            <th>결제금액, 결제방식</th>
+            <th>받는사람</th>
+            <th>주문날짜</th>
         </tr>
         </thead>
         <tbody>
@@ -24,14 +24,27 @@
                 <img th:src="${orders.product.representImg.FilePath}" alt="상품이미지" style="width:200px; height:200px; object-fit:cover;">
                 <a th:href="@{|/product/detail/${orders.product.id}|}" th:text="${orders.product.name}"></a>
             </th>
-            <td style="line-height:200px;">
-                <div th:each="option : ${orders.option}" style="display:inline-block;">
-                    <span th:text = ${option}></span>
+            <td>
+                <div style="display:inline-block; width:200px;">
+                    <span th:text = ${orders.productOption}></span>
                 </div>
             </td>
-            <td th:text="${orders.amount}" style="line-height:200px;"></td>
-            <td th:text="${orders.orderDetail.totalPrice}" style="line-height:200px;"></td>
-            <td style="line-height:200px;"></td>
+            <td style="width:200px;">
+                <div th:text="${#numbers.formatInteger(orders.totalPrice, 3, 'COMMA') + '원'}"></div>
+                <div th:text="${orders.howToPay}"></div>
+            </td>
+            <td>
+                <div>
+                    <span th:text="|이름 : ${orders.receiverName}|"></span>
+                    <br>
+                    <span th:text="|주소 : ${orders.receiverAddress}|"></span>
+                    <br>
+                    <span th:text="|전화번호 : ${orders.receiverPhoneNumber}|"></span>
+                </div>
+            </td>
+            <td>
+                <div th:text="${#temporals.format(orders.createDate, 'yyyy-MM-dd')}" style="width:150px;"></div>
+            </td>
         </tr>
         </tbody>
     </table>

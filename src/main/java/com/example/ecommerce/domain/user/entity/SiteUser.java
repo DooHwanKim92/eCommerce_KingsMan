@@ -8,6 +8,7 @@ import com.example.ecommerce.domain.orderdetail.entity.OrderDetail;
 import com.example.ecommerce.domain.orders.entity.Orders;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.question.entity.Question;
+import com.example.ecommerce.domain.review.entity.Review;
 import com.example.ecommerce.global.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -82,11 +83,16 @@ public class SiteUser extends BaseEntity {
     // 문의내역
     private List<Question> questionList;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    // 상품후기
+    private List<Review> reviewList;
+
     @OneToOne(mappedBy = "user")
     // 판매권한신청
     private Confirm confirm;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    // 알림리스트
     private List<Alarm> alarmList;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
@@ -98,7 +104,7 @@ public class SiteUser extends BaseEntity {
     private List<Orders> ordersList;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    // 구매 내역
+    // 선택한 상품 옵션
     private List<OrderDetail> orderDetailList;
 
 }
