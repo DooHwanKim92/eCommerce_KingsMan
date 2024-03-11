@@ -23,7 +23,8 @@
 
 ## ☁️ ERD [링크](https://dbdiagram.io/d/%EC%9D%B4%EC%BB%A4%EB%A8%B8%EC%8A%A4-DB-%EC%8A%A4%EC%BC%80%EC%B9%98-65cc60a5ac844320ae196fd9)
 
-https://github.com/DooHwanKim92/eCommerce_KingsMan/assets/144447216/fc2ee2dc-3cd7-4fdf-b18a-320b8da10ada
+![이커머스 DB 스케치 (2)](https://github.com/DooHwanKim92/eCommerce_KingsMan/assets/144447216/28bde2bc-8904-46e4-8481-f8cb90fbfce3)
+
 
 
 
