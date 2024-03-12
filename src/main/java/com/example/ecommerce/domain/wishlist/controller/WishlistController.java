@@ -35,16 +35,18 @@ public class WishlistController {
         SiteUser user = this.userService.findByUsername(principal.getName());
         Product product = this.productService.findById(id);
 
+        String isWish = "";
+        isWish = this.wishlistService.isWish(user, product);
+
+        model.addAttribute("isWish",isWish);
+
         if(this.ordersService.findByUserandProduct(user,product).isEmpty()) {
             return String.format("redirect:/product/detail/%d",id);
         }
 
         this.userService.addWishList(user, this.wishlistService.addProduct(user, product));
 
-        String isWish = "";
-        isWish = this.wishlistService.isWish(user, product);
 
-        model.addAttribute("isWish",isWish);
 
         return String.format("redirect:/product/detail/%d",id);
     }

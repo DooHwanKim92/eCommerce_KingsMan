@@ -98,10 +98,16 @@ public class ProductController {
     }
 
     @GetMapping("/detail/{id}")
-    public String productDetail(Model model, @PathVariable(value = "id") Long id, OrdersCreateForm ordersCreateForm) {
+    public String productDetail(Model model, @PathVariable(value = "id") Long id, OrdersCreateForm ordersCreateForm, Principal principal) {
         this.productService.scoreSum(this.productService.findById(id));
 
+        SiteUser user = this.userService.findByUsername(principal.getName());
         Product product = this.productService.findById(id);
+
+        String isWish = "";
+        isWish = this.wishlistService.isWish(user, product);
+
+        model.addAttribute("isWish",isWish);
 
         model.addAttribute("dcprice",product.getDCPrice());
         model.addAttribute("product",product);
