@@ -19,6 +19,8 @@ public class CartService {
 
     private final CartRepository cartRepository;
 
+    private final ProductService productService;
+
     public Cart addProduct(SiteUser user, Product product) {
         Cart addCart = Cart.builder()
                 .user(user)
@@ -30,14 +32,6 @@ public class CartService {
         return addCart;
     }
 
-
-    public List<Product> getProductListFindByUser(SiteUser user) {
-        List<Product> productList = new ArrayList<>();
-        for ( int i = 0; i < user.getCartList().size(); i++) {
-            productList.add(user.getCartList().get(i).getProduct());
-        }
-        return productList;
-    }
 
     public void remove(List<Long> id) {
         for(int i = 0; i < id.size(); i ++) {
@@ -53,4 +47,36 @@ public class CartService {
         return cart.get();
     }
 
+    public List<Product> getProductListByCartId(List<Long> cartId) {
+        List<Cart> cartList = new ArrayList<>();
+        for(int i = 0 ; i < cartId.size(); i++) {
+            cartList.add(this.findById(cartId.get(i)));
+        }
+
+        List<Product> productList = new ArrayList<>();
+        for(int i = 0; i < cartList.size(); i++) {
+            productList.add(cartList.get(i).getProduct());
+        }
+        return productList;
+    }
+
+    public void removeList(List<Product> productList, SiteUser user) {
+        List<Cart> cartList = user.getCartList();
+        for(int i = 0; i < productList.size(); i ++) {
+            for(int j = 0; j < cartList.size(); j++) {
+                if(cartList.get(j).getProduct() == productList.get(i)) {
+                    this.cartRepository.delete(cartList.get(j));
+                }
+            }
+        }
+    }
+
+    public void removeByProduct(Product product, SiteUser user) {
+        List<Cart> cartList = user.getCartList();
+        for(int j = 0; j < cartList.size(); j++) {
+            if(cartList.get(j).getProduct() == product) {
+                this.cartRepository.delete(cartList.get(j));
+            }
+        }
+    }
 }

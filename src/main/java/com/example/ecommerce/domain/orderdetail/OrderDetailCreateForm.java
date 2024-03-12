@@ -12,6 +12,8 @@ import java.util.List;
 @Setter
 public class OrderDetailCreateForm {
 
+    List<Long> productId;
+
     @NotEmpty(message = "받는 사람의 이름을 입력해주세요.")
     private String name;
 

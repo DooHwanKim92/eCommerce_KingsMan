@@ -6,6 +6,7 @@ import com.example.ecommerce.domain.orderdetail.entity.OrderDetail;
 import com.example.ecommerce.domain.orderdetail.repository.OrderDetailRepository;
 import com.example.ecommerce.domain.orders.entity.Orders;
 import com.example.ecommerce.domain.product.entity.Product;
+import com.example.ecommerce.domain.product.service.ProductService;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OrderDetailService {
+
+    private final ProductService productService;
 
     private final OrderDetailRepository orderDetailRepository;
 
@@ -45,5 +48,15 @@ public class OrderDetailService {
         this.orderDetailRepository.save(orderDetail);
 
         return orderDetail;
+    }
+
+    public List<Product> getProductListById(List<Long> productId) {
+        List<Product> productList = new ArrayList<>();
+
+        for ( int i = 0 ; i < productId.size(); i++) {
+            productList.add(this.productService.findById(productId.get(i)));
+        }
+
+        return productList;
     }
 }

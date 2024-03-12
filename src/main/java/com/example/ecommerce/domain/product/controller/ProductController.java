@@ -13,6 +13,7 @@ import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.domain.review.entity.Review;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.domain.user.service.UserService;
+import com.example.ecommerce.domain.wishlist.service.WishlistService;
 import com.example.ecommerce.global.image.service.ImageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,8 @@ public class ProductController {
     private final CategoryService categoryService;
 
     private final ImageService imageService;
+
+    private final WishlistService wishlistService;
 
     @GetMapping("/list")
     public String searchProductList(Model model, @RequestParam(value = "kw", defaultValue = "") String kw) {
@@ -100,19 +103,10 @@ public class ProductController {
 
         Product product = this.productService.findById(id);
 
-        int dcprice = Integer.parseInt(product.getPrice().replace(",",""));
-
-        if(!product.getDiscount().equals("0")) {
-            dcprice = Integer.parseInt(product.getPrice().replace(",","")) - Integer.parseInt(product.getPrice().replace(",",""))/Integer.parseInt(product.getDiscount());
-        }
-
-        List<Review> reviewList = product.getReviewList();
-        List<Question> questionList = product.getQuestionList();
-
-        model.addAttribute("dcprice",dcprice);
+        model.addAttribute("dcprice",product.getDCPrice());
         model.addAttribute("product",product);
-        model.addAttribute("reviewList",reviewList);
-        model.addAttribute("questionList",questionList);
+        model.addAttribute("reviewList",product.getReviewList());
+        model.addAttribute("questionList",product.getQuestionList());
 
         return "/product/detail";
     }

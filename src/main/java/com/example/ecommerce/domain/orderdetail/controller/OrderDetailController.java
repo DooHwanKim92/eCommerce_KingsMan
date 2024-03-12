@@ -1,6 +1,7 @@
 package com.example.ecommerce.domain.orderdetail.controller;
 
 
+import com.example.ecommerce.domain.cart.service.CartService;
 import com.example.ecommerce.domain.orderdetail.OrderDetailCreateForm;
 import com.example.ecommerce.domain.orderdetail.entity.OrderDetail;
 import com.example.ecommerce.domain.orderdetail.service.OrderDetailService;
@@ -18,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -35,6 +37,8 @@ public class OrderDetailController {
     private final UserService userService;
 
     private final OrdersService ordersService;
+
+    private final CartService cartService;
 
     @PostMapping("/{id}")
     //구매 확정
@@ -64,6 +68,42 @@ public class OrderDetailController {
         this.productService.purchase(product, ordersList);
 
         model.addAttribute("orderDetail", orderDetail);
+
+        this.cartService.removeByProduct(product,user);
+
+        return "/orders/complete";
+    }
+
+    @PostMapping("/buy")
+    public String orderDetailManyProducts(Model model, Principal principal, @Valid OrderDetailCreateForm orderDetailCreateForm, BindingResult bindingResult) {
+
+        SiteUser user = this.userService.findByUsername(principal.getName());
+        List<Product> productList = this.orderDetailService.getProductListById(orderDetailCreateForm.getProductId());
+
+        int totalPrice = 0;
+
+        for ( int i = 0 ; i < productList.size(); i ++) {
+            totalPrice += this.ordersService.getTotalPrice(productList.get(i),user);
+        }
+
+        model.addAttribute("productList", productList);
+        model.addAttribute("user", user);
+        model.addAttribute("totalPrice", totalPrice);
+
+        if (bindingResult.hasErrors()) {
+            return "/orders/detail";
+        }
+
+
+        for(int i = 0 ; i < productList.size(); i ++) {
+            List<Orders> ordersList = this.ordersService.findByUserandProduct(user, productList.get(i));
+            this.productService.purchase(productList.get(i), ordersList);
+            OrderDetail orderDetail = this.orderDetailService.create(productList.get(i), user, ordersList, orderDetailCreateForm, this.ordersService.getTotalPrice(productList.get(i), user));
+            model.addAttribute("orderDetail", orderDetail);
+        }
+
+
+        this.cartService.removeList(productList,user);
 
         return "/orders/complete";
     }

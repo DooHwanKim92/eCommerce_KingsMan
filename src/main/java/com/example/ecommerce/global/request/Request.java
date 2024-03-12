@@ -183,10 +183,9 @@ public class Request {
         return productService.getHighQualityProducts();
     }
 
-
-
     public List<Image> getMainImages() {
         return this.imageService.getMainImageList();
     }
+
 }
 
