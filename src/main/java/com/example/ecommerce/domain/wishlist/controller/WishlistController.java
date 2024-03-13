@@ -6,6 +6,7 @@ import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.product.service.ProductService;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.domain.user.service.UserService;
+import com.example.ecommerce.domain.wishlist.entity.Wishlist;
 import com.example.ecommerce.domain.wishlist.service.WishlistService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/wish")
@@ -49,6 +51,16 @@ public class WishlistController {
 
 
         return String.format("redirect:/product/detail/%d",id);
+    }
+
+    @GetMapping("/list")
+    public String wishList(Model model, Principal principal) {
+        SiteUser user = this.userService.findByUsername(principal.getName());
+        List<Wishlist> wishList = user.getWishList();
+
+        model.addAttribute("wishList",wishList);
+
+        return "/wishlist/list";
     }
 
 }

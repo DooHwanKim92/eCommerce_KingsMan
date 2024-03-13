@@ -2,7 +2,6 @@
 <div layout:fragment="content" style="width:100%;">
 
 
-
     <!-- 캐러셀 -->
     <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" style="width:100%;">
         <div class="carousel-inner" style="width:100%; height:800px;">
@@ -11,7 +10,7 @@
                      alt="main-photo-1" style="width:100%; height:800px; object-fit:cover;">
             </div>
             <div class="carousel-item" style="text-align:center;"
-                 th:each="mainImg : ${@request.getMainImages()}">
+                 th:each="mainImg : ${mainImages}">
                 <img th:src="${mainImg.FilePath}" alt="main-photo-2"
                      style="width:100%; height:800px; object-fit:cover;">
             </div>
@@ -37,15 +36,18 @@
             <div class="wrap"> <!-- 배너표시영역 -->
                 <div class="rolling-list"> <!-- 원본배너 -->
                     <ul>
-                        <li th:each="best : ${@request. getBestSellerList()}">
-                            <div class="image-wrap" style="width:300px; text-align:center; margin-left:20px; margin-right:20px; position:relative;">
-                                <img th:src="${best.representImg.FilePath}" alt="productThumnail" style="width:280px; height:280px; object-fit:cover;">
+                        <li th:each="best : ${bestSellerList}">
+                            <div class="image-wrap"
+                                 style="width:300px; text-align:center; margin-left:20px; margin-right:20px; position:relative;">
+                                <img th:src="${best.representImg.FilePath}" alt="productThumnail"
+                                     style="width:280px; height:280px; object-fit:cover;">
                                 <span class="position-absolute top-50 start-100 translate-middle badge rounded-pill bg-danger"
                                       th:if="${best.discount != '0'}"
                                       th:text="|-${best.discount}%|" style="font-size:24px;">
                             <span class="visually-hidden">unread messages</span>
                         </span>
-                                <a th:href="@{|/product/detail/${best.id}|}" th:text="${best.name}" style="font-weight:bold; font-size:20px;"></a>
+                                <a th:href="@{|/product/detail/${best.id}|}" th:text="${best.name}"
+                                   style="font-weight:bold; font-size:20px;"></a>
                                 <div>
                                     <tr th:if="${best.discount == '0'}">
                                         <th scope="row" style="width:100px;">가격</th>
@@ -55,7 +57,8 @@
                                         <th scope="row" style="width:100px;">할인</th>
                                         <td>
                                             <del th:text="|${best.price}원|"></del>
-                                            <span th:text="${#numbers.formatInteger(best.DCPrice, 3, 'COMMA') + '원'}" style="color:red; font-weight:bold;"></span>
+                                            <span th:text="${#numbers.formatInteger(best.DCPrice, 3, 'COMMA') + '원'}"
+                                                  style="color:red; font-weight:bold;"></span>
                                         </td>
                                     </tr>
                                 </div>
@@ -74,14 +77,17 @@
             <span style="text-decoration:none; font-size:12px; color:gray;">새로 등록된 상품 TOP 10</span>
             <hr>
             <div style="display:flex; height:400px; overflow:scroll">
-                <div th:each="newList : ${@request.getNewProductList()}" style="width:300px; text-align:center; margin-left:20px; margin-right:20px; position:relative;">
-                    <img th:src="${newList.representImg.FilePath}" alt="productThumnail" style="width:280px; height:280px; object-fit:cover;">
+                <div th:each="newList : ${newProductList}"
+                     style="width:300px; text-align:center; margin-left:20px; margin-right:20px; position:relative;">
+                    <img th:src="${newList.representImg.FilePath}" alt="productThumnail"
+                         style="width:280px; height:280px; object-fit:cover;">
                     <span class="position-absolute top-50 start-100 translate-middle badge rounded-pill bg-danger"
                           th:if="${newList.discount != '0'}"
                           th:text="|-${newList.discount}%|" style="font-size:24px;">
                             <span class="visually-hidden">unread messages</span>
                         </span>
-                    <a th:href="@{|/product/detail/${newList.id}|}" th:text="${newList.name}" style="font-weight:bold; font-size:20px;"></a>
+                    <a th:href="@{|/product/detail/${newList.id}|}" th:text="${newList.name}"
+                       style="font-weight:bold; font-size:20px;"></a>
                     <div>
                         <tr th:if="${newList.discount == '0'}">
                             <th scope="row" style="width:100px;">가격</th>
@@ -91,7 +97,8 @@
                             <th scope="row" style="width:100px;">할인</th>
                             <td>
                                 <del th:text="|${newList.price}원|"></del>
-                                <span th:text="${#numbers.formatInteger(newList.DCPrice, 3, 'COMMA') + '원'}" style="color:red; font-weight:bold;"></span>
+                                <span th:text="${#numbers.formatInteger(newList.DCPrice, 3, 'COMMA') + '원'}"
+                                      style="color:red; font-weight:bold;"></span>
                             </td>
                         </tr>
                     </div>
@@ -107,14 +114,17 @@
             <span style="text-decoration:none; font-size:12px; color:gray;">평점이 높은 상품 TOP 10</span>
             <hr>
             <div style="display:flex; height:400px; overflow:scroll">
-                <div th:each="highScore : ${@request.getHighQualityProducts()}" style="width:300px; text-align:center; margin-left:20px; margin-right:20px; position:relative;">
-                    <img th:src="${highScore.representImg.FilePath}" alt="productThumnail" style="width:280px; height:280px; object-fit:cover;">
+                <div th:each="highScore : ${highQualityProducts}"
+                     style="width:300px; text-align:center; margin-left:20px; margin-right:20px; position:relative;">
+                    <img th:src="${highScore.representImg.FilePath}" alt="productThumnail"
+                         style="width:280px; height:280px; object-fit:cover;">
                     <span class="position-absolute top-50 start-100 translate-middle badge rounded-pill bg-danger"
                           th:if="${highScore.discount != '0'}"
                           th:text="|-${highScore.discount}%|" style="font-size:24px;">
                             <span class="visually-hidden">unread messages</span>
                         </span>
-                    <a th:href="@{|/product/detail/${highScore.id}|}" th:text="${highScore.name}" style="font-weight:bold; font-size:20px;"></a>
+                    <a th:href="@{|/product/detail/${highScore.id}|}" th:text="${highScore.name}"
+                       style="font-weight:bold; font-size:20px;"></a>
                     <div>
                         <tr th:if="${highScore.discount == '0'}">
                             <th scope="row" style="width:100px;">가격</th>
@@ -124,7 +134,8 @@
                             <th scope="row" style="width:100px;">할인</th>
                             <td>
                                 <del th:text="|${highScore.price}원|"></del>
-                                <span th:text="${#numbers.formatInteger(highScore.DCPrice, 3, 'COMMA') + '원'}" style="color:red; font-weight:bold;"></span>
+                                <span th:text="${#numbers.formatInteger(highScore.DCPrice, 3, 'COMMA') + '원'}"
+                                      style="color:red; font-weight:bold;"></span>
                             </td>
                         </tr>
                     </div>
@@ -133,8 +144,6 @@
             </div>
         </div>
     </div>
-
-
 
 
 </div>

@@ -20,7 +20,7 @@ import lombok.experimental.SuperBuilder;
 public class Image extends BaseEntity {
 
     @Column
-    // Entity 이름 = Product, Review
+    // Entity 이름 = Product, Review, Main
     private String typeName;
 
     @Column
