@@ -1,4 +1,4 @@
-package com.example.ecommerce.domain.rebate.entity;
+package com.example.ecommerce.global.rebate.entity;
 
 
 import com.example.ecommerce.global.BaseEntity;

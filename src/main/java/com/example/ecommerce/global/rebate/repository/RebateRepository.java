@@ -1,7 +1,7 @@
-package com.example.ecommerce.domain.rebate.repository;
+package com.example.ecommerce.global.rebate.repository;
 
 
-import com.example.ecommerce.domain.rebate.entity.Rebate;
+import com.example.ecommerce.global.rebate.entity.Rebate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

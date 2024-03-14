@@ -358,7 +358,7 @@
 
 
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script>
+    <script th:inline="javascript">
     <!--   다음 주소 api     -->
         //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
         function sample4_execDaumPostcode() {
@@ -423,7 +423,7 @@
         const coupon = document.getElementById("coupon-box");
         const generateRandomString = () =>
           window.btoa(Math.random()).slice(0, 20);
-        const amount = 50000;
+        const amount = [[${totalPrice}]];
         // ------  결제위젯 초기화 ------
         // TODO: clientKey는 개발자센터의 결제위젯 연동 키 > 클라이언트 키로 바꾸세요.
         // TODO: 구매자의 고유 아이디를 불러와서 customerKey로 설정하세요. 이메일・전화번호와 같이 유추가 가능한 값은 안전하지 않습니다.
@@ -458,6 +458,7 @@
           }
         });
 
+
         // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
         // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
         button.addEventListener("click", function () {
@@ -465,12 +466,12 @@
           // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
           paymentWidget.requestPayment({
             orderId: generateRandomString(),
-            orderName: "메롱 외 15건",
+            orderName: [[${totalPrice}]],
             successUrl: window.location.origin + "/success",
             failUrl: window.location.origin + "/fail",
-            customerEmail: "customer123@gmail.com",
-            customerName: "2hk",
-            customerMobilePhone: "01012341234",
+            customerEmail: [[${user.email}]],
+            customerName: [[${user.nickname}]],
+            customerMobilePhone: [[${user.phoneNumber}]],
           });
         });
     </script>

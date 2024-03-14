@@ -25,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderDetailController {
 
+
     private final OrderDetailService orderDetailService;
 
     private final ProductService productService;
@@ -66,7 +67,7 @@ public class OrderDetailController {
 
         this.cartService.removeByProduct(product,user);
 
-        return "/orders/checkout";
+        return "/orders/complete";
     }
 
     @PostMapping("/buy")
@@ -101,7 +102,7 @@ public class OrderDetailController {
 
         this.cartService.removeList(productList,user);
 
-        return "/orders/checkout";
+        return "/orders/complete";
     }
 
 }

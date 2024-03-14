@@ -1,4 +1,4 @@
-package com.example.ecommerce.domain.rebate.service;
+package com.example.ecommerce.global.rebate.service;
 
 
 import org.springframework.stereotype.Service;
