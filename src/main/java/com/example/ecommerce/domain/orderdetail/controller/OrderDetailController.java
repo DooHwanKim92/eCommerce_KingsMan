@@ -25,7 +25,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderDetailController {
 
-
     private final OrderDetailService orderDetailService;
 
     private final ProductService productService;
@@ -103,6 +102,12 @@ public class OrderDetailController {
         this.cartService.removeList(productList,user);
 
         return "/orders/complete";
+    }
+
+    @GetMapping("/remove/{id}")
+    public String remove(Model model, @PathVariable(value = "id") Long id) {
+        this.orderDetailService.removeById(id);
+        return "redirect:/";
     }
 
 }

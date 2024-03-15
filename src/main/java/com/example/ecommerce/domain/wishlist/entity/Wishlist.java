@@ -22,7 +22,7 @@ public class Wishlist extends BaseEntity {
     @ManyToOne
     private SiteUser user;
 
-    @OneToOne
+    @ManyToOne
     private Product product;
 
 }

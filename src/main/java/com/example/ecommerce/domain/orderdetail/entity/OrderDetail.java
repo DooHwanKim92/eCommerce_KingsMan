@@ -49,6 +49,10 @@ public class OrderDetail extends BaseEntity {
     private Integer totalPrice;
 
     @Column
+    // 구매 시 적립 포인트
+    private Integer savingPoint;
+
+    @Column
     // 구매 여부
     private boolean isPurchase;
 

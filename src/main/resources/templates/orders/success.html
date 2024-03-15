@@ -2,23 +2,203 @@
 <div layout:fragment="content" class="container my-3" style="width:1000px;">
 
 
+    <div class="my-3 border-bottom">
+        <h4>주문완료</h4>
+    </div>
+
+    <div style="margin-top:40px; margin-bottom:40px;">
+        <div style="display:flex; justify-content:space-between;">
+            <div style="color:gray; font-size:14px;">시작</div>
+            <div style="color:gray; font-size:14px;">구매확정</div>
+            <div style="color:gray; font-size:14px;">결제하기</div>
+            <div style="color:gray; font-size:14px;">결제승인</div>
+            <div style="font-weight:bold; font-size:14px;">주문완료</div>
+        </div>
+        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="100" aria-valuemin="0"
+             aria-valuemax="100">
+            <div class="progress-bar w-100"></div>
+        </div>
+    </div>
 
     <div class="result wrapper">
         <div class="box_section">
-            <h2 style="padding: 20px 0px 10px 0px">
+            <h5 style="padding: 20px 0px 10px 0px">
                 <img
                         width="35px"
                         src="https://static.toss.im/3d-emojis/u1F389_apng.png"
                 />
                 결제 성공
-            </h2>
+            </h5>
+            <table class="table table-sm">
+                <tbody>
+                <tr>
+                <tr style="">
+                    <th scope="row" style="width:100px;">주문번호</th>
+                    <td>
+                        <p id="orderId"></p>
+                    </td>
+                </tr>
+                <tr style="">
+                    <th scope="row" style="width:100px;">결제금액</th>
+                    <td>
+                        <p id="amount" style="color:red; font-weight:bold;"></p>
+                    </td>
+                </tbody>
+            </table>
 
-            <p id="paymentKey"></p>
-            <p id="orderId"></p>
-            <p id="amount"></p>
+
+
         </div>
     </div>
+
+    <div style="margin-top:50px;">
+        <h5>구매상품</h5>
+        <table th:if="${product != null}" class="table table-sm">
+            <tbody>
+            <tr style="">
+                <td>
+                    <div style="display:flex; justify-content:space-between;">
+                        <img th:src="${product.representImg.FilePath}" alt="상품이미지" style="width:200px; height:200px;">
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <div>상품 :
+                            <a th:href="@{|/product/detail/${product.id}|}" th:text="${product.name}"></a>
+                        </div>
+                        <div th:if="${product.discount == '0'}">
+                            <span style="width:100px;">가격</span>
+                            <span th:text="|${product.price}원|" style=""></span>
+                        </div>
+                        <div th:if="${product.discount != '0'}">
+                            <span style="width:100px;">할인</span>
+                            <div>
+                                <del th:text="|${product.price}원|"></del>
+                                <span th:text="${#numbers.formatInteger(product.DCPrice, 3, 'COMMA') + '원'}" style="color:red; font-weight:bold;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div th:each="option : ${product.ordersList}" th:if="${@request.getSiteUser() == option.user}">선택옵션
+                        <div th:text="|옵션 : ${option.option}|"></div>
+                        <div th:text="|수량 : ${option.amount}|"></div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+<!--        <table th:if="${productList != null}" class="table table-sm">-->
+<!--            <tbody>-->
+<!--            <tr th:each="product : ${productList}">-->
+<!--                <td>-->
+<!--                    <div style="display:flex; justify-content:space-between;">-->
+<!--                        <img th:src="${product.representImg.FilePath}" alt="상품이미지" style="width:200px; height:200px;">-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <div>-->
+<!--                        <div>상품 :-->
+<!--                            <a th:href="@{|/product/detail/${product.id}|}" th:text="${product.name}"></a>-->
+<!--                        </div>-->
+<!--                        <div th:if="${product.discount == '0'}">-->
+<!--                            <span style="width:100px;">가격</span>-->
+<!--                            <span th:text="|${product.price}원|" style=""></span>-->
+<!--                        </div>-->
+<!--                        <div th:if="${product.discount != '0'}">-->
+<!--                            <span style="width:100px;">할인</span>-->
+<!--                            <div>-->
+<!--                                <del th:text="|${product.price}원|"></del>-->
+<!--                                <span th:text="${#numbers.formatInteger(product.DCPrice, 3, 'COMMA') + '원'}" style="color:red; font-weight:bold;"></span>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <div th:each="option : ${product.ordersList}" th:if="${@request.getSiteUser() == option.user}">선택옵션-->
+<!--                        <div th:text="|옵션 : ${option.option}|"></div>-->
+<!--                        <div th:text="|수량 : ${option.amount}|"></div>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+    </div>
+
+    <div style="margin-top:50px;">
+        <h5>구매자정보</h5>
+        <table class="table table-sm">
+            <tbody>
+            <tr style="">
+                <th scope="row" style="width:100px;">이름</th>
+                <td th:text="${user.nickname}" style=""></td>
+            </tr>
+            <tr style="">
+                <th scope="row" style="width:100px;">주소</th>
+                <td th:text="${user.address}" style=""></td>
+            </tr>
+            <tr style="">
+                <th scope="row" style="width:100px;">연락처</th>
+                <td th:text="${user.phoneNumber}" style=""></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top:50px;">
+        <h5>받는사람정보</h5>
+        <table class="table table-sm">
+            <tbody>
+            <tr style="">
+                <th scope="row" style="width:100px;">이름</th>
+                <td th:text="${orderDetail.receiverName}" style=""></td>
+            </tr>
+            <tr style="">
+                <th scope="row" style="width:100px;">주소</th>
+                <td th:text="${orderDetail.receiverAddress}" style=""></td>
+            </tr>
+            <tr style="">
+                <th scope="row" style="width:100px;">연락처</th>
+                <td th:text="${orderDetail.receiverPhoneNumber}" style=""></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top:50px;">
+        <h5>결제정보</h5>
+        <table class="table table-sm">
+            <tbody>
+            <tr style="">
+                <th scope="row" style="width:100px;">총결제금액</th>
+                <td th:if="${product != null}"
+                    th:text="${#numbers.formatInteger(orderDetail.totalPrice, 3, 'COMMA') + '원'}" style="color:red; font-weight:bold;"></td>
+                <td th:if="${productList != null}"
+                    th:text="${#numbers.formatInteger(totalPrice, 3, 'COMMA') + '원'}" style="color:red; font-weight:bold;"></td>
+            </tr>
+            <tr style="">
+                <th scope="row" style="width:100px;">결제방식</th>
+                <td th:text="${orderDetail.howToPay}" style=""></td>
+            </tr>
+            <tr style="">
+                <th scope="row" style="width:100px;">적립포인트</th>
+                <td th:text="|${orderDetail.savingPoint} point|" style="color:blue; font-weight:bold;"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div style="margin-top:100px; display:flex; justify-content:flex-end;">
+        <a class="btn btn-primary btn-sm" style="margin-left:10px;" th:href="@{/}">쇼핑 계속하기</a>
+        <a class="btn btn-primary btn-sm" th:href="@{/user/buylist}" style="margin-left:10px;">나의 구매내역</a>
+    </div>
+
     <script>
+        const header = document.querySelector('meta[name="_csrf_header"]').content;
+        const token = document.querySelector('meta[name="_csrf"]').content;
+
+
         // 쿼리 파라미터 값이 결제 요청할 때 보낸 데이터와 동일한지 반드시 확인하세요.
         // 클라이언트에서 결제 금액을 조작하는 행위를 방지할 수 있습니다.
         const urlParams = new URLSearchParams(window.location.search);
@@ -34,7 +214,10 @@
           const response = await fetch("/confirm", {
             method: "POST",
             headers: {
+              'header': header,
+              'X-Requested-With': 'XMLHttpRequest',
               "Content-Type": "application/json",
+              'X-CSRF-Token': token
             },
             body: JSON.stringify(requestData),
           });
@@ -54,8 +237,8 @@
         const orderIdElement = document.getElementById("orderId");
         const amountElement = document.getElementById("amount");
 
-        orderIdElement.textContent = "주문번호: " + urlParams.get("orderId");
-        amountElement.textContent = "결제 금액: " + urlParams.get("amount");
+        orderIdElement.textContent = urlParams.get("orderId");
+        amountElement.textContent = urlParams.get("amount");
         paymentKeyElement.textContent =
           "paymentKey: " + urlParams.get("paymentKey");
     </script>

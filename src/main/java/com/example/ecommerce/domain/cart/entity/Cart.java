@@ -23,7 +23,7 @@ public class Cart extends BaseEntity {
     @ManyToOne
     private SiteUser user;
 
-    @OneToOne
+    @ManyToOne
     // 왜 얘가 중복될 수 없다는 거지?
     private Product product;
 

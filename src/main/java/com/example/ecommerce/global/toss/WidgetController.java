@@ -1,6 +1,13 @@
 package com.example.ecommerce.global.toss;
 
+import com.example.ecommerce.domain.orderdetail.entity.OrderDetail;
+import com.example.ecommerce.domain.orderdetail.service.OrderDetailService;
+import com.example.ecommerce.domain.product.entity.Product;
+import com.example.ecommerce.domain.product.service.ProductService;
+import com.example.ecommerce.domain.user.entity.SiteUser;
+import com.example.ecommerce.domain.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -9,10 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -21,12 +26,19 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @Controller
+@RequiredArgsConstructor
 public class WidgetController {
 
     @Value("${api.key}")
     private String API_KEY;
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private final OrderDetailService orderDetailService;
+
+    private final ProductService productService;
+
+    private final UserService userService;
 
     @RequestMapping(value = "/confirm")
     public ResponseEntity<JSONObject> confirmPayment(@RequestBody String jsonBody) throws Exception {
@@ -84,6 +96,14 @@ public class WidgetController {
         JSONObject jsonObject = (JSONObject) parser.parse(reader);
         responseStream.close();
 
+        if(isSuccess) {
+            // 성공로직
+        } else if (!isSuccess) {
+            // 실패로직
+        }
+
+
+
         return ResponseEntity.status(code).body(jsonObject);
     }
 
@@ -94,8 +114,19 @@ public class WidgetController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "/success", method = RequestMethod.GET)
-    public String paymentRequest(HttpServletRequest request, Model model) throws Exception {
+    @GetMapping("/success/{id}")
+    public String paymentRequest(HttpServletRequest request, Model model, @PathVariable(value = "id") Long id) throws Exception {
+
+        OrderDetail orderDetail = this.orderDetailService.findById(id);
+        Product product = this.productService.findById(orderDetail.getProduct().getId());
+        SiteUser user = this.userService.findByUsername(orderDetail.getUser().getUsername());
+
+        this.userService.addPoint(user,orderDetail.getSavingPoint());
+
+        model.addAttribute("product",product);
+        model.addAttribute("user",user);
+        model.addAttribute("orderDetail",orderDetail);
+
         return "/orders/success";
     }
 

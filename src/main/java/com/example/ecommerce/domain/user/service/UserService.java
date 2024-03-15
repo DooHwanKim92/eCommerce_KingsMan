@@ -159,4 +159,15 @@ public class UserService {
 
         this.userRepository.save(addWishUser);
     }
+
+    public void addPoint(SiteUser user, Integer savingPoint) {
+
+        int point = user.getPoint() + savingPoint;
+
+        SiteUser addPointUser = user.toBuilder()
+                .point(point)
+                .build();
+
+        this.userRepository.save(addPointUser);
+    }
 }

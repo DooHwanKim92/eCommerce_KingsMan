@@ -68,11 +68,11 @@ public class Product extends BaseEntity {
     // 일정 기간이 지나면 자동으로 바뀌도록 구현필요
     private boolean isNew;
 
-    @OneToOne(mappedBy = "product",cascade = CascadeType.REMOVE)
-    private Cart cart;
+    @OneToMany(mappedBy = "product",cascade = CascadeType.REMOVE)
+    private List<Cart> cartList;
 
-    @OneToOne(mappedBy = "product",cascade = CascadeType.REMOVE)
-    private Wishlist wishlist;
+    @OneToMany(mappedBy = "product",cascade = CascadeType.REMOVE)
+    private List<Wishlist> wishList;
 
     @OneToOne
     // 대표이미지 thumnail
