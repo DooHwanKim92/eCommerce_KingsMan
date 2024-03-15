@@ -4,6 +4,9 @@ spring:
     include: secret # active 되는 설정파일 (application-dev.yml) 다음에 application-secret.yml 이 로딩된다는 의미
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
+  batch:
+    jdbc:
+      initialize-schema: always
   jpa:
     properties:
       hibernate:
@@ -46,3 +49,6 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
+api:
+  key: test_sk_DpexMgkW36RpX6A6dap43GbR5ozO
+  # TossPayments api_secret_key

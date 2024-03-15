@@ -9,6 +9,7 @@ import com.example.ecommerce.domain.orders.entity.Orders;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.domain.review.entity.Review;
+import com.example.ecommerce.domain.wishlist.entity.Wishlist;
 import com.example.ecommerce.global.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -78,6 +79,10 @@ public class SiteUser extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     // 장바구니
     private List<Cart> cartList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    // 찜목록
+    private List<Wishlist> wishList;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     // 문의내역

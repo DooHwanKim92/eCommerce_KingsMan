@@ -10,6 +10,7 @@ import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.product.service.ProductService;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.domain.user.service.UserService;
+import com.example.ecommerce.domain.wishlist.service.WishlistService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,7 @@ public class OrdersController {
     private final UserService userService;
 
     private final OrdersService ordersService;
+    private final WishlistService wishlistService;
 
     @PostMapping("/option/{id}")
     public String selectOptionPost(Model model, @PathVariable(value = "id") Long id, Principal principal, @Valid OrdersCreateForm ordersCreateForm, BindingResult bindingResult) {
@@ -40,6 +42,11 @@ public class OrdersController {
         }
         SiteUser user = this.userService.findByUsername(principal.getName());
         Product product = this.productService.findById(id);
+
+        String isWish = "";
+        isWish = this.wishlistService.isWish(user, product);
+
+        model.addAttribute("isWish",isWish);
 
         model.addAttribute("product",product);
 
@@ -58,8 +65,14 @@ public class OrdersController {
     }
 
     @GetMapping("/remove/{id}")
-    public String removeOrders(Model model, @PathVariable(value = "id") Long id, OrdersCreateForm ordersCreateForm) {
+    public String removeOrders(Model model, Principal principal, @PathVariable(value = "id") Long id, OrdersCreateForm ordersCreateForm) {
         Product product = this.ordersService.findById(id).getProduct();
+        SiteUser user = this.userService.findByUsername(principal.getName());
+
+        String isWish = "";
+        isWish = this.wishlistService.isWish(user, product);
+
+        model.addAttribute("isWish",isWish);
         model.addAttribute("product",product);
 
         this.ordersService.removeById(id);

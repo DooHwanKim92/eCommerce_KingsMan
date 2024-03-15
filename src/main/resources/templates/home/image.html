@@ -7,8 +7,12 @@
     
     <div>
         <h5>지금 등록된 이미지</h5>
-        <div th:each="mainImg : ${@request.getMainImages()}">
+        <div th:if="${mainImages != null}"
+                th:each="mainImg : ${mainImages}">
             <img th:src="${mainImg.FilePath}" alt="메인이미지" style="height:500px;">
+        </div>
+        <div th:if="${mainImages == null}">
+            <span style="font-size:18px; color:red; font-weight:bold;">등록된 이미지가 없습니다.</span>
         </div>
     </div>
 

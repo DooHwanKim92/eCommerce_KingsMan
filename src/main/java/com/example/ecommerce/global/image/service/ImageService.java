@@ -116,6 +116,10 @@ public class ImageService {
         List<Image> imageListAll = this.imageRepository.findAll();
         List<Image> imageList = new ArrayList<>();
 
+        if (imageListAll.isEmpty()) {
+            return null;
+        }
+
         for ( int i = 0 ; i < imageListAll.size(); i++) {
             if ( imageListAll.get(i).getTypeName().equals("main")) {
                 imageList.add((imageListAll.get(i)));

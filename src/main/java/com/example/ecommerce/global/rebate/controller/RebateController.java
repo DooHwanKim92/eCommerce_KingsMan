@@ -1,4 +1,4 @@
-package com.example.ecommerce.domain.rebate.controller;
+package com.example.ecommerce.global.rebate.controller;
 
 
 import org.springframework.stereotype.Controller;

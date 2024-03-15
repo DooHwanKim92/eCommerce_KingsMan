@@ -5,11 +5,12 @@
         <h4>장바구니</h4>
     </div>
 
-    <form th:action="@{/cart/remove}" method="post">
+    <form method="post" id="cartSelectForm" th:object="${cartSelectForm}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <table class="table table-sm">
             <thead>
             <tr>
-                <th></th>
+                <th>선택</th>
                 <th>카테고리</th>
                 <th>상품명</th>
                 <th>상품이미지</th>
@@ -26,27 +27,52 @@
                 </td>
                 <td th:text="${cartList.product.category.name}" style="line-height:200px;"></td>
                 <td>
-                    <a th:href="@{|/product/detail/${cartList.product.id}|}" th:text="${cartList.product.name}" style="line-height:200px;"></a>
+                    <a th:href="@{|/product/detail/${cartList.product.id}|}" th:text="${cartList.product.name}"
+                       style="line-height:200px;"></a>
                 </td>
                 <td>
-                    <img th:src="${cartList.product.representImg.FilePath}" alt="상품이미지" style="width:200px; height:200px; object-fit:cover;">
+                    <img th:src="${cartList.product.representImg.FilePath}" alt="상품이미지"
+                         style="width:200px; height:200px; object-fit:cover;">
                 </td>
                 <td>
-                    <span th:each="options : ${cartList.product.ordersList}" th:if="${@request.getSiteUser() == options.user}"
+                    <span th:each="options : ${cartList.product.ordersList}"
+                          th:if="${@request.getSiteUser() == options.user}"
                           th:text="|${options.option} , ${options.amount}|" style="line-height:200px;"></span>
                 </td>
-                <td th:text="${cartList.product.price}" style="line-height:200px;"></td>
+                <td th:if="${cartList.product.discount == '0'}" style="line-height:200px;">
+                    <span th:text="|${cartList.product.price}원|" style=""></span>
+                </td>
+                <td th:if="${cartList.product.discount != '0'}" style="line-height:200px;">
+                    <div>
+                        <del th:text="|${cartList.product.price}원|"></del>
+                        <span th:text="${#numbers.formatInteger(cartList.product.DCPrice, 3, 'COMMA') + '원'}"
+                              style="color:red; font-weight:bold;"></span>
+                    </div>
+                </td>
                 <td th:text="${cartList.product.user.sellerName}" style="line-height:200px;"></td>
                 <td th:text="${#temporals.format(cartList.createDate, 'yyyy-MM-dd')}" style="line-height:200px;"></td>
             </tr>
             </tbody>
         </table>
-        <div style="margin-top:100px; display:flex; justify-content:flex-end;">
-            <a class="btn btn-primary btn-sm" th:href="@{/}">주문하기</a>
-            <button type="submit" class="btn btn-danger btn-sm" style="margin-left:10px;">삭제</button>
+        <div style="text-align:right;">
+            <p th:each="err : ${#fields.errors('cartId')}" th:text="${err}" style="color:red; font-size:14px;"></p>
+        </div>`
+        <div style="display:flex; justify-content:flex-end;">
+            <button type="button" onclick="submitForm('/cart/buy')" id="buy" class="btn btn-primary btn-sm">주문하기
+            </button>
+            <button type="button" onclick="submitForm('/cart/remove')" id="remove" class="btn btn-danger btn-sm"
+                    style="margin-left:10px;">삭제
+            </button>
         </div>
     </form>
 
+    <script>
+        function submitForm(action) {
+    var form = document.getElementById("cartSelectForm");
+    form.action = action;
+    form.submit();
+}
+    </script>
 
 </div>
 </html>

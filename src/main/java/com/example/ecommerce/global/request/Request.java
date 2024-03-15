@@ -171,22 +171,5 @@ public class Request {
         return productService.findAll();
     }
 
-    public List<Product> getBestSellerList() {
-        return productService.getBestSeller();
-    }
 
-    public List<Product> getNewProductList() {
-        return productService.getNewProducts();
-    }
-
-    public List<Product> getHighQualityProducts() {
-        return productService.getHighQualityProducts();
-    }
-
-
-
-    public List<Image> getMainImages() {
-        return this.imageService.getMainImageList();
-    }
 }
-

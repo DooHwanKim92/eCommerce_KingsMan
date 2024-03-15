@@ -9,6 +9,7 @@ import com.example.ecommerce.domain.user.UserCreateForm;
 import com.example.ecommerce.domain.user.UserModifyForm;
 import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.domain.user.repository.UserRepository;
+import com.example.ecommerce.domain.wishlist.entity.Wishlist;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -147,5 +148,26 @@ public class UserService {
 
     public List<SiteUser> findAll() {
         return this.userRepository.findAll();
+    }
+
+    public void addWishList(SiteUser user, Wishlist wishlist) {
+        List<Wishlist> wishlists = user.getWishList();
+        wishlists.add(wishlist);
+        SiteUser addWishUser = user.toBuilder()
+                .wishList(wishlists)
+                .build();
+
+        this.userRepository.save(addWishUser);
+    }
+
+    public void addPoint(SiteUser user, Integer savingPoint) {
+
+        int point = user.getPoint() + savingPoint;
+
+        SiteUser addPointUser = user.toBuilder()
+                .point(point)
+                .build();
+
+        this.userRepository.save(addPointUser);
     }
 }

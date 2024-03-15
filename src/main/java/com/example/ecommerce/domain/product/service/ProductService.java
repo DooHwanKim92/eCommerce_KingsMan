@@ -63,7 +63,7 @@ public class ProductService {
         this.productRepository.save(product);
 
         if(!product.getDiscount().equals("0")) {
-            int DCPrice = Integer.parseInt(product.getPrice().replace(",","")) - Integer.parseInt(product.getPrice().replace(",",""))/Integer.parseInt(product.getDiscount());
+            int DCPrice = Integer.parseInt(product.getPrice().replace(",","")) - Integer.parseInt(product.getPrice().replace(",",""))*Integer.parseInt(product.getDiscount())/100;
             Product DCproduct = product.toBuilder()
                     .DCPrice(DCPrice)
                     .build();

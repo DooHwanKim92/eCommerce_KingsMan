@@ -17,5 +17,6 @@ spring:
     hibernate:
       ddl-auto: update
     defer-datasource-initialization: true
+
 custom:
   fileDirPath: C:\kingsman\file_upload
