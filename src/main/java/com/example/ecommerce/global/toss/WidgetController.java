@@ -121,7 +121,17 @@ public class WidgetController {
         Product product = this.productService.findById(orderDetail.getProduct().getId());
         SiteUser user = this.userService.findByUsername(orderDetail.getUser().getUsername());
 
+        String payAmount = request.getParameter("amount");
+
+        int usedPoint = 0;
+
+        if(Integer.parseInt(payAmount) != orderDetail.getTotalPrice()) {
+            usedPoint = orderDetail.getTotalPrice() - Integer.parseInt(payAmount);
+            this.orderDetailService.usePoint(orderDetail, usedPoint);
+        }
+
         this.userService.addPoint(user,orderDetail.getSavingPoint());
+        this.userService.usePoint(user, usedPoint);
 
         model.addAttribute("product",product);
         model.addAttribute("user",user);

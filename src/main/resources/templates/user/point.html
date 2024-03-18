@@ -1,5 +1,5 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content" class="container my-3" style="width:600px;">
+<div layout:fragment="content" class="container my-3" style="width:800px;">
 
     <div class="my-3 border-bottom">
         <h4>
@@ -27,37 +27,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품1</th>
-                    <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
-                    <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
-                </tr>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품2</th>
-                    <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
-                    <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
-                </tr>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품3</th>
-                    <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
-                    <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
-                </tr>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품4</th>
-                    <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
-                    <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
-                </tr>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품5</th>
-                    <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
-                    <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
-                </tr>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품6</th>
-                    <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
-                        style="line-height:100px;"></td>
-                    <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
-                        style="line-height:100px;"></td>
+                <tr style="height:100px;" th:each="orderDetail : ${orderDetailList}">
+                    <th scope="row" style="width:200px; line-height:100px; text-align:center;">
+                        <img th:src="${orderDetail.product.representImg.FilePath}" alt="상품이미지" style="width:200px; height:200px; object-fit:cover;">
+                        <a th:href="@{|/product/detail/${orderDetail.product.id}|}" th:text="${orderDetail.product.name}">
+                        </a>
+                    </th>
+                    <td style="line-height:100px;" th:text="${#numbers.formatInteger(orderDetail.savingPoint, 3, 'COMMA') + ' point'}"></td>
+                    <td style="line-height:100px;" th:text="${#temporals.format(orderDetail.createDate, 'yyyy-MM-dd')}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -71,38 +48,15 @@
                     <th scope="col">사용날짜</th>
                 </tr>
                 </thead>
-                <tbody>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품1</th>
-                    <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
-                    <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
-                </tr>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품2</th>
-                    <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
-                    <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
-                </tr>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품3</th>
-                    <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
-                    <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
-                </tr>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품4</th>
-                    <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
-                    <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
-                </tr>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품5</th>
-                    <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
-                    <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
-                </tr>
-                <tr style="height:100px;">
-                    <th scope="row" style="width:200px; line-height:100px;">상품6</th>
-                    <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
-                        style="line-height:100px;"></td>
-                    <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
-                        style="line-height:100px;"></td>
+                <tbody th:each="orderDetail : ${orderDetailList}">
+                <tr style="height:100px;" th:if="${orderDetail.usedPoint != '0' and orderDetail.usedPoint != null}">
+                    <th scope="row" style="width:200px; line-height:100px; text-align:center;">
+                        <img th:src="${orderDetail.product.representImg.FilePath}" alt="상품이미지" style="width:200px; height:200px; object-fit:cover;">
+                        <a th:href="@{|/product/detail/${orderDetail.product.id}|}" th:text="${orderDetail.product.name}">
+                        </a>
+                    </th>
+                    <td style="line-height:100px;" th:if="${orderDetail.usedPoint != '0' and orderDetail.usedPoint != null}" th:text="${#numbers.formatInteger(orderDetail.usedPoint, 3, 'COMMA') + ' point'}"></td>
+                    <td style="line-height:100px;" th:if="${orderDetail.usedPoint != '0' and orderDetail.usedPoint != null}" th:text="${#temporals.format(orderDetail.createDate, 'yyyy-MM-dd')}"></td>
                 </tr>
                 </tbody>
             </table>

@@ -90,16 +90,18 @@ public class OrderDetailController {
             return "/orders/detail";
         }
 
+        OrderDetail orderDetail = new OrderDetail();
 
         for(int i = 0 ; i < productList.size(); i ++) {
             List<Orders> ordersList = this.ordersService.findByUserandProduct(user, productList.get(i));
             this.productService.purchase(productList.get(i), ordersList);
-            OrderDetail orderDetail = this.orderDetailService.create(productList.get(i), user, ordersList, orderDetailCreateForm, this.ordersService.getTotalPrice(productList.get(i), user));
+            orderDetail = this.orderDetailService.create(productList.get(i), user, ordersList, orderDetailCreateForm, this.ordersService.getTotalPrice(productList.get(i), user));
             model.addAttribute("orderDetail", orderDetail);
         }
 
 
         this.cartService.removeList(productList,user);
+        this.userService.addPoint(user,orderDetail.getSavingPoint());
 
         return "/orders/complete";
     }

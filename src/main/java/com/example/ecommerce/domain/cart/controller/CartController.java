@@ -63,14 +63,17 @@ public class CartController {
 
     @PostMapping("/remove")
     public String removeProduct(Model model, Principal principal, @Valid CartSelectForm cartSelectForm, BindingResult bindingResult) {
+        SiteUser user = this.userService.findByUsername(principal.getName());
+        List<Cart> cartList = user.getCartList();
+        model.addAttribute("cartList",cartList);
+
         if (cartSelectForm.getCartId() == null) {
             bindingResult.reject("cartIdisEmpty","상품을 선택해주세요.");
-            SiteUser user = this.userService.findByUsername(principal.getName());
-            List<Cart> cartList = user.getCartList();
-            model.addAttribute("cartList",cartList);
             return "/cart/list";
         }
+
         this.cartService.remove(cartSelectForm.getCartId());
+
         return "redirect:/cart/list";
     }
 
@@ -97,7 +100,6 @@ public class CartController {
         model.addAttribute("productList", productList);
         model.addAttribute("user", user);
         model.addAttribute("totalPrice", totalPrice);
-
 
         return "/orders/detail";
     }
