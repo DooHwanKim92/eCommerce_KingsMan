@@ -15,15 +15,23 @@
                   th:text="${#lists.size(@request.getSiteUser.cartList)}">
                 <span class="visually-hidden">unread messages</span>
             </span>
-    </span>
-        <div>
+        </span>
+        <div style="position:relative;">
             <a th:href="@{/wish/list}" style="font-size:30px;">
                 <i class="fa-solid fa-heart" style="color: #ffffff;"></i>
             </a>
-        </div>
-        <span style="color:white; font-size:14px;">
+            <div>
+            <span style="color:white; font-size:14px;">
         찜목록
-    </span>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                  th:if="${#lists.size(@request.getSiteUser.wishList) > 0}"
+                  th:text="${#lists.size(@request.getSiteUser.wishList)}">
+                <span class="visually-hidden">unread messages</span>
+            </span>
+        </span>
+
+            </div>
+        </div>
         <div>
             <a th:href="@{/question/list}" style="font-size:30px;">
                 <i class="fa-solid fa-headset" style="color: #ffffff;"></i>

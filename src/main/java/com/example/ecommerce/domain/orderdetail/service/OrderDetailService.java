@@ -59,6 +59,7 @@ public class OrderDetailService {
                 .howToPay(orderDetailCreateForm.getHowToPay())
                 .totalPrice(totalPrice)
                 .savingPoint(point)
+                .usedPoint(0)
                 .isPurchase(true)
                 .build();
 
@@ -88,5 +89,14 @@ public class OrderDetailService {
     public void removeById(Long id) {
         OrderDetail orderDetail = this.findById(id);
         this.orderDetailRepository.delete(orderDetail);
+    }
+
+    public void usePoint(OrderDetail orderDetail, int usedPoint) {
+        OrderDetail usedPointOrder = orderDetail.toBuilder()
+                .usedPoint(usedPoint)
+                .totalPrice(orderDetail.getTotalPrice() - usedPoint)
+                .build();
+
+        this.orderDetailRepository.save(usedPointOrder);
     }
 }

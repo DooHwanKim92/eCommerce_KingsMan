@@ -170,4 +170,12 @@ public class UserService {
 
         this.userRepository.save(addPointUser);
     }
+
+    public void usePoint(SiteUser user, int usedPoint) {
+        SiteUser usePointUser = user.toBuilder()
+                .point(user.getPoint() - usedPoint)
+                .build();
+
+        this.userRepository.save(usePointUser);
+    }
 }

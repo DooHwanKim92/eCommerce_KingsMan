@@ -4,6 +4,7 @@ package com.example.ecommerce.domain.user.controller;
 import com.example.ecommerce.domain.confirm.ConfirmForm;
 import com.example.ecommerce.domain.confirm.entity.Confirm;
 import com.example.ecommerce.domain.confirm.service.ConfirmService;
+import com.example.ecommerce.domain.orderdetail.entity.OrderDetail;
 import com.example.ecommerce.domain.user.UserCreateForm;
 import com.example.ecommerce.domain.user.UserModifyForm;
 import com.example.ecommerce.domain.user.entity.SiteUser;
@@ -109,7 +110,12 @@ public class UserController {
     }
 
     @GetMapping("/point")
-    public String userPoint() {
+    public String userPoint(Model model, Principal principal) {
+        SiteUser user = this.userService.findByUsername(principal.getName());
+        List<OrderDetail> orderDetailList = user.getOrderDetailList();
+
+        model.addAttribute("orderDetailList",orderDetailList);
+
         return "/user/point";
     }
 

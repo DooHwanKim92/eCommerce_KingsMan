@@ -6,6 +6,7 @@ import com.example.ecommerce.domain.cart.repository.CartRepository;
 import com.example.ecommerce.domain.product.entity.Product;
 import com.example.ecommerce.domain.product.service.ProductService;
 import com.example.ecommerce.domain.user.entity.SiteUser;
+import com.example.ecommerce.domain.wishlist.entity.Wishlist;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -77,6 +78,17 @@ public class CartService {
             if(cartList.get(j).getProduct() == product) {
                 this.cartRepository.delete(cartList.get(j));
             }
+        }
+    }
+
+    public void wishMoveToCart(List<Wishlist> selectedWishList, SiteUser user) {
+        for(int i = 0 ; i < selectedWishList.size(); i++) {
+            Cart wishMoveToCart = Cart.builder()
+                    .product(selectedWishList.get(i).getProduct())
+                    .user(user)
+                    .build();
+
+            this.cartRepository.save(wishMoveToCart);
         }
     }
 }

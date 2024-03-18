@@ -1,5 +1,5 @@
 <html layout:decorate="~{layout}">
-<div layout:fragment="content" class="container my-3" style="width:600px;">
+<div layout:fragment="content" class="container my-3" style="width:800px;">
 
     <div class="my-3 border-bottom">
         <h4>나의 정보</h4>
@@ -25,7 +25,8 @@
         </tr>
         <tr style="height:100px;">
             <th scope="row" style="width:200px; text-align:center; line-height:100px;">포인트</th>
-            <td th:text="${@request.getSiteUser.point}" style="line-height:100px;"></td>
+            <td th:text="${#numbers.formatInteger(@request.getSiteUser.point, 3, 'COMMA') + ' point'}"
+                style="line-height:100px;"></td>
         </tr>
         <tr style="height:100px;">
             <th scope="row" style="width:200px; text-align:center; line-height:100px;">판매권한</th>

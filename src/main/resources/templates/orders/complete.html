@@ -42,7 +42,8 @@
                             <span style="width:100px;">할인</span>
                             <div>
                                 <del th:text="|${product.price}원|"></del>
-                                <span th:text="${#numbers.formatInteger(product.DCPrice, 3, 'COMMA') + '원'}" style="color:red; font-weight:bold;"></span>
+                                <span th:text="${#numbers.formatInteger(product.DCPrice, 3, 'COMMA') + '원'}"
+                                      style="color:red; font-weight:bold;"></span>
                             </div>
                         </div>
                     </div>
@@ -77,7 +78,8 @@
                             <span style="width:100px;">할인</span>
                             <div>
                                 <del th:text="|${product.price}원|"></del>
-                                <span th:text="${#numbers.formatInteger(product.DCPrice, 3, 'COMMA') + '원'}" style="color:red; font-weight:bold;"></span>
+                                <span th:text="${#numbers.formatInteger(product.DCPrice, 3, 'COMMA') + '원'}"
+                                      style="color:red; font-weight:bold;"></span>
                             </div>
                         </div>
                     </div>
@@ -140,13 +142,15 @@
             <tr style="">
                 <th scope="row" style="width:100px;">총결제금액</th>
                 <td th:if="${product != null}"
-                        th:text="${#numbers.formatInteger(orderDetail.totalPrice, 3, 'COMMA') + '원'}" style="color:red; font-weight:bold;"></td>
+                    th:text="${#numbers.formatInteger(orderDetail.totalPrice, 3, 'COMMA') + '원'}"
+                    style="color:red; font-weight:bold;"></td>
                 <td th:if="${productList != null}"
-                        th:text="${#numbers.formatInteger(totalPrice, 3, 'COMMA') + '원'}" style="color:red; font-weight:bold;"></td>
+                    th:text="${#numbers.formatInteger(totalPrice, 3, 'COMMA') + '원'}"
+                    style="color:red; font-weight:bold;"></td>
             </tr>
             <tr style="">
-                <th scope="row" style="width:100px;">결제방식</th>
-                <td th:text="${orderDetail.howToPay}" style=""></td>
+                <th scope="row" style="width:100px;">적립예정 포인트</th>
+                <td th:text="${orderDetail.savingPoint}" style=""></td>
             </tr>
             </tbody>
         </table>
@@ -169,20 +173,14 @@
                             <div style="color:gray; font-size:14px;">결제승인</div>
                             <div style="color:gray; font-size:14px;">주문완료</div>
                         </div>
-                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="50" aria-valuemin="0"
+                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="50"
+                             aria-valuemin="0"
                              aria-valuemax="100">
                             <div class="progress-bar w-50"></div>
                         </div>
                     </div>
                     <div class="wrapper">
-                        <div
-                                class="box_section"
-                                style="
-          padding: 40px 30px 50px 30px;
-          margin-top: 30px;
-          margin-bottom: 50px;
-        "
-                        >
+                        <div class="box_section" style="padding: 40px 30px 50px 30px; margin-top: 30px; margin-bottom: 50px;">
                             <!-- 결제 UI -->
                             <div id="payment-method"></div>
                             <!-- 이용약관 UI -->
@@ -190,16 +188,11 @@
                             <!-- 쿠폰 체크박스 -->
                             <div style="padding-left: 25px">
                                 <div class="checkable typography--p">
-                                    <label for="coupon-box" class="checkable__label typography--regular"
-                                    ><input
-                                            id="coupon-box"
-                                            class="checkable__input"
-                                            type="checkbox"
-                                            aria-checked="true"
-                                    /><span class="checkable__label-text"
-                                    >5,000원 쿠폰 적용</span
-                                    ></label
-                                    >
+                                    <label for="coupon-box" class="checkable__label typography--regular">
+                                        <input id="coupon-box" class="checkable__input" type="checkbox" aria-checked="true"/>
+                                        <span class="checkable__label-text">포인트 사용하기</span>
+                                        <span th:text="|(보유 포인트 : ${user.point})|"></span>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -222,7 +215,8 @@
     </div>
 
     <div style="margin-top:100px; display:flex; justify-content:flex-end;">
-        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-left:10px;">
+        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                style="margin-left:10px;">
             결제하기
         </button>
         <a class="btn btn-danger btn-sm" th:href="@{|/orderdetail/remove/${orderDetail.id}|}"
@@ -265,7 +259,7 @@
         // @docs https://docs.tosspayments.com/reference/widget-sdk#updateamount결제-금액
         coupon.addEventListener("change", function () {
           if (coupon.checked) {
-            paymentMethodWidget.updateAmount(amount - 5000);
+            paymentMethodWidget.updateAmount(amount - [[${user.point}]]);
           } else {
             paymentMethodWidget.updateAmount(amount);
           }
@@ -290,7 +284,6 @@
           });
         });
     </script>
-
 
 
 </div>
