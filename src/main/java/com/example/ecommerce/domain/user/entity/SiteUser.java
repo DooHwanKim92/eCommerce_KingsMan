@@ -11,6 +11,7 @@ import com.example.ecommerce.domain.question.entity.Question;
 import com.example.ecommerce.domain.review.entity.Review;
 import com.example.ecommerce.domain.wishlist.entity.Wishlist;
 import com.example.ecommerce.global.BaseEntity;
+import com.example.ecommerce.global.rebate.entity.Rebate;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -76,6 +77,14 @@ public class SiteUser extends BaseEntity {
     // 판매자(사업자)번호
     private String sellerNumber;
 
+    @Column
+    // 판매자 신청 시 정산을 위한 은행
+    private String bank;
+
+    @Column
+    // 판매자 신청 시 정산을 위한 은행계좌
+    private String bankAccount;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     // 장바구니
     private List<Cart> cartList;
@@ -111,5 +120,8 @@ public class SiteUser extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     // 선택한 상품 옵션
     private List<OrderDetail> orderDetailList;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private Rebate rebate;
 
 }

@@ -63,6 +63,8 @@ public class OrderDetailController {
         this.productService.purchase(product, ordersList);
 
         model.addAttribute("orderDetail", orderDetail);
+        model.addAttribute("savingPoint", orderDetail.getSavingPoint());
+
 
         this.cartService.removeByProduct(product,user);
 
@@ -90,18 +92,23 @@ public class OrderDetailController {
             return "/orders/detail";
         }
 
+        int savingPoint = 0;
+
         OrderDetail orderDetail = new OrderDetail();
 
         for(int i = 0 ; i < productList.size(); i ++) {
             List<Orders> ordersList = this.ordersService.findByUserandProduct(user, productList.get(i));
             this.productService.purchase(productList.get(i), ordersList);
             orderDetail = this.orderDetailService.create(productList.get(i), user, ordersList, orderDetailCreateForm, this.ordersService.getTotalPrice(productList.get(i), user));
+            savingPoint += orderDetail.getSavingPoint();
             model.addAttribute("orderDetail", orderDetail);
         }
 
+        this.userService.addPoint(user,savingPoint);
+
+        model.addAttribute("savingPoint", savingPoint);
 
         this.cartService.removeList(productList,user);
-        this.userService.addPoint(user,orderDetail.getSavingPoint());
 
         return "/orders/complete";
     }

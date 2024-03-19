@@ -33,7 +33,7 @@ public class Question extends BaseEntity {
     @Column
     private String content;
 
-    @OneToOne(mappedBy = "question")
+    @OneToOne(mappedBy = "question",cascade = CascadeType.REMOVE)
     private Answer answer;
 
     @Column

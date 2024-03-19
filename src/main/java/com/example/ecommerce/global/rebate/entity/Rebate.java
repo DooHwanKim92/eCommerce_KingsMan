@@ -1,9 +1,11 @@
 package com.example.ecommerce.global.rebate.entity;
 
 
+import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.global.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,9 +18,11 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 public class Rebate extends BaseEntity {
 
-    @Column
-    private Long ordersId;
+    // Seller -> 판매자
+    @OneToOne
+    private SiteUser user;
 
     @Column
-    private Long priceSum;
+    private Long totalIncome;
+
 }

@@ -37,6 +37,8 @@ public class ConfirmService {
                 .user(user)
                 .sellerName(confirmForm.getSellerName())
                 .sellerNumber(confirmForm.getSellerNumber())
+                .bank(confirmForm.getBank())
+                .bankAccount(confirmForm.getBankAccount())
                 .isConfirmed("진행중")
                 .build();
 

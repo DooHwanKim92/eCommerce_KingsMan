@@ -126,9 +126,12 @@ public class ProductController {
     @GetMapping("/management")
     public String productManagement(Model model, Principal principal) {
         SiteUser user = this.userService.findByUsername(principal.getName());
-        this.productService.getIncome(user.getSellProductList());
+        int totalIncome = this.productService.getIncome(user.getSellProductList());
+        int totalPurchasing = this.productService.getPurchasing(user.getSellProductList());
         List<Product> productList = user.getSellProductList();
         model.addAttribute("productList",productList);
+        model.addAttribute("totalIncome",totalIncome);
+        model.addAttribute("totalPurchasing",totalPurchasing);
         return "/product/management";
     }
 

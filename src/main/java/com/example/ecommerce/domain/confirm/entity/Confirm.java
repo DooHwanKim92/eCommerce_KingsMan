@@ -28,6 +28,12 @@ public class Confirm extends BaseEntity {
     private String sellerNumber;
 
     @Column
+    private String bank;
+
+    @Column
+    private String bankAccount;
+
+    @Column
     private String isConfirmed;
 
 }
