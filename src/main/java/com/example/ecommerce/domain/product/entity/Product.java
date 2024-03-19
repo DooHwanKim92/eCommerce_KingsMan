@@ -55,9 +55,11 @@ public class Product extends BaseEntity {
 
     private List<String> tag;
 
+
     @Column
     // 평점
     private float score;
+
 
     @Column
     // 판매금액
