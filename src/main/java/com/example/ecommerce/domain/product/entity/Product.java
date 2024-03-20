@@ -11,6 +11,7 @@ import com.example.ecommerce.domain.user.entity.SiteUser;
 import com.example.ecommerce.domain.wishlist.entity.Wishlist;
 import com.example.ecommerce.global.BaseEntity;
 import com.example.ecommerce.global.image.entity.Image;
+import com.example.ecommerce.global.rebate.entity.Rebate;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +29,7 @@ import java.util.List;
 public class Product extends BaseEntity {
 
     @ManyToOne
+    // 판매자
     private SiteUser user;
 
     @Column
@@ -101,5 +103,8 @@ public class Product extends BaseEntity {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
     private List<Question> questionList;
+
+    @ManyToOne
+    private Rebate rebate;
 
 }

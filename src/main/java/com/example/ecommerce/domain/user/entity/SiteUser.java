@@ -121,7 +121,7 @@ public class SiteUser extends BaseEntity {
     // 선택한 상품 옵션
     private List<OrderDetail> orderDetailList;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private Rebate rebate;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Rebate> rebateList;
 
 }
