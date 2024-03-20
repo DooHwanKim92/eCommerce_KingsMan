@@ -11,6 +11,7 @@ import com.example.ecommerce.domain.user.entity.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -98,5 +99,16 @@ public class OrderDetailService {
                 .build();
 
         this.orderDetailRepository.save(usedPointOrder);
+    }
+
+    public List<Product> getRebateList(SiteUser user, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        List<OrderDetail> orderDetailList = this.orderDetailRepository.findByPeriod(startDateTime,endDateTime);
+        List<Product> productList = new ArrayList<>();
+        for ( int i = 0 ; i < orderDetailList.size(); i++) {
+            if(orderDetailList.get(i).getProduct().getUser() == user) {
+                productList.add(orderDetailList.get(i).getProduct());
+            }
+        }
+        return productList;
     }
 }

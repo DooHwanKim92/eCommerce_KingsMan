@@ -28,7 +28,7 @@
                 </thead>
                 <tbody>
                 <tr style="height:100px;" th:each="orderDetail : ${orderDetailList}">
-                    <th scope="row" style="width:200px; line-height:100px; text-align:center;">
+                    <th scope="row" style="width:200px; text-align:center;">
                         <img th:src="${orderDetail.product.representImg.FilePath}" alt="상품이미지" style="width:200px; height:200px; object-fit:cover;">
                         <a th:href="@{|/product/detail/${orderDetail.product.id}|}" th:text="${orderDetail.product.name}">
                         </a>
@@ -50,7 +50,7 @@
                 </thead>
                 <tbody th:each="orderDetail : ${orderDetailList}">
                 <tr style="height:100px;" th:if="${orderDetail.usedPoint != '0' and orderDetail.usedPoint != null}">
-                    <th scope="row" style="width:200px; line-height:100px; text-align:center;">
+                    <th scope="row" style="width:200px; text-align:center;">
                         <img th:src="${orderDetail.product.representImg.FilePath}" alt="상품이미지" style="width:200px; height:200px; object-fit:cover;">
                         <a th:href="@{|/product/detail/${orderDetail.product.id}|}" th:text="${orderDetail.product.name}">
                         </a>

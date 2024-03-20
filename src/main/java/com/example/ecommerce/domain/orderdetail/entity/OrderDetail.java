@@ -24,9 +24,11 @@ import java.util.List;
 public class OrderDetail extends BaseEntity {
 
     @ManyToOne
+    // 구매한 상품
     private Product product;
 
     @ManyToOne
+    // 구매자
     private SiteUser user;
 
     @Column

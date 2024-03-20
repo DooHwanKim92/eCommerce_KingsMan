@@ -5,6 +5,22 @@
         <h4>등록한 상품 목록</h4>
     </div>
 
+    <div>
+        <form th:action="@{/rebate/create}" method="post">
+            <div style="display:flex; height:70px; justify-content:space-between; align-items:center;">
+                <div>
+                    <label for="startDate">시작날짜</label>
+                    <input type="date" name="startDate" id="startDate">
+                    <label for="endDate">종료날짜</label>
+                    <input type="date" name="endDate" id="endDate">
+                </div>
+                <div>
+                    <button class="btn btn-primary btn-sm" type="submit">정산하기</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
         <table class="table table-sm" th:if="${productList != null}">
             <thead>
             <tr>
@@ -33,6 +49,17 @@
                 <td th:text="${#temporals.format(product.createDate, 'yyyy-MM-dd')}" style="line-height:100px;"></td>
             </tr>
             </tbody>
+            <tfoot>
+            <tr>
+                <th>등록한 상품 수</th>
+                <th th:text="|${#lists.size(productList)} 개|" style="color:blue;"></th>
+                <th>총 판매량</th>
+                <th th:text="${#numbers.formatInteger(totalPurchasing, 0,  'COMMA') + '건'}" style="color:blue;"></th>
+                <th></th>
+                <th>총 판매수익</th>
+                <th th:text="${#numbers.formatInteger(totalIncome, 3, 'COMMA') + '원'}" style="color:red;"></th>
+            </tr>
+            </tfoot>
         </table>
 
 
@@ -74,7 +101,6 @@
 
     <div style="margin-top:100px; display:flex; justify-content:flex-end;">
         <a class="btn btn-primary btn-sm" th:href="@{/product/create}">상품등록</a>
-        <a class="btn btn-primary btn-sm" th:href="@{#}" style="margin-left:10px;">정산하기</a>
         <a class="btn btn-primary btn-sm" th:href="@{#}" style="margin-left:10px;">예비용1</a>
         <a class="btn btn-success btn-sm" th:href="@{#}" style="margin-left:10px;">예비용2</a>
         <a class="btn btn-danger btn-sm" href="#" style="margin-left:10px;">예비용3</a>

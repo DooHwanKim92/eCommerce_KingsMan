@@ -1,0 +1,56 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:1000px;">
+
+    <div class="my-3 border-bottom">
+        <h4>정산하기</h4>
+    </div>
+
+
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th>시작날짜</th>
+            <th>종료날짜</th>
+            <th>판매수량</th>
+            <th>판매수익</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${#temporals.format(rebate.startDate, 'yyyy-MM-dd')}"></td>
+            <td th:text="${#temporals.format(rebate.endDate, 'yyyy-MM-dd')}"></td>
+            <th th:text="${#numbers.formatInteger(totalPurchashing, 0,  'COMMA') + '건'}" style="color:blue;">
+            </th>
+            <th th:text="${#numbers.formatInteger(totalIncome, 0, 'COMMA') + '원'}" style="color:red;"></th>
+        </tr>
+        </tbody>
+    </table>
+    <div>
+        <a th:href="@{#}">상세보기></a>
+    </div>
+
+
+    <div class="my-3 border-bottom">
+        <h4>안내사항</h4>
+    </div>
+    <div style="color:gray; font-size:14px;">
+        <div>
+            총 수익금의 5%는 KingsMan 중계수수료에 해당됩니다.
+        </div>
+        <div>
+            정산된 금액은 3~5영업일 내 정산신청 시 입력한 계좌로 입금됩니다.
+        </div>
+        <div>
+            정산 금액에 문제가 있을 경우 관리자에게 문의해주시기 바랍니다.
+        </div>
+    </div>
+
+    <div style="margin-top:100px; display:flex; justify-content:flex-end;">
+        <a class="btn btn-primary btn-sm" th:href="@{#}">정산신청</a>
+        <a class="btn btn-success btn-sm" th:href="@{#}" style="margin-left:10px;">예비용1</a>
+        <a class="btn btn-danger btn-sm" href="#" style="margin-left:10px;">예비용2</a>
+    </div>
+
+
+</div>
+</html>

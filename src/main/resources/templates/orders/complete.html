@@ -150,7 +150,7 @@
             </tr>
             <tr style="">
                 <th scope="row" style="width:100px;">적립예정 포인트</th>
-                <td th:text="${orderDetail.savingPoint}" style=""></td>
+                <td th:text="${#numbers.formatInteger(savingPoint, 3, 'COMMA') + ' point'}" style="color:blue; font-weight:bold;"></td>
             </tr>
             </tbody>
         </table>

@@ -43,6 +43,6 @@ public class AlarmController {
     public String removeAlarm(@PathVariable(value = "id") Long id) {
         Alarm alarm = this.alarmService.findById(id);
         this.alarmService.remove(alarm);
-        return "/alarm/list";
+        return "redirect:/alarm/list";
     }
 }

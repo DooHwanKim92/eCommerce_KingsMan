@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -189,8 +190,10 @@ public class ProductService {
         return this.productRepository.getHighQualityProducts();
     }
 
-    public void getIncome(List<Product> sellProductList) {
+    public int getIncome(List<Product> sellProductList) {
+        int totalIncome = 0;
         int income = 0;
+
         for ( int i = 0; i < sellProductList.size(); i++) {
             if(sellProductList.get(i).getDiscount().equals("0")) {
                 income = sellProductList.get(i).getPurchasing() * Integer.parseInt(sellProductList.get(i).getPrice().replace(",",""));
@@ -202,7 +205,20 @@ public class ProductService {
                     .income(income)
                     .build();
 
+            totalIncome += income;
+
             this.productRepository.save(updateIncome);
         }
+
+        return totalIncome;
     }
+
+    public int getPurchasing(List<Product> sellProductList) {
+        int totalPurchasing = 0;
+        for ( int i = 0 ; i < sellProductList.size(); i ++) {
+            totalPurchasing += sellProductList.get(i).getPurchasing();
+        }
+        return totalPurchasing;
+    }
+
 }

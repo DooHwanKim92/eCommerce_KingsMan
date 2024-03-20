@@ -56,7 +56,7 @@
         </table>
         <div style="text-align:right;">
             <p th:each="err : ${#fields.errors('cartId')}" th:text="${err}" style="color:red; font-size:14px;"></p>
-        </div>`
+        </div>
         <div style="display:flex; justify-content:flex-end;">
             <button type="button" onclick="submitForm('/cart/buy')" id="buy" class="btn btn-primary btn-sm">주문하기
             </button>

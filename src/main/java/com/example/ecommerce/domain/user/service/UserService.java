@@ -112,6 +112,8 @@ public class UserService {
                 .isSeller('Y')
                 .sellerName(confirm.getSellerName())
                 .sellerNumber(confirm.getSellerNumber())
+                .bank(confirm.getBank())
+                .bankAccount(confirm.getBankAccount())
                 .alarmList(alarmList)
                 .build();
 
