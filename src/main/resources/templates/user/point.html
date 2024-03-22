@@ -1,0 +1,76 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:800px;">
+
+    <div class="my-3 border-bottom">
+        <h4>
+            <a th:href="@{/user/profile}" style="text-decoration:none; color:inherit;">나의 정보</a>
+            > 포인트내역
+        </h4>
+    </div>
+
+    <ul class="nav nav-underline mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">적립내역</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">사용내역</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">구입상품</th>
+                    <th scope="col">적립포인트</th>
+                    <th scope="col">적립날짜</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="height:100px;" th:each="orderDetail : ${orderDetailList}">
+                    <th scope="row" style="width:200px; text-align:center;">
+                        <img th:src="${orderDetail.product.representImg.FilePath}" alt="상품이미지" style="width:200px; height:200px; object-fit:cover;">
+                        <a th:href="@{|/product/detail/${orderDetail.product.id}|}" th:text="${orderDetail.product.name}">
+                        </a>
+                    </th>
+                    <td style="line-height:100px;" th:text="${#numbers.formatInteger(orderDetail.savingPoint, 3, 'COMMA') + ' point'}"></td>
+                    <td style="line-height:100px;" th:text="${#temporals.format(orderDetail.createDate, 'yyyy-MM-dd')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">구입상품</th>
+                    <th scope="col">사용포인트</th>
+                    <th scope="col">사용날짜</th>
+                </tr>
+                </thead>
+                <tbody th:each="orderDetail : ${orderDetailList}">
+                <tr style="height:100px;" th:if="${orderDetail.usedPoint != '0' and orderDetail.usedPoint != null}">
+                    <th scope="row" style="width:200px; text-align:center;">
+                        <img th:src="${orderDetail.product.representImg.FilePath}" alt="상품이미지" style="width:200px; height:200px; object-fit:cover;">
+                        <a th:href="@{|/product/detail/${orderDetail.product.id}|}" th:text="${orderDetail.product.name}">
+                        </a>
+                    </th>
+                    <td style="line-height:100px;" th:if="${orderDetail.usedPoint != '0' and orderDetail.usedPoint != null}" th:text="${#numbers.formatInteger(orderDetail.usedPoint, 3, 'COMMA') + ' point'}"></td>
+                    <td style="line-height:100px;" th:if="${orderDetail.usedPoint != '0' and orderDetail.usedPoint != null}" th:text="${#temporals.format(orderDetail.createDate, 'yyyy-MM-dd')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div style="margin-top:100px; display:flex; justify-content:flex-end;">
+        <a class="btn btn-primary btn-sm" th:href="@{/user/modify}">정보수정</a>
+        <a class="btn btn-primary btn-sm" th:href="@{/user/buylist}" style="margin-left:10px;">구매내역</a>
+        <a class="btn btn-primary btn-sm" th:href="@{/user/point}" style="margin-left:10px;">포인트내역</a>
+        <a class="btn btn-success btn-sm" th:href="@{/user/confirm}" style="margin-left:10px;">판매권한신청</a>
+        <a class="btn btn-danger btn-sm" href="#" style="margin-left:10px;">회원탈퇴</a>
+    </div>
+
+
+
+</div>
+</html>

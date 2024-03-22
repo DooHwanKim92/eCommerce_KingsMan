@@ -1,0 +1,98 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:800px;">
+
+
+    <div class="my-3 border-bottom">
+        <h4>
+            <a th:href="@{/user/profile}" style="text-decoration:none; color:inherit;">나의 정보</a>
+            > 판매권한신청내역
+        </h4>
+    </div>
+
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col">신청날짜</th>
+            <th scope="col">사업자명</th>
+            <th scope="col">사업자등록번호</th>
+            <th scope="col">승인여부</th>
+        </tr>
+        </thead>
+        <tbody th:if="${confirm != null}">
+        <tr style="height:100px;">
+            <th scope="row" style="width:200px; line-height:100px;"
+                th:text="${#temporals.format(confirm.createDate, 'yyyy-MM-dd')}"></th>
+            <td th:text="${confirm.sellerName}" style="line-height:100px;"></td>
+            <td th:text="${confirm.sellerNumber}" style="line-height:100px;"></td>
+            <td th:text="${confirm.isConfirmed}" style="line-height:100px;"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${confirm == null}">
+        <h5 style="color:red;">신청 내역이 없습니다.</h5>
+    </div>
+
+
+
+
+    <div class="my-3 border-bottom">
+        <h4>
+            <a th:href="@{/user/profile}" style="text-decoration:none; color:inherit;">나의 정보</a>
+            > 판매권한신청
+        </h4>
+    </div>
+
+    <div th:if="${confirm != null and confirm.isConfirmed == '진행중'}">
+        <h5 style="color:red;">판매권한신청 심사가 진행중입니다.</h5>
+    </div>
+
+    <div th:if="${@request.getSiteUser().role == 'seller'}">
+        <h5 style="color:red;">판매권한을 이미 보유중입니다.</h5>
+    </div>
+
+    <form th:if="${@request.getSiteUser().role == 'user' and confirm == null}" th:action="@{/user/confirm}" method="post" th:object="${confirmForm}">
+
+        <div class="mb-3">
+            <label for="sellerName" class="form-label">사업자명</label>
+            <input type="text" class="form-control" id="sellerName" name="sellerName">
+        </div>
+        <p th:each="err : ${#fields.errors('sellerName')}" th:text="${err}" style="color:red; font-size:14px;"></p>
+
+
+        <div class="mb-3">
+            <label for="sellerNumber" class="form-label">사업자등록번호</label>
+            <input type="text" class="form-control" id="sellerNumber" name="sellerNumber">
+        </div>
+        <p th:each="err : ${#fields.errors('sellerNumber')}" th:text="${err}" style="color:red; font-size:14px;"></p>
+
+        <div class="mb-3">
+            <label for="bank" class="form-label">은행</label>
+            <input type="text" class="form-control" id="bank" name="bank">
+        </div>
+        <p th:each="err : ${#fields.errors('bank')}" th:text="${err}" style="color:red; font-size:14px;"></p>
+
+        <div class="mb-3">
+            <label for="bankAccount" class="form-label">계좌번호</label>
+            <input type="text" class="form-control" id="bankAccount" name="bankAccount">
+        </div>
+        <p th:each="err : ${#fields.errors('bankAccount')}" th:text="${err}" style="color:red; font-size:14px;"></p>
+
+
+        <div style="display:flex; justify-content:flex-end;">
+            <a class="btn btn-primary btn-sm" th:href="@{/user/profile}">뒤로가기</a>
+            <button type="submit" class="btn btn-primary btn-sm" style="margin-left:10px;">신청하기</button>
+        </div>
+
+    </form>
+
+    <div style="margin-top:100px; display:flex; justify-content:flex-end;">
+        <a class="btn btn-primary btn-sm" th:href="@{/user/modify}">정보수정</a>
+        <a class="btn btn-primary btn-sm" th:href="@{/user/buylist}" style="margin-left:10px;">구매내역</a>
+        <a class="btn btn-primary btn-sm" th:href="@{/user/point}" style="margin-left:10px;">포인트내역</a>
+        <a class="btn btn-success btn-sm" th:href="@{/user/confirm}" style="margin-left:10px;">판매권한신청</a>
+        <a class="btn btn-danger btn-sm" href="#" style="margin-left:10px;">회원탈퇴</a>
+    </div>
+
+</div>
+</html>

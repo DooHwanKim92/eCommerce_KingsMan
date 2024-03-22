@@ -1,0 +1,290 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:1000px;">
+
+    <div class="my-3 border-bottom">
+        <h4>결제하기</h4>
+    </div>
+
+    <div style="margin-top:40px; margin-bottom:40px;">
+        <div style="display:flex; justify-content:space-between;">
+            <div style="color:gray; font-size:14px;">시작</div>
+            <div style="font-weight:bold; font-size:14px;">구매확정</div>
+            <div style="color:gray; font-size:14px;">결제하기</div>
+            <div style="color:gray; font-size:14px;">결제승인</div>
+            <div style="color:gray; font-size:14px;">주문완료</div>
+        </div>
+        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25" aria-valuemin="0"
+             aria-valuemax="100">
+            <div class="progress-bar w-25"></div>
+        </div>
+    </div>
+
+    <div style="margin-top:50px;">
+        <h5>구매상품</h5>
+        <table th:if="${product != null}" class="table table-sm">
+            <tbody>
+            <tr style="">
+                <td>
+                    <div style="display:flex; justify-content:space-between;">
+                        <img th:src="${product.representImg.FilePath}" alt="상품이미지" style="width:200px; height:200px;">
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <div>상품 :
+                            <a th:href="@{|/product/detail/${product.id}|}" th:text="${product.name}"></a>
+                        </div>
+                        <div th:if="${product.discount == '0'}">
+                            <span style="width:100px;">가격</span>
+                            <span th:text="|${product.price}원|" style=""></span>
+                        </div>
+                        <div th:if="${product.discount != '0'}">
+                            <span style="width:100px;">할인</span>
+                            <div>
+                                <del th:text="|${product.price}원|"></del>
+                                <span th:text="${#numbers.formatInteger(product.DCPrice, 3, 'COMMA') + '원'}"
+                                      style="color:red; font-weight:bold;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div th:each="option : ${product.ordersList}" th:if="${@request.getSiteUser() == option.user}">선택옵션
+                        <div th:text="|옵션 : ${option.option}|"></div>
+                        <div th:text="|수량 : ${option.amount}|"></div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <table th:if="${productList != null}" class="table table-sm">
+            <tbody>
+            <tr th:each="product : ${productList}">
+                <td>
+                    <div style="display:flex; justify-content:space-between;">
+                        <img th:src="${product.representImg.FilePath}" alt="상품이미지" style="width:200px; height:200px;">
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <div>상품 :
+                            <a th:href="@{|/product/detail/${product.id}|}" th:text="${product.name}"></a>
+                        </div>
+                        <div th:if="${product.discount == '0'}">
+                            <span style="width:100px;">가격</span>
+                            <span th:text="|${product.price}원|" style=""></span>
+                        </div>
+                        <div th:if="${product.discount != '0'}">
+                            <span style="width:100px;">할인</span>
+                            <div>
+                                <del th:text="|${product.price}원|"></del>
+                                <span th:text="${#numbers.formatInteger(product.DCPrice, 3, 'COMMA') + '원'}"
+                                      style="color:red; font-weight:bold;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div th:each="option : ${product.ordersList}" th:if="${@request.getSiteUser() == option.user}">선택옵션
+                        <div th:text="|옵션 : ${option.option}|"></div>
+                        <div th:text="|수량 : ${option.amount}|"></div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top:50px;">
+        <h5>구매자정보</h5>
+        <table class="table table-sm">
+            <tbody>
+            <tr style="">
+                <th scope="row" style="width:100px;">이름</th>
+                <td th:text="${user.nickname}" style=""></td>
+            </tr>
+            <tr style="">
+                <th scope="row" style="width:100px;">주소</th>
+                <td th:text="${user.address}" style=""></td>
+            </tr>
+            <tr style="">
+                <th scope="row" style="width:100px;">연락처</th>
+                <td th:text="${user.phoneNumber}" style=""></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top:50px;">
+        <h5>받는사람정보</h5>
+        <table class="table table-sm">
+            <tbody>
+            <tr style="">
+                <th scope="row" style="width:100px;">이름</th>
+                <td th:text="${orderDetail.receiverName}" style=""></td>
+            </tr>
+            <tr style="">
+                <th scope="row" style="width:100px;">주소</th>
+                <td th:text="${orderDetail.receiverAddress}" style=""></td>
+            </tr>
+            <tr style="">
+                <th scope="row" style="width:100px;">연락처</th>
+                <td th:text="${orderDetail.receiverPhoneNumber}" style=""></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top:50px;">
+        <h5>결제정보</h5>
+        <table class="table table-sm">
+            <tbody>
+            <tr style="">
+                <th scope="row" style="width:100px;">총결제금액</th>
+                <td th:if="${product != null}"
+                    th:text="${#numbers.formatInteger(orderDetail.totalPrice, 3, 'COMMA') + '원'}"
+                    style="color:red; font-weight:bold;"></td>
+                <td th:if="${productList != null}"
+                    th:text="${#numbers.formatInteger(totalPrice, 3, 'COMMA') + '원'}"
+                    style="color:red; font-weight:bold;"></td>
+            </tr>
+            <tr style="">
+                <th scope="row" style="width:100px;">적립예정 포인트</th>
+                <td th:text="${#numbers.formatInteger(savingPoint, 3, 'COMMA') + ' point'}" style="color:blue; font-weight:bold;"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="display:flex; justify-content:center; width:800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">상품 결제</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div style="display:flex; justify-content:space-between;">
+                            <div style="color:gray; font-size:14px;">시작</div>
+                            <div style="color:gray; font-size:14px;">구매확정</div>
+                            <div style="font-weight:bold; font-size:14px;">결제하기</div>
+                            <div style="color:gray; font-size:14px;">결제승인</div>
+                            <div style="color:gray; font-size:14px;">주문완료</div>
+                        </div>
+                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="50"
+                             aria-valuemin="0"
+                             aria-valuemax="100">
+                            <div class="progress-bar w-50"></div>
+                        </div>
+                    </div>
+                    <div class="wrapper">
+                        <div class="box_section" style="padding: 40px 30px 50px 30px; margin-top: 30px; margin-bottom: 50px;">
+                            <!-- 결제 UI -->
+                            <div id="payment-method"></div>
+                            <!-- 이용약관 UI -->
+                            <div id="agreement"></div>
+                            <!-- 쿠폰 체크박스 -->
+                            <div style="padding-left: 25px">
+                                <div class="checkable typography--p">
+                                    <label for="coupon-box" class="checkable__label typography--regular">
+                                        <input id="coupon-box" class="checkable__input" type="checkbox" aria-checked="true"/>
+                                        <span class="checkable__label-text">포인트 사용하기</span>
+                                        <span th:text="|(보유 포인트 : ${user.point})|"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div>총결제금액</div>
+                    <span th:text="${#numbers.formatInteger(totalPrice, 3, 'COMMA') + '원'}"
+                          style="color:red; font-weight:bold;"></span>
+                    <!-- 결제하기 버튼 -->
+                    <div class="result wrapper">
+                        <button class="btn btn-primary btn-sm button" id="payment-button" style="margin-right:10px;">
+                            결제하기
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top:100px; display:flex; justify-content:flex-end;">
+        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                style="margin-left:10px;">
+            결제하기
+        </button>
+        <a class="btn btn-danger btn-sm" th:href="@{|/orderdetail/remove/${orderDetail.id}|}"
+           style="margin-left:10px;">주문취소</a>
+    </div>
+
+    <script th:inline="javascript">
+        <!-- 토스 페이먼츠 api -->
+        const button = document.getElementById("payment-button");
+        const coupon = document.getElementById("coupon-box");
+        const generateRandomString = () =>
+          window.btoa(Math.random()).slice(0, 20);
+        const amount = [[${totalPrice}]];
+        // ------  결제위젯 초기화 ------
+        // TODO: clientKey는 개발자센터의 결제위젯 연동 키 > 클라이언트 키로 바꾸세요.
+        // TODO: 구매자의 고유 아이디를 불러와서 customerKey로 설정하세요. 이메일・전화번호와 같이 유추가 가능한 값은 안전하지 않습니다.
+        // @docs https://docs.tosspayments.com/reference/widget-sdk#sdk-설치-및-초기화
+        // client key
+        const widgetClientKey = "test_ck_vZnjEJeQVxy7PXDDl1mYrPmOoBN0";
+        const customerKey = generateRandomString();
+        const paymentWidget = PaymentWidget(widgetClientKey, customerKey); // 회원 결제
+        // const paymentWidget = PaymentWidget(widgetClientKey, PaymentWidget.ANONYMOUS); // 비회원 결제
+
+        // ------  결제 UI 렌더링 ------
+        // @docs https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
+        paymentMethodWidget = paymentWidget.renderPaymentMethods(
+          "#payment-method",
+          { value: amount },
+          // 렌더링하고 싶은 결제 UI의 variantKey
+          // 결제 수단 및 스타일이 다른 멀티 UI를 직접 만들고 싶다면 계약이 필요해요.
+          // @docs https://docs.tosspayments.com/guides/payment-widget/admin#멀티-결제-ui
+          { variantKey: "DEFAULT" }
+        );
+
+        // ------  이용약관 UI 렌더링 ------
+        // @docs https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자-옵션
+        paymentWidget.renderAgreement("#agreement", { variantKey: "AGREEMENT" });
+
+        // ------  결제 금액 업데이트 ------
+        // @docs https://docs.tosspayments.com/reference/widget-sdk#updateamount결제-금액
+        coupon.addEventListener("change", function () {
+          if (coupon.checked) {
+            paymentMethodWidget.updateAmount(amount - [[${user.point}]]);
+          } else {
+            paymentMethodWidget.updateAmount(amount);
+          }
+        });
+
+
+        // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
+        // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
+        button.addEventListener("click", function () {
+          // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
+          // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
+          paymentWidget.requestPayment({
+            orderId: generateRandomString(),
+            orderName: [[${orderDetail.totalPrice}]],
+            successUrl: window.location.origin + "/success" + "/[[${orderDetail.id}]]",
+            failUrl: window.location.origin + "/fail",
+            customerEmail: [[${orderDetail.user.email}]],
+            customerName: [[${orderDetail.user.nickname}]],
+            customerMobilePhone: [[${orderDetail.user.phoneNumber}]],
+            userId : [[${orderDetail.user.id}]],
+            productId : [[${orderDetail.product.id}]]
+          });
+        });
+    </script>
+
+
+</div>
+</html>

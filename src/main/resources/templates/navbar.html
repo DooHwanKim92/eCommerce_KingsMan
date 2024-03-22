@@ -1,0 +1,234 @@
+<nav th:fragment="navbarFragment" class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+    <div class="container-fluid" style="width:1200px;">
+        <a class="navbar-brand" th:href="@{/}" style="font-size:24px;">
+            <i class="fa-solid fa-umbrella" style="color: #ffffff;"></i>
+            KingsMan
+        </a>
+        <div class="d-flex">
+            <form th:action="@{/product/list}" class="d-flex" role="search" style="height:40px; width:700px;">
+                <input class="form-control me-2" type="search" placeholder="검색어 입력" aria-label="Search" name="kw" th:value="${kw}">
+                <button class="btn btn-outline-success" type="submit" style="width:80px;">검색</button>
+            </form>
+        </div>
+
+        <div>
+            <a th:href="@{/notice/list}" style="font-size:16px; color:white; text-decoration:none;">
+                <i class="fa-solid fa-bullhorn" style="color: #ffffff;"></i>
+                <span>공지사항/이벤트</span>
+            </a>
+        </div>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
+                aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation" style="position:relative;">
+            <span class="navbar-toggler-icon"></span>
+            <div th:if="${@request.isThereNewAlarm()}"
+                 class="spinner-grow spinner-grow-sm text-danger position-absolute top-0 start-90" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </button>
+
+        <!-- 오프캔버스 -->
+        <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
+             aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header" sec:authorize="isAuthenticated()">
+                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"
+                    th:if="${@request.getSiteUser() != null}"
+                    th:text="${@request.getSiteUser().nickname}"></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+            </div>
+
+            <!-- user 메뉴 -->
+            <div class="offcanvas-body" sec:authorize="isAuthenticated()"
+                 th:if="${@request.getSiteUser() != null and @request.getSiteUser.getRole == 'user'}">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item" style="position:relative;">
+                        <a class="nav-link" aria-current="page" th:href="@{/alarm/list}">
+                            <i class="fa-solid fa-bell" style="color: #ffffff;"></i>
+                            알림
+                        </a>
+                        <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger"
+                              th:if="${@request.isThereNewAlarm()}"
+                              th:text="${@request.howManyNewAlarm()}">
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/user/profile}">
+                            <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+                            나의정보
+                        </a>
+                    </li>
+                    <li class="nav-item" style="position:relative;">
+                        <a class="nav-link" th:href="@{/cart/list}">
+                            <i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i>
+                            장바구니
+                        </a>
+                        <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger"
+                              th:if="${#lists.size(@request.getSiteUser.cartList) > 0}"
+                              th:text="${#lists.size(@request.getSiteUser.cartList)}">
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/wish/list}">
+                            <i class="fa-solid fa-heart" style="color: #ffffff;"></i>
+                            찜목록
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/user/logout}">
+                            <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
+                            로그아웃
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" th:href="@{/question/list}" role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <i class="fa-solid fa-headset" style="color: #ffffff;"></i>
+                            고객센터
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" th:href="@{/question/create}">문의하기 <i
+                                    class="fa-regular fa-pen-to-square" style="color: #ffffff;"></i></a></li>
+                            <li><a class="dropdown-item" th:href="@{/question/mylist}">문의내역 <i
+                                    class="fa-regular fa-comments" style="color: #ffffff;"></i></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- seller 메뉴 -->
+            <div class="offcanvas-body" sec:authorize="isAuthenticated()"
+                 th:if="${@request.getSiteUser() != null and @request.getSiteUser.getRole == 'seller'}">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item" style="position:relative;">
+                        <a class="nav-link" aria-current="page" th:href="@{/alarm/list}">
+                            <i class="fa-solid fa-bell" style="color: #ffffff;"></i>
+                            알림
+                        </a>
+                        <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger"
+                              th:if="${@request.isThereNewAlarm()}"
+                              th:text="${@request.howManyNewAlarm()}">
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/user/profile}">
+                            <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+                            나의정보
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/cart/list}">
+                            <i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i>
+                            장바구니
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/wish/list}">
+                            <i class="fa-solid fa-heart" style="color: #ffffff;"></i>
+                            찜목록
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/user/logout}">
+                            <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
+                            로그아웃
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" th:href="@{/question/list}" role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <i class="fa-solid fa-headset" style="color: #ffffff;"></i>
+                            고객센터
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" th:href="@{/question/create}">문의하기 <i
+                                    class="fa-regular fa-pen-to-square" style="color: #ffffff;"></i></a></li>
+                            <li><a class="dropdown-item" th:href="@{/question/mylist}">문의내역 <i
+                                    class="fa-regular fa-comments" style="color: #ffffff;"></i></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- admin 메뉴 -->
+            <div class="offcanvas-body" sec:authorize="isAuthenticated()"
+                 th:if="${@request.getSiteUser() != null and @request.getSiteUser.getRole == 'admin'}">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/user/profile}">
+                            <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+                            나의정보
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/notice/list}">
+                            <i class="fa-solid fa-thumbtack" style="color: #ffffff;"></i>
+                            공지사항
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" th:href="@{/home/image}">
+                            <i class="fa-solid fa-images" style="color: #ffffff;"></i>
+                            메인이미지 관리
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}">
+                            <i class="fa-solid fa-user" style="color: #ffffff;"></i>
+                            회원관리
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/user/logout}">
+                            <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>
+                            로그아웃
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <i class="fa-solid fa-headset" style="color: #ffffff;"></i>
+                            고객센터
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" th:href="@{/question/create}">문의하기 <i
+                                    class="fa-regular fa-pen-to-square" style="color: #ffffff;"></i></a></li>
+                            <li><a class="dropdown-item" th:href="@{/question/mylist}">문의내역 <i
+                                    class="fa-regular fa-comments" style="color: #ffffff;"></i></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 비로그인 상태 -->
+            <div class="offcanvas-body" sec:authorize="isAnonymous()">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/user/login}">
+                            <i class="fa-solid fa-arrow-right-to-bracket" style="color: #ffffff;"></i>
+                            로그인
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/user/signup}">
+                            <i class="fa-regular fa-user" style="color: #ffffff;"></i>
+                            회원가입
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <i class="fa-solid fa-key" style="color: #ffffff;"></i>
+                            아이디/비밀번호 찾기
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 오프캔버스 끝 -->
+    </div>
+</nav>

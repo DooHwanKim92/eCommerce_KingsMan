@@ -1,0 +1,36 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:1000px;">
+
+    <div class="my-3 border-bottom">
+        <h4>공지사항/이벤트</h4>
+    </div>
+
+    <table class="table table-sm">
+        <thead>
+        <tr style="">
+            <th scope="col">번호</th>
+            <th scope="col">종류</th>
+            <th scope="col" style="width:500px;">제목</th>
+            <th scope="col">작성날짜</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr style="height:100px;" th:each="notice : ${noticeList}">
+            <td th:text="${notice.id}" style="line-height:100px;"></td>
+            <td th:text="${notice.category}" style="line-height:100px;"></td>
+            <td style="line-height:100px;">
+                <a th:href="@{|/notice/detail/${notice.id}|}" th:text="${notice.title}"></a>
+            </td>
+            <td th:text="${#temporals.format(notice.createDate, 'yyyy-MM-dd')}" style="line-height:100px;"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div style="margin-top:100px; display:flex; justify-content:flex-end;">
+        <a class="btn btn-primary btn-sm" sec:authorize="isAuthenticated()"
+           th:if="${@request.getSiteUser.role == 'admin'}" th:href="@{/notice/create}">공지/이벤트 등록</a>
+    </div>
+
+
+</div>
+</html>

@@ -1,0 +1,235 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:1000px;">
+
+    <div class="my-3 border-bottom">
+        <h4>상품 상세</h4>
+    </div>
+
+    <div style="display:flex; justify-content:space-between;">
+        <div class="card" style="width: 500px; height:500px;">
+            <div id="carouselExample" class="carousel slide">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img th:src="${product.representImg.FilePath}" alt="대표이미지"
+                             style="width:500px; height:500px; object-fit:cover;">
+                    </div>
+                    <div class="carousel-item" th:if="${product.imageList != null}"
+                         th:each="imgList : ${product.imageList}">
+                        <img th:src="${imgList.FilePath}" alt="상세이미지"
+                             style="width:500px; height:500px; object-fit:cover;">
+                    </div>
+                </div>
+                <div th:if="${product.imageList != null}">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" style="background-color:black;"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" style="background-color:black;"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="card" style="margin-top:20px;">
+                <div class="card-body">
+                    <div th:text="|판매자 : ${product.user.sellerName}|" style="font-weight:bold;"></div>
+                    <a th:href="@{|/product/list/seller/${product.user.id}|}">판매자가 등록한 다른 상품 보기</a>
+                </div>
+                <div class="card-body">
+                    <div th:text="|상품평점 : ${product.score}점|" style="font-weight:bold;"></div>
+                </div>
+            </div>
+            <div style="margin-top:50px; display:flex; justify-content:space-around;">
+                <a class="btn btn-outline-dark" th:href="@{|/review/create/${product.id}|}">후기작성</a>
+                <a class="btn btn-outline-dark" th:href="@{|/question/create/product/${product.id}|}">문의하기</a>
+            </div>
+        </div>
+        <div style="width:400px;">
+            <table class="table table-sm">
+                <tbody>
+                <tr style="">
+                    <th scope="row" style="width:100px;">카테고리</th>
+                    <td th:text="${product.category.name}" style=""></td>
+                </tr>
+                <tr style="">
+                    <th scope="row" style="width:100px;">상품명</th>
+                    <td th:text="${product.name}" style=""></td>
+                </tr>
+                <tr style="">
+                    <th scope="row" style="width:100px;">상품설명</th>
+                    <td th:text="${product.content}" style=""></td>
+                </tr>
+                <tr th:if="${product.discount == '0'}">
+                    <th scope="row" style="width:100px;">가격</th>
+                    <td th:text="|${product.price}원|" style=""></td>
+                </tr>
+                <tr th:if="${product.discount != '0'}">
+                    <th scope="row" style="width:100px;">할인</th>
+                    <td>
+                        <del th:text="|${product.price}원|"></del>
+                        <span th:text="${#numbers.formatInteger(product.DCPrice, 3, 'COMMA') + '원'}" style="color:red; font-weight:bold;"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <form th:action="@{|/orders/option/${product.id}|}" method="post" th:object="${ordersCreateForm}">
+
+                <div style="margin-top:10px;" th:each="optionList : ${product.optionList}">
+                    <label for="option" style="font-weight:bold;" th:text="${optionList.name}"></label>
+                    <select class="form-select" aria-label="Default select example" id="option" name="option">
+                        <option selected>[필수] 옵션 선택</option>
+                        <option th:each="optionDetail : ${optionList.optionDetailList}" th:text="${optionDetail.detail}"
+                                th:value="${optionDetail.detail}"></option>
+                    </select>
+                </div>
+                <p th:each="err : ${#fields.errors('option')}" th:text="${err}" class="error"
+                   style="color:red; font-size:14px;"></p>
+
+
+                <div style="margin-top:10px;">
+                    <label for="amount" style="font-weight:bold;">수량입력</label>
+                    <input class="form-control" type="text" id="amount" name="amount" th:field="*{amount}">
+                </div>
+                <p th:each="err : ${#fields.errors('amount')}" th:text="${err}" class="error"
+                   style="color:red; font-size:14px;"></p>
+
+                <div style="margin-top:20px; display:flex; justify-content:flex-end;">
+                    <button class="btn btn-primary btn-sm" type="submit" th:text="옵션선택"></button>
+                </div>
+            </form>
+
+            <div style="margin-top:10px; height:200px; overflow:scroll;">
+                <span style="font-weight:bold;">선택한 옵션</span>
+                <hr>
+                <div th:if="${@request.getSiteUser() == orders.user}" th:each="orders : ${product.ordersList}">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span th:text="|선택옵션 : ${orders.option}|"></span>
+                        <span>
+                            <a class="btn btn-danger btn-sm" th:href="@{|/orders/remove/${orders.id}|}">X</a>
+                        </span>
+                    </div>
+                    <div th:text="|수량 : ${orders.amount}|"></div>
+                    <hr>
+                </div>
+            </div>
+
+
+            <div style="margin-top:20px; margin-bottom:20px; text-align:center;">
+                <a th:href="@{|/cart/add/${product.id}|}" style="text-decoration:none; color:inherit; font-size:24px;">
+                    <i class="fa-solid fa-cart-arrow-down" style="color: #000000;">
+                        <span>장바구니담기</span>
+                    </i>
+                </a>
+                <a th:if="${isWish == 'false'}"
+                        th:href="@{|/wish/add/${product.id}|}" style="text-decoration:none; color:inherit; font-size:24px;">
+                    <i class="fa-regular fa-star" style="color: #000000;">
+                        <span>찜하기</span>
+                    </i>
+                </a>
+                <a th:if="${isWish == 'true'}"
+                   th:href="@{|/wish/remove/${product.id}|}" style="text-decoration:none; color:inherit; font-size:24px;">
+                    <i class="fa-solid fa-star" style="color: #000000;">
+                        <span>찜해제</span>
+                    </i>
+                </a>
+            </div>
+            <div>
+                <a class="btn btn-dark" th:href="@{|/orders/buy/${product.id}|}" th:text="구매하기"
+                   style="width:100%; font-size:24px;"></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 상품후기, 상품문의 탭 -->
+    <ul class="nav nav-underline mb-3" id="pills-tab" role="tablist" style="margin-top:50px;">
+        <li class="nav-item" role="presentation" style="width:450px;">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+                    type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                <h4>상품후기</h4>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation" style="width:450px;">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+                    type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+                <h4>상품문의</h4>
+            </button>
+        </li>
+    </ul>
+
+    <!-- 상품후기 -->
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"
+             tabindex="0">
+            <span style="font-size:12px; color:gray;">※ 상품후기는 구매 후 작성할 수 있습니다.</span>
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">별점</th>
+                    <th scope="col">후기</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">작성일자</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="height:100px;" th:each="review : ${reviewList}">
+                    <td style="line-height:150px;">
+                        <div th:if="${review.score == 1}">★☆☆☆☆</div>
+                        <div th:if="${review.score == 2}">★★☆☆☆</div>
+                        <div th:if="${review.score == 3}">★★★☆☆</div>
+                        <div th:if="${review.score == 4}">★★★★☆</div>
+                        <div th:if="${review.score == 5}">★★★★★</div>
+                    </td>
+                    <td>
+                        <img th:src="${review.reviewImg.FilePath}" alt="리뷰이미지" style="width:150px; height:150px; object-fit:cover;">
+                        <span th:text="${review.title}"></span>
+                        <span th:text="${review.content}"></span>
+                    </td>
+                    <td th:text="${review.user.nickname}" style="line-height:150px;"></td>
+                    <td th:text="${#temporals.format(review.createDate, 'yyyy-MM-dd')}" style="line-height:150px;"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 상품문의 -->
+        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">제목</th>
+                    <th scope="col">내용</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">답변유무</th>
+                    <th scope="col">작성일자</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="height:100px;" th:each="question : ${questionList}">
+                    <td th:text="${question.title}"></td>
+                    <td th:text="${question.content}"></td>
+                    <td th:text="${question.user.nickname}"></td>
+                    <td>
+                        <span th:text="${question.isAnswered}"></span>
+                        <div th:if="${question.isAnswered == 'N' and question.product.user == @request.getSiteUser()}">
+                            <a th:href="@{|/answer/product/${question.id}|}" class="btn btn-primary btn-sm">답변하기</a>
+                        </div>
+                    </td>
+                    <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div>
+        <a sec:authorize="isAuthenticated()" th:if="${@request.getSiteUser().sellerName == product.user.sellerName}"
+           th:href="@{|/product/remove/${product.id}|}" th:text="상품삭제"></a>
+    </div>
+
+    <!--${@rq.isLogin() == false}-->
+
+</div>
+</html>

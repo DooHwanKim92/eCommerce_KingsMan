@@ -1,0 +1,52 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:800px;">
+
+    <div class="my-3 border-bottom">
+        <h4>나의 정보</h4>
+    </div>
+
+    <table class="table table-sm">
+        <tbody>
+        <tr style="height:100px;">
+            <th scope="row" style="width:200px; text-align:center; line-height:100px;">이름</th>
+            <td th:text="${@request.getSiteUser.nickname}" style="line-height:100px;"></td>
+        </tr>
+        <tr style="height:100px;">
+            <th scope="row" style="width:200px; text-align:center; line-height:100px;">연락처</th>
+            <td th:text="${@request.getSiteUser.phoneNumber}" style="line-height:100px;"></td>
+        </tr>
+        <tr style="height:100px;">
+            <th scope="row" style="width:200px; text-align:center; line-height:100px;">주소</th>
+            <td th:text="${@request.getSiteUser.address}" style="line-height:100px;"></td>
+        </tr>
+        <tr style="height:100px;">
+            <th scope="row" style="width:200px; text-align:center; line-height:100px;">회원등급</th>
+            <td th:text="${@request.getSiteUser.grade}" style="line-height:100px;"></td>
+        </tr>
+        <tr style="height:100px;">
+            <th scope="row" style="width:200px; text-align:center; line-height:100px;">포인트</th>
+            <td th:text="${#numbers.formatInteger(@request.getSiteUser.point, 3, 'COMMA') + ' point'}"
+                style="line-height:100px;"></td>
+        </tr>
+        <tr style="height:100px;">
+            <th scope="row" style="width:200px; text-align:center; line-height:100px;">판매권한</th>
+            <td th:text="${@request.getSiteUser.isSeller}" style="line-height:100px;"></td>
+        </tr>
+        <tr style="height:100px;">
+            <th scope="row" style="width:200px; text-align:center; line-height:100px;">가입날짜</th>
+            <td th:text="${#temporals.format(@request.getSiteUser.createDate, 'yyyy-MM-dd')}"
+                style="line-height:100px;"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div style="margin-top:100px; display:flex; justify-content:flex-end;">
+        <a class="btn btn-primary btn-sm" th:href="@{/user/modify}">정보수정</a>
+        <a class="btn btn-primary btn-sm" th:href="@{/user/buylist}" style="margin-left:10px;">구매내역</a>
+        <a class="btn btn-primary btn-sm" th:href="@{/user/point}" style="margin-left:10px;">포인트내역</a>
+        <a class="btn btn-success btn-sm" th:href="@{/user/confirm}" style="margin-left:10px;">판매권한신청</a>
+        <a class="btn btn-danger btn-sm" href="#" style="margin-left:10px;">회원탈퇴</a>
+    </div>
+
+
+</div>
+</html>

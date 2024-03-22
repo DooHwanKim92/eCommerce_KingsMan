@@ -1,0 +1,79 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:1200px;">
+
+    <div class="my-3 border-bottom">
+        <h4>찜목록</h4>
+    </div>
+
+    <form method="post" id="wishSelectForm" th:object="${wishSelectForm}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                <th>선택</th>
+                <th>카테고리</th>
+                <th>상품명</th>
+                <th>상품이미지</th>
+                <th>선택옵션, 수량</th>
+                <th>상품가격</th>
+                <th>판매자</th>
+                <th>등록일자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="wishList : ${wishList}">
+                <td style="line-height:200px;">
+                    <input type="checkbox" name="wishId" th:value="${wishList.id}">
+                </td>
+                <td th:text="${wishList.product.category.name}" style="line-height:200px;"></td>
+                <td>
+                    <a th:href="@{|/product/detail/${wishList.product.id}|}" th:text="${wishList.product.name}"
+                       style="line-height:200px;"></a>
+                </td>
+                <td>
+                    <img th:src="${wishList.product.representImg.FilePath}" alt="상품이미지"
+                         style="width:200px; height:200px; object-fit:cover;">
+                </td>
+                <td>
+                    <span th:each="options : ${wishList.product.ordersList}"
+                          th:if="${@request.getSiteUser() == options.user}"
+                          th:text="|${options.option} , ${options.amount}|" style="line-height:200px;"></span>
+                </td>
+                <td th:if="${wishList.product.discount == '0'}" style="line-height:200px;">
+                    <span th:text="|${wishList.product.price}원|" style=""></span>
+                </td>
+                <td th:if="${wishList.product.discount != '0'}" style="line-height:200px;">
+                    <div>
+                        <del th:text="|${wishList.product.price}원|"></del>
+                        <span th:text="${#numbers.formatInteger(wishList.product.DCPrice, 3, 'COMMA') + '원'}"
+                              style="color:red; font-weight:bold;"></span>
+                    </div>
+                </td>
+                <td th:text="${wishList.product.user.sellerName}" style="line-height:200px;"></td>
+                <td th:text="${#temporals.format(wishList.createDate, 'yyyy-MM-dd')}" style="line-height:200px;"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div style="text-align:right;">
+            <p th:each="err : ${#fields.errors('wishId')}" th:text="${err}" style="color:red; font-size:14px;"></p>
+        </div>
+        <div style="display:flex; justify-content:flex-end;">
+            <button type="button" onclick="submitForm('/wish/move')" id="buy" class="btn btn-primary btn-sm">장바구니로 이동
+            </button>
+            <button type="button" onclick="submitForm('/wish/remove')" id="remove" class="btn btn-danger btn-sm"
+                    style="margin-left:10px;">삭제
+            </button>
+        </div>
+    </form>
+
+    <script>
+        function submitForm(action) {
+    var form = document.getElementById("wishSelectForm");
+    form.action = action;
+    form.submit();
+}
+    </script>
+
+
+</div>
+</html>

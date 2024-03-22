@@ -1,0 +1,30 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:1000px;">
+
+    <div class="my-3 border-bottom">
+        <h4>회원관리</h4>
+    </div>
+
+    <div>
+        <h5>회원통계</h5>
+        <div th:each = "user : ${userList}">
+            <span th:text="${user.username}"></span>
+            <span th:text="${user.nickname}"></span>
+            <span th:text="${user.age}"></span>
+            <span th:text="${user.sex}"></span>
+            <span th:text="${user.role}"></span>
+            <span th:text="${user.point}"></span>
+            <span th:text="${user.grade}"></span>
+        </div>
+    </div>
+
+    <div>
+        <h5>회원등급</h5>
+    </div>
+
+    <div>
+        <h5>상품통계</h5>
+    </div>
+
+</div>
+</html>

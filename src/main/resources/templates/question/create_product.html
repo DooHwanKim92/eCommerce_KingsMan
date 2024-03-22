@@ -1,0 +1,45 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:800px;">
+
+    <div class="my-3 border-bottom">
+        <h4>문의작성</h4>
+    </div>
+
+    <form th:action="@{|/question/create/product/${product.id}|}" method="post" th:object="${questionCreateForm}">
+
+        <div class="mb-3">
+            <label for="category" class="form-label">문의유형</label>
+            <select class="form-select" aria-label="Default select example" id="category" name="category">
+                <option selected>상품</option>
+                <option value="서비스">서비스</option>
+            </select>
+        </div>
+        <p th:each="err : ${#fields.errors('category')}" th:text="${err}" style="color:red; font-size:14px;"></p>
+
+        <div class="mb-3">
+            <label for="productName" class="form-label">상품</label>
+            <input th:value="${product.name}" id="productName" name="productName" style="font-weight:bold;">
+        </div>
+
+        <div class="mb-3">
+            <label for="title" class="form-label">제목</label>
+            <input type="text" class="form-control" id="title" name="title">
+        </div>
+        <p th:each="err : ${#fields.errors('title')}" th:text="${err}" style="color:red; font-size:14px;"></p>
+
+        <div class="mb-3">
+            <label for="content" class="form-label">내용</label>
+            <textarea type="text" class="form-control" id="content" name="content" rows="10"></textarea>
+        </div>
+        <p th:each="err : ${#fields.errors('content')}" th:text="${err}" style="color:red; font-size:14px;"></p>
+
+        <div style="display:flex; justify-content:flex-end;">
+            <a class="btn btn-primary" th:href="@{|/product/detail/${product.id}|}">뒤로가기</a>
+            <button type="submit" class="btn btn-primary" style="margin-left:10px;">작성하기</button>
+        </div>
+    </form>
+
+
+
+</div>
+</html>

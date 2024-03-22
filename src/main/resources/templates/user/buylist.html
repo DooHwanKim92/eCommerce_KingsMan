@@ -1,0 +1,61 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3" style="width:1200px;">
+
+    <div class="my-3 border-bottom">
+        <h4>
+            <a th:href="@{/user/profile}" style="text-decoration:none; color:inherit;">나의 정보</a>
+            > 구매내역
+        </h4>
+    </div>
+
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th>구입상품</th>
+            <th>옵션</th>
+            <th>결제금액, 결제방식</th>
+            <th>받는사람</th>
+            <th>주문날짜</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="orders : ${user.orderDetailList}">
+            <th scope="row" style="width:200px; text-align:center;">
+                <img th:src="${orders.product.representImg.FilePath}" alt="상품이미지" style="width:200px; height:200px; object-fit:cover;">
+                <a th:href="@{|/product/detail/${orders.product.id}|}" th:text="${orders.product.name}"></a>
+            </th>
+            <td>
+                <div style="display:inline-block; width:200px;">
+                    <span th:text = ${orders.productOption}></span>
+                </div>
+            </td>
+            <td style="width:200px;">
+                <div th:text="${#numbers.formatInteger(orders.totalPrice, 3, 'COMMA') + '원'}"></div>
+                <div th:text="${orders.howToPay}"></div>
+            </td>
+            <td>
+                <div>
+                    <span th:text="|이름 : ${orders.receiverName}|"></span>
+                    <br>
+                    <span th:text="|주소 : ${orders.receiverAddress}|"></span>
+                    <br>
+                    <span th:text="|전화번호 : ${orders.receiverPhoneNumber}|"></span>
+                </div>
+            </td>
+            <td>
+                <div th:text="${#temporals.format(orders.createDate, 'yyyy-MM-dd')}" style="width:150px;"></div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div style="margin-top:100px; display:flex; justify-content:flex-end;">
+        <a class="btn btn-primary btn-sm" th:href="@{/user/modify}">정보수정</a>
+        <a class="btn btn-primary btn-sm" th:href="@{/user/buylist}" style="margin-left:10px;">구매내역</a>
+        <a class="btn btn-primary btn-sm" th:href="@{/user/point}" style="margin-left:10px;">포인트내역</a>
+        <a class="btn btn-success btn-sm" th:href="@{/user/confirm}" style="margin-left:10px;">판매권한신청</a>
+        <a class="btn btn-danger btn-sm" href="#" style="margin-left:10px;">회원탈퇴</a>
+    </div>
+
+
+</div>
+</html>

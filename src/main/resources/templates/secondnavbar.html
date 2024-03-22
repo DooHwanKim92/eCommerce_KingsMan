@@ -1,0 +1,8 @@
+<nav th:fragment="secondnavbarFragment" style="text-align:center; display:flex; justify-content:center;">
+    <div style="width:1200px; display:flex; justify-content:space-between;">
+        <div th:each="category : ${@request.getCategory}" style="width:100px;">
+            <a th:href="@{|/product/list/category/${category.id}|}" th:text="${category.name}"
+            style="font-size:18px; text-decoration:none; color:inherit; font-weight:bold; line-height:50px;"></a>
+        </div>
+    </div>
+</nav>
