@@ -44,8 +44,6 @@
 
 [![Video Label](https://img.youtube.com/vi/w_ZyOFJ8lcU/0.jpg)](https://youtu.be/w_ZyOFJ8lcU?si=YmwOaaZKSilxI9h3)
 
-제작 후 업로드 예정
-
 ---
 
 ## 🔥 트러블 슈팅
